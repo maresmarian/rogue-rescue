@@ -1,26 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-
-const HERO_SLIDES = [
-    {
-        image: '/images/hero/hero-1.jpg',
-        title: 'Providing Vertical Excellence',
-        subtitle: 'Expert rescue services and professional training'
-    },
-    {
-        image: '/images/hero/hero-2.jpg',
-        title: 'Professional Training',
-        subtitle: 'Comprehensive programs for rescue professionals'
-    },
-    {
-        image: '/images/hero/hero-3.jpg',
-        title: 'Emergency Response',
-        subtitle: '24/7 emergency rescue services'
-    }
-];
+import { HERO_SLIDES } from '@/lib/constants';
 
 export default function Hero() {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -33,58 +17,94 @@ export default function Hero() {
         setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
     };
 
+    useEffect(() => {
+        const timer = setInterval(nextSlide, 5000);
+        return () => clearInterval(timer);
+    }, []);
+
     return (
-        <section className="pt-20">
-            <div className="relative bg-gray-900 h-[80vh] overflow-hidden">
-                {/* Background Image */}
-                <div className="absolute inset-0 transition-transform duration-500 ease-in-out">
-                    <Image
-                        src={HERO_SLIDES[currentSlide].image}
-                        alt="Hero background"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
-                </div>
-
-                {/* Content */}
-                <div className="absolute inset-0 z-20 flex items-center">
-                    <div className="max-w-7xl mx-auto px-6 w-full">
-                        <div className="max-w-xl">
-                            <h1 className="text-6xl font-bold text-white mb-6 animate-fade-in">
-                                {HERO_SLIDES[currentSlide].title}
-                            </h1>
-                            <p className="text-xl text-gray-200 mb-8">
-                                {HERO_SLIDES[currentSlide].subtitle}
-                            </p>
-                            <div className="flex gap-4">
-                                <button className="bg-orange-500 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all flex items-center gap-2">
-                                    Our Services <ArrowRight className="w-5 h-5" />
-                                </button>
-                                <button className="bg-white text-gray-900 px-8 py-4 rounded-full hover:shadow-xl transition-all">
-                                    Training
-                                </button>
-                            </div>
-                        </div>
+        <section className="relative h-[80vh] min-h-[600px]">
+            {/* Slides */}
+            {HERO_SLIDES.map((slide, index) => (
+                <motion.div
+                    key={slide.image}
+                    className={`absolute inset-0 transition-opacity duration-700 ${
+                        index === currentSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                >
+                    <div className="relative h-full">
+                        <Image
+                            src={slide.image}
+                            alt={slide.title}
+                            fill
+                            priority
+                            className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
                     </div>
-                </div>
+                </motion.div>
+            ))}
 
-                {/* Carousel Controls */}
-                <div className="absolute bottom-12 right-12 z-20 flex gap-4">
-                    <button
-                        onClick={prevSlide}
-                        className="bg-white/20 p-2 rounded-full backdrop-blur-sm hover:bg-white/30 transition-all"
+            {/* Content */}
+            <div className="relative z-10 h-full">
+                <div className="max-w-7xl mx-auto px-6 h-full flex items-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="max-w-xl"
                     >
-                        <ChevronLeft className="w-6 h-6 text-white" />
-                    </button>
-                    <button
-                        onClick={nextSlide}
-                        className="bg-white/20 p-2 rounded-full backdrop-blur-sm hover:bg-white/30 transition-all"
-                    >
-                        <ChevronRight className="w-6 h-6 text-white" />
-                    </button>
+                        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+                            {HERO_SLIDES[currentSlide].title}
+                        </h1>
+                        <p className="text-xl text-gray-200 mb-8">
+                            {HERO_SLIDES[currentSlide].subtitle}
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-orange-500 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                            >
+                                Our Services <ArrowRight className="w-5 h-5" />
+                            </motion.button>
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-white text-gray-900 px-8 py-4 rounded-full hover:shadow-xl transition-all"
+                            >
+                                Training
+                            </motion.button>
+                        </div>
+                    </motion.div>
                 </div>
+            </div>
+
+            {/* Navigation */}
+            <div className="absolute bottom-12 right-12 z-20 flex items-center gap-4">
+                <div className="flex gap-2 mr-4">
+                    {HERO_SLIDES.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentSlide(index)}
+                            className={`w-2 h-2 rounded-full transition-all ${
+                                index === currentSlide ? 'w-6 bg-white' : 'bg-white/50'
+                            }`}
+                        />
+                    ))}
+                </div>
+                <button
+                    onClick={prevSlide}
+                    className="bg-white/20 p-2 rounded-full backdrop-blur-sm hover:bg-white/30 transition-all"
+                >
+                    <ChevronLeft className="w-6 h-6 text-white" />
+                </button>
+                <button
+                    onClick={nextSlide}
+                    className="bg-white/20 p-2 rounded-full backdrop-blur-sm hover:bg-white/30 transition-all"
+                >
+                    <ChevronRight className="w-6 h-6 text-white" />
+                </button>
             </div>
         </section>
     );
