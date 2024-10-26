@@ -1,13 +1,19 @@
+// src/app/training/[slug]/page.tsx
 import { TRAINING_COURSES } from '@/lib/constants';
 import ClientCoursePage from './ClientPage';
+import { Metadata } from 'next';
 
-export const generateMetadata = ({ params }: { params: { slug: string } }) => {
+type Props = {
+    params: { slug: string }
+}
+
+export function generateMetadata({ params }: Props): Metadata {
     const course = TRAINING_COURSES.find(c => c.slug === params.slug);
     return {
         title: course ? `${course.title} - Training Course` : 'Training Course',
         description: course?.description || 'Professional rescue training course details'
     };
-};
+}
 
 export function generateStaticParams() {
     return TRAINING_COURSES.map((course) => ({
@@ -15,6 +21,6 @@ export function generateStaticParams() {
     }));
 }
 
-export default function CoursePage({ params }: { params: { slug: string } }) {
-    return <ClientCoursePage params={params} />;
+export default function CoursePage(props: Props) {
+    return <ClientCoursePage {...props} />;
 }

@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import BaseTemplate from '@/components/layout/BaseTemplate';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -10,19 +10,19 @@ import { Clock, Users, Award, Calendar, MapPin, CheckCircle2 } from 'lucide-reac
 import Modal from '@/components/common/Modal';
 import RegistrationForm from '@/components/training/RegistrationForm';
 
-interface PageProps {
+type ClientPageProps = {
     params: {
-        slug: string
-    }
-}
+        slug: string;
+    };
+};
 
-export default function ClientCoursePage({ params }: PageProps) {
+export default function ClientCoursePage({ params }: ClientPageProps) {
     const searchParams = useSearchParams();
     const selectedDate = searchParams.get('date');
     const [showSuccess, setShowSuccess] = useState(false);
+    const [isRegistering, setIsRegistering] = useState(false);
 
     const course = TRAINING_COURSES.find(c => c.slug === params.slug);
-    const [isRegistering, setIsRegistering] = useState(false);
 
     if (!course) {
         return (
@@ -34,9 +34,11 @@ export default function ClientCoursePage({ params }: PageProps) {
         );
     }
 
+    // Rest of your component remains the same...
     return (
         <BaseTemplate>
-            {/* Hero Section */}
+
+        {/* Hero Section */}
             <section className="relative h-[60vh] min-h-[500px]">
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent z-10" />
