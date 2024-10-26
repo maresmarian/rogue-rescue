@@ -39,5 +39,6 @@
       }
     ],
     "sort-vars": ["warn", { "ignoreCase": false }]
-  }
+  },
+  "extends": "next/core-web-vitals"
 }
