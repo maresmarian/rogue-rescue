@@ -2,11 +2,14 @@ import { TRAINING_COURSES } from '@/lib/constants';
 import ClientCoursePage from './ClientPage';
 import { Metadata } from 'next';
 
-interface PageParams {
-    slug: string;
-}
+type Props = {
+    params: {
+        slug: string;
+    };
+    searchParams: { [key: string]: string | string[] | undefined };
+};
 
-export async function generateMetadata({ params }: { params: PageParams }): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const course = TRAINING_COURSES.find(c => c.slug === params.slug);
     return {
         title: course ? `${course.title} - Training Course` : 'Training Course',
@@ -14,12 +17,13 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
     };
 }
 
-export async function generateStaticParams(): Promise<PageParams[]> {
+export function generateStaticParams() {
     return TRAINING_COURSES.map((course) => ({
-        slug: course.slug
+        slug: course.slug,
     }));
 }
 
-export default async function CoursePage({ params }: { params: PageParams }) {
+// Add 'use server' directive at the top level
+export default function CoursePage({ params }: Props) {
     return <ClientCoursePage params={params} />;
 }
