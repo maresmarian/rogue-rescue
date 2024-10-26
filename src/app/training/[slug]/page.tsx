@@ -21,6 +21,5 @@ export async function generateStaticParams(): Promise<PageParams[]> {
 }
 
 export default async function CoursePage({ params }: { params: PageParams }) {
-    // You could add any async data fetching here if needed
     return <ClientCoursePage params={params} />;
 }
