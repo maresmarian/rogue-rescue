@@ -1,6 +1,6 @@
-import { TrainingCourse } from "@/types/training";
+import { HeroSlide, Service, TrainingEvent, TrainingCourse } from '@/types';
 
-export const HERO_SLIDES = [
+export const HERO_SLIDES: HeroSlide[] = [
     {
         image: '/images/hero/hero-1.jpg',
         title: 'Providing Vertical Excellence',
@@ -18,7 +18,7 @@ export const HERO_SLIDES = [
     }
 ];
 
-export const SERVICES = [
+export const SERVICES: Service[] = [
     {
         title: "Wildfire EMS",
         description: "Emergency medical services specialized for wildfire environments.",
@@ -42,7 +42,7 @@ export const SERVICES = [
     }
 ];
 
-export const TRAINING_EVENTS = [
+export const TRAINING_EVENTS: TrainingEvent[] = [
     {
         title: "Technical Rope Rescue - Level 1",
         date: "March 15-20, 2024",
@@ -94,5 +94,26 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         maxParticipants: 12,
         location: 'Main Training Facility'
     },
-    // Add more courses...
+    // Let's add another course for completeness
+    {
+        id: 'tr-002',
+        title: 'Wilderness First Responder',
+        slug: 'wilderness-first-responder',
+        description: 'Essential medical training for outdoor professionals and rescue personnel operating in remote environments.',
+        duration: '6 days',
+        price: 995,
+        level: 'Intermediate',
+        category: 'Medical',
+        dates: ['2024-05-01', '2024-06-15', '2024-07-10'],
+        prerequisites: ['Basic first aid certification'],
+        includes: [
+            'Medical supplies and training equipment',
+            'Course manual and materials',
+            'WFR certification upon completion',
+            'Daily meals and refreshments'
+        ],
+        image: '/images/training/wilderness-first-responder.jpg',
+        maxParticipants: 8,
+        location: 'Mountain Training Center'
+    }
 ];
