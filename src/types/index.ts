@@ -4,6 +4,7 @@ export interface Service {
     description: string;
     icon: string;
     image: string;
+    slug: string;
 }
 
 export interface TrainingEvent {

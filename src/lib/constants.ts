@@ -23,19 +23,22 @@ export const SERVICES = [
         title: "Wildfire EMS",
         description: "Emergency medical services specialized for wildfire environments.",
         icon: "Activity",
-        image: "/images/services/wildfire-ems.jpg"
+        image: "/images/services/wildfire-ems.jpg",
+        slug: "wildfire-ems"
     },
     {
         title: "Technical Rescue",
         description: "Specialized rescue operations in challenging environments.",
         icon: "Map",
-        image: "/images/services/technical-rescue.jpg"
+        image: "/images/services/technical-rescue.jpg",
+        slug: "technical-rescue"
     },
     {
         title: "High Angle Rescue",
         description: "Vertical rescue operations and safety systems.",
         icon: "Clock",
-        image: "/images/services/high-angle-rescue.jpg"
+        image: "/images/services/high-angle-rescue.jpg",
+        slug: "high-angle"
     }
 ];
 
