@@ -40,10 +40,18 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_PATH: '/rogue'
 
+      # Make sure the out directory exists
+      - name: Create out directory if it doesn't exist
+        run: mkdir -p out
+
+      # Add CNAME file
+      - name: Create CNAME file
+        run: echo "rogue.marianmares.cz" > out/CNAME
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: out
 
   deploy:
     environment:

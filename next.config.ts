@@ -1,22 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'export',
-    // Handle static image optimizations
+    distDir: 'out',  // Specify the output directory explicitly
     images: {
-        unoptimized: true,
-        domains: ['localhost']
+        unoptimized: true
     },
-    // Disable type checking during build
     typescript: {
         ignoreBuildErrors: true
     },
-    // Disable ESLint during build
     eslint: {
         ignoreDuringBuilds: true
-    },
-    // Enable experimental features needed for font optimization
-    experimental: {
-        optimizeFonts: true
     }
 };
 
