@@ -27,26 +27,19 @@ jobs:
           node-version: "20"
           cache: 'npm'
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        with:
-          static_site_generator: next
-
       - name: Install dependencies
         run: npm ci
 
       - name: Build with Next.js
         run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: '/rogue'
 
-      # Make sure the out directory exists
-      - name: Create out directory if it doesn't exist
-        run: mkdir -p out
-
-      # Add CNAME file
-      - name: Create CNAME file
+      # Create CNAME file
+      - name: Setup custom domain
         run: echo "rogue.marianmares.cz" > out/CNAME
+
+      # Create .nojekyll file to prevent GitHub Pages from ignoring files that begin with an underscore
+      - name: Add .nojekyll file
+        run: touch out/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
