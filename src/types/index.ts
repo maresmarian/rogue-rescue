@@ -1,9 +1,10 @@
-// src/types/index.ts
+import type { LucideProps } from 'lucide-react';
 export interface Service {
     title: string;
     description: string;
     icon: string;
     image: string;
+    slug: string;
 }
 
 export interface TrainingEvent {

@@ -8,19 +8,19 @@ const TESTIMONIALS = [
     {
         name: "John Carter",
         role: "Search & Rescue Team Lead",
-        image: "/api/placeholder/64/64",
+        image: "/images/team/instructor-1.jpg",
         content: "The training provided by Rogue Rescue has been instrumental in elevating our team's capabilities."
     },
     {
         name: "Sarah Martinez",
         role: "Emergency Response Director",
-        image: "/api/placeholder/64/64",
+        image: "/images/team/instructor-1.jpg",
         content: "Outstanding service and professional training. Their expertise in high-angle rescue is unmatched."
     },
     {
         name: "Mike Thompson",
         role: "Fire Department Chief",
-        image: "/api/placeholder/64/64",
+        image: "/images/team/instructor-1.jpg",
         content: "The best technical rescue training we've experienced. Highly recommended for any rescue team."
     }
 ];

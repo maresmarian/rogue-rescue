@@ -1,3 +1,43 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "files": ["*/.{js,mjs,cjs,ts,jsx,tsx}"],
+  "languageOptions": {
+    "globals": {
+      "browser": true,
+      "node": true
+    }
+  },
+  "plugins": ["import"],
+  "rules": {
+    "react/prop-types": "off",
+    "eol-last": ["error", "always"],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "caseInsensitive": true,
+          "order": "asc"
+        },
+        "groups": ["external", "builtin", "internal"],
+        "newlines-between": "always"
+      }
+    ],
+    "no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 1 }],
+    "one-var": ["warn", "never"],
+    "@typescript-eslint/no-explicit-any": "off",
+    "padding-line-between-statements": [
+      "warn",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": "*", "next": "block-like" },
+      { "blankLine": "always", "prev": "block-like", "next": "*" }
+    ],
+    "semi": ["warn", "never"],
+    "sort-imports": [
+      "warn",
+      {
+        "allowSeparatedGroups": true,
+        "ignoreCase": true
+      }
+    ],
+    "sort-vars": ["warn", { "ignoreCase": false }]
+  }
 }

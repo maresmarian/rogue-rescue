@@ -4,6 +4,7 @@ import BaseTemplate from '@/components/layout/BaseTemplate';
 import { motion } from 'framer-motion';
 import { Users, Award, Clock, Shield } from 'lucide-react';
 import FAQ from '@/components/sections/FAQ';
+import Image from "next/image";
 
 const STATS = [
     {
@@ -35,7 +36,13 @@ export default function AboutPage() {
             <section className="relative h-[60vh] min-h-[500px] bg-gray-900 flex items-center">
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent z-10" />
-                    {/* Add background image here */}
+                    <Image
+                        src="/images/team/team-photo.jpg"
+                        alt="Who are we"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
                 </div>
                 <div className="max-w-7xl mx-auto px-6 relative z-20">
                     <motion.div

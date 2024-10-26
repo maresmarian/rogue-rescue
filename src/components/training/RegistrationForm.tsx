@@ -6,8 +6,8 @@ import { Loader2 } from 'lucide-react';
 import type { TrainingCourse } from '@/types/training';
 
 interface RegistrationFormProps {
-    course: TrainingCourse;
-    selectedDate?: string;
+    course: any;
+    selectedDate: string | null | undefined;
     onSuccess: () => void;
 }
 
