@@ -10,11 +10,11 @@ import { Clock, Users, Award, Calendar, MapPin, CheckCircle2 } from 'lucide-reac
 import Modal from '@/components/common/Modal';
 import RegistrationForm from '@/components/training/RegistrationForm';
 
-type ClientPageProps = {
+interface ClientPageProps {
     params: {
         slug: string;
     };
-};
+}
 
 export default function ClientCoursePage({ params }: ClientPageProps) {
     const searchParams = useSearchParams();
@@ -34,10 +34,8 @@ export default function ClientCoursePage({ params }: ClientPageProps) {
         );
     }
 
-    // Rest of your component remains the same...
     return (
         <BaseTemplate>
-
         {/* Hero Section */}
             <section className="relative h-[60vh] min-h-[500px]">
                 <div className="absolute inset-0">
