@@ -16,6 +16,21 @@ interface PageProps {
     }
 }
 
+// Create a separate server component for metadata and static params
+export const generateMetadata = ({ params }: PageProps) => {
+    const course = TRAINING_COURSES.find(c => c.slug === params.slug);
+    return {
+        title: course ? `${course.title} - Training Course` : 'Training Course',
+        description: course?.description || 'Professional rescue training course details'
+    };
+};
+
+export const generateStaticParams = () => {
+    return TRAINING_COURSES.map((course) => ({
+        slug: course.slug
+    }));
+};
+
 export default function CoursePage({ params }: PageProps) {
     const searchParams = useSearchParams();
     const selectedDate = searchParams.get('date');
@@ -34,6 +49,7 @@ export default function CoursePage({ params }: PageProps) {
         );
     }
 
+    // Rest of your component code remains the same...
     return (
         <BaseTemplate>
             {/* Hero Section */}
