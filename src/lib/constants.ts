@@ -1,4 +1,4 @@
-// src/lib/constants.ts
+import { TrainingCourse } from "@/types/training";
 
 export const HERO_SLIDES = [
     {
@@ -67,4 +67,29 @@ export const TRAINING_EVENTS = [
         price: "$1,499",
         location: "Smith Rock, OR"
     }
+];
+
+export const TRAINING_COURSES: TrainingCourse[] = [
+    {
+        id: 'tr-001',
+        title: 'Technical Rope Rescue - Level 1',
+        slug: 'technical-rope-rescue-1',
+        description: 'Comprehensive introduction to technical rope rescue operations including high-angle rescue techniques, equipment usage, and safety protocols.',
+        duration: '5 days',
+        price: 1299,
+        level: 'Beginner',
+        category: 'Technical',
+        dates: ['2024-04-15', '2024-05-20', '2024-06-17'],
+        prerequisites: ['Basic first aid certification', 'Physical fitness requirement'],
+        includes: [
+            'All necessary equipment',
+            'Course materials',
+            'Certification upon completion',
+            'Lunch and refreshments'
+        ],
+        image: '/images/training/rope-rescue-1.jpg',
+        maxParticipants: 12,
+        location: 'Main Training Facility'
+    },
+    // Add more courses...
 ];

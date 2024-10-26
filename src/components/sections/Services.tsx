@@ -1,4 +1,3 @@
-// src/components/sections/Services.tsx
 'use client';
 
 import { ArrowRight } from 'lucide-react';
@@ -70,39 +69,31 @@ export default function Services() {
                         subtitle="Comprehensive rescue and training solutions for challenging environments"
                     />
                     <motion.button
-                        initial="initial"
-                        whileHover="hover"
-                        className="text-orange-500 flex items-center gap-2 hover:gap-3 transition-all"
+                        whileHover={{ x: 5 }}
+                        className="text-orange-500 flex items-center gap-2"
                     >
-                        <motion.div variants={buttonSlide} className="flex items-center">
-                            View All Services <ArrowRight className="w-5 h-5" />
-                        </motion.div>
+                        View All Services <ArrowRight className="w-5 h-5" />
                     </motion.button>
                 </motion.div>
 
-                <motion.div
-                    variants={container}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
                     {SERVICES.map((service, index) => {
                         const IconComponent = Icons[service.icon as IconName];
 
                         return (
                             <motion.div
-                                key={index}
-                                variants={item}
-                                whileHover="hover"
-                                initial="initial"
-                                className="group bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all border border-gray-100"
+                                key={service.title}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.2 }}
+                                className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all"
                             >
-                                {/* Image Container */}
-                                <div className="relative w-full h-64 overflow-hidden">
+                                <div className="relative h-64 w-full overflow-hidden">
                                     <motion.div
-                                        className="relative w-full h-full"
-                                        variants={imageScale}
+                                        whileHover={{ scale: 1.05 }}
+                                        transition={{ duration: 0.4 }}
+                                        className="relative h-full w-full"
                                     >
                                         <ImageLoader
                                             src={service.image}
@@ -138,7 +129,7 @@ export default function Services() {
                             </motion.div>
                         );
                     })}
-                </motion.div>
+                </div>
             </div>
         </section>
     );
