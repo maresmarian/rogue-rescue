@@ -10,7 +10,13 @@ import { Clock, Users, Award, Calendar, MapPin, CheckCircle2 } from 'lucide-reac
 import Modal from '@/components/common/Modal';
 import RegistrationForm from '@/components/training/RegistrationForm';
 
-export default function CoursePage({ params }: { params: { slug: string } }) {
+interface PageProps {
+    params: {
+        slug: string
+    }
+}
+
+export default function CoursePage({ params }: PageProps) {
     const searchParams = useSearchParams();
     const selectedDate = searchParams.get('date');
     const [showSuccess, setShowSuccess] = useState(false);
