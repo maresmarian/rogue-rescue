@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail } from 'lucide-react';
 import SectionTitle from '@/components/common/SectionTitle';
 import RequestTrainingModal from '@/components/common/RequestTrainingModal';
 
@@ -28,10 +28,10 @@ export default function Contact() {
                                     <div>
                                         <p className="text-gray-400">Call us at</p>
                                         <a
-                                            href="tel:8337278534"
+                                            href="tel:+15413010579"
                                             className="text-white font-bold hover:text-orange-500 transition-colors"
                                         >
-                                            (833) 727-8534
+                                            +1 541 301 0579
                                         </a>
                                     </div>
                                 </div>
@@ -43,23 +43,11 @@ export default function Contact() {
                                     <div>
                                         <p className="text-gray-400">Email us at</p>
                                         <a
-                                            href="mailto:contact@roguerescue.com"
+                                            href="mailto:weidman.roguerescue@gmail.com"
                                             className="text-white font-bold hover:text-orange-500 transition-colors"
                                         >
-                                            contact@roguerescue.com
+                                            weidman.roguerescue@gmail.com
                                         </a>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-4">
-                                    <div className="h-12 w-12 bg-gray-800 rounded-xl flex items-center justify-center">
-                                        <MapPin className="w-6 h-6 text-orange-500" />
-                                    </div>
-                                    <div>
-                                        <p className="text-gray-400">Visit us</p>
-                                        <p className="text-white font-bold">
-                                            123 Rescue Way, Mountain View, CA 94043
-                                        </p>
                                     </div>
                                 </div>
                             </div>
