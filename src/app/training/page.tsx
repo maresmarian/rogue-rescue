@@ -7,10 +7,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, Filter, ArrowRight, Clock, Users, Award } from 'lucide-react';
 import { TRAINING_COURSES } from '@/lib/constants';
+import TrainingCalendar from '@/components/training/Calendar';
+import Modal from '@/components/common/Modal';
+import RequestTrainingModal from '@/components/common/RequestTrainingModal';
 
 export default function TrainingPage() {
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-    const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [selectedLevel, setSelectedLevel] = useState<string>('');
+    const [showRequestModal, setShowRequestModal] = useState(false);
 
     const filteredCourses = TRAINING_COURSES.filter(course => {
         if (selectedCategory && course.category !== selectedCategory) return false;
@@ -71,8 +75,8 @@ export default function TrainingPage() {
                         <div className="flex items-center gap-4">
                             <Filter className="w-5 h-5 text-gray-500" />
                             <select
-                                value={selectedCategory || ''}
-                                onChange={(e) => setSelectedCategory(e.target.value || null)}
+                                value={selectedCategory}
+                                onChange={(e) => setSelectedCategory(e.target.value)}
                                 className="bg-white border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                             >
                                 <option value="">All Categories</option>
@@ -84,8 +88,8 @@ export default function TrainingPage() {
                         </div>
 
                         <select
-                            value={selectedLevel || ''}
-                            onChange={(e) => setSelectedLevel(e.target.value || null)}
+                            value={selectedLevel}
+                            onChange={(e) => setSelectedLevel(e.target.value)}
                             className="bg-white border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                         >
                             <option value="">All Levels</option>
@@ -141,9 +145,9 @@ export default function TrainingPage() {
                                     </div>
 
                                     <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-gray-900">
-                      ${course.price}
-                    </span>
+                                        <span className="text-2xl font-bold text-gray-900">
+                                            ${course.price}
+                                        </span>
                                         <Link
                                             href={`/training/${course.slug}`}
                                             className="text-orange-500 hover:text-orange-600 flex items-center gap-2"
@@ -158,80 +162,60 @@ export default function TrainingPage() {
                 </div>
             </section>
 
-            {/* Training Calendar Section */}
-            <section className="py-24 px-6 bg-gray-50" id="calendar">
+
+            {/* Calendar Section */}
+            <section className="py-24 px-6 bg-gray-900" id="calendar">
                 <div className="max-w-7xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <h2 className="text-4xl font-bold text-gray-900 mb-6">
-                            Upcoming Training Sessions
-                        </h2>
-                        <p className="text-gray-600 max-w-2xl mx-auto">
-                            View our upcoming training schedule and register for courses.
-                        </p>
-                    </motion.div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            <h2 className="text-4xl font-bold text-white mb-6">
+                                Upcoming Training Sessions
+                            </h2>
+                            <p className="text-xl text-gray-400 mb-8">
+                                Browse our upcoming training schedule and secure your spot today.
+                            </p>
 
-                    <div className="bg-white rounded-2xl p-8">
-                        {/* Calendar Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {TRAINING_COURSES.flatMap(course =>
-                                    course.dates.map((date, index) => {
-                                        const courseDate = new Date(date);
-                                        const isUpcoming = courseDate > new Date();
+                            <div className="grid grid-cols-2 gap-6 mb-12">
+                                <div className="bg-gray-800 rounded-2xl p-6">
+                                    <Users className="w-8 h-8 text-orange-500 mb-4" />
+                                    <h4 className="text-3xl font-bold text-white mb-2">15+</h4>
+                                    <p className="text-gray-400">Trained Professionals</p>
+                                </div>
 
-                                        if (!isUpcoming) return null;
+                                <div className="bg-gray-800 rounded-2xl p-6">
+                                    <Award className="w-8 h-8 text-orange-500 mb-4" />
+                                    <h4 className="text-3xl font-bold text-white mb-2">{TRAINING_COURSES.length}+</h4>
+                                    <p className="text-gray-400">Training Programs</p>
+                                </div>
+                            </div>
 
-                                        return (
-                                            <motion.div
-                                                key={`${course.id}-${index}`}
-                                                initial={{ opacity: 0, y: 20 }}
-                                                whileInView={{ opacity: 1, y: 0 }}
-                                                viewport={{ once: true }}
-                                                className="bg-gray-50 rounded-xl p-6 hover:shadow-md transition-all"
-                                            >
-                                                <div className="flex items-start gap-4">
-                                                    <div className="bg-orange-100 rounded-lg p-3 text-center min-w-[4rem]">
-                    <span className="text-orange-500 font-bold">
-                      {courseDate.toLocaleDateString('en-US', { day: '2-digit' })}
-                    </span>
-                                                        <br />
-                                                        <span className="text-orange-500 text-sm">
-                      {courseDate.toLocaleDateString('en-US', { month: 'short' })}
-                    </span>
-                                                    </div>
+                            <button
+                                onClick={() => setShowRequestModal(true)}
+                                className="bg-orange-500 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all"
+                            >
+                                Request Custom Training
+                            </button>
+                        </motion.div>
 
-                                                    <div className="flex-1">
-                                                        <h3 className="font-bold text-gray-900 mb-1">
-                                                            {course.title}
-                                                        </h3>
-                                                        <p className="text-sm text-gray-500 mb-3">
-                                                            {course.duration} • {course.location}
-                                                        </p>
-                                                        <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">
-                        {course.maxParticipants} spots available
-                      </span>
-                                                            <Link
-                                                                href={`/training/${course.slug}?date=${date}`}
-                                                                className="text-orange-500 hover:text-orange-600 text-sm flex items-center gap-1"
-                                                            >
-                                                                Register <ArrowRight className="w-4 h-4" />
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        );
-                                    })
-                            ).filter(Boolean)}
-                        </div>
+                        <TrainingCalendar limit={5} />
                     </div>
                 </div>
             </section>
+
+            <Modal
+                isOpen={showRequestModal}
+                onClose={() => setShowRequestModal(false)}
+                title="Request Custom Training"
+            >
+                <RequestTrainingModal
+                    isOpen={showRequestModal}
+                    onClose={() => setShowRequestModal(false)}
+                />
+            </Modal>
         </BaseTemplate>
     );
 }

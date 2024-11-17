@@ -20,7 +20,7 @@ const MainChoices = () => {
                         >
                             <div className="relative h-full w-full">
                                 <Image
-                                    src="/images/services/high-angle-rescue.jpg"
+                                    src="/images/hero/rogue-rescue-services.jpg"
                                     alt="Rescue Services"
                                     fill
                                     className="object-cover brightness-90 group-hover:scale-105 transition-transform duration-700"
@@ -58,7 +58,7 @@ const MainChoices = () => {
                         >
                             <div className="relative h-full w-full">
                                 <Image
-                                    src="/images/team/team-photo.jpg"
+                                    src="/images/hero/rogue-rescue-academy.jpg"
                                     alt="Rescue Academy"
                                     fill
                                     className="object-cover brightness-90 group-hover:scale-105 transition-transform duration-700"

@@ -10,10 +10,15 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true
     },
-    // Remove basePath since we're using a custom domain
-    assetPrefix: '/',
-    // Ensure trailing slashes for consistency
-    trailingSlash: true
+    // For static site generation
+    trailingSlash: true,
+    // Force static optimization
+    experimental: {
+        appDocumentPreloading: false,
+        workerThreads: false,
+        optimizeCss: false,
+        optimizePackageImports: ['lucide-react']
+    }
 };
 
-module.exports = nextConfig;
+export default nextConfig;

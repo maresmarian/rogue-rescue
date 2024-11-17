@@ -8,17 +8,17 @@ import Image from "next/image";
 
 const STATS = [
     {
-        number: "500+",
+        number: "50+",
         label: "Rescue Operations",
         icon: Shield
     },
     {
-        number: "15+",
+        number: "10+",
         label: "Years Experience",
         icon: Clock
     },
     {
-        number: "1000+",
+        number: "15+",
         label: "Trained Professionals",
         icon: Users
     },
@@ -37,7 +37,7 @@ export default function AboutPage() {
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent z-10" />
                     <Image
-                        src="/images/team/team-photo.jpg"
+                        src="/images/hero/about-us.jpg"
                         alt="Who are we"
                         fill
                         className="object-cover"
