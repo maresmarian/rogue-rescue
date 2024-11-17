@@ -1,47 +1,24 @@
-import { HeroSlide, Service, TrainingCourse, TrainingEvent } from '@/types';
-import { TRAINING_COURSES, getUpcomingEvents, getCourseStats } from '@/data/training';
+// src/lib/constants.ts
+export * from '@/data/hero';
+export * from '@/data/services';
+export * from '@/data/training';
+export * from '@/data/company';
+export * from '@/data/contact';
+export * from '@/data/navigation';
+export * from '@/data/partners';
 
-
-export const HERO_SLIDES: HeroSlide[] = [
-    {
-        image: '/images/hero/hero-1.jpg',
-        title: 'Providing Vertical Excellence',
-        subtitle: 'Expert rescue services and professional training'
+// If you need to combine data for specific use cases, you can create config objects here:
+export const SITE_CONFIG = {
+    meta: {
+        title: 'Rogue Rescue',
+        description: 'Professional rescue services and training solutions'
     },
-    {
-        image: '/images/hero/hero-2.jpg',
-        title: 'Professional Training',
-        subtitle: 'Comprehensive programs for rescue professionals'
+    api: {
+        baseUrl: process.env.NEXT_PUBLIC_API_URL || '',
+        timeout: 5000
     },
-    {
-        image: '/images/hero/hero-3.jpg',
-        title: 'Emergency Response',
-        subtitle: '24/7 emergency rescue services'
+    pagination: {
+        defaultLimit: 10,
+        maxLimit: 50
     }
-];
-
-export const SERVICES: Service[] = [
-    {
-        title: "Wildfire EMS",
-        description: "Emergency medical services specialized for wildfire environments.",
-        icon: "Activity",
-        image: "/images/services/wildfire-ems.jpg",
-        slug: "wildfire-ems"
-    },
-    {
-        title: "Technical Rescue",
-        description: "Specialized rescue operations in challenging environments.",
-        icon: "Map",
-        image: "/images/services/technical-rescue.jpg",
-        slug: "technical-rescue"
-    },
-    {
-        title: "High Angle Rescue",
-        description: "Vertical rescue operations and safety systems.",
-        icon: "Clock",
-        image: "/images/services/high-angle-rescue.jpg",
-        slug: "high-angle"
-    }
-];
-
-export { TRAINING_COURSES, getUpcomingEvents, getCourseStats };
+};

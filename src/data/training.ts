@@ -1,4 +1,28 @@
-import type { TrainingCourse, CourseStats } from '@/types';
+
+// src/data/training.ts
+import type { TrainingCourse, CourseLevel, CourseStats, CourseCategory } from '@/types';
+
+export const TRAINING_LEVELS = [
+    'Beginner',
+    'Intermediate',
+    'Advanced'
+] as const;
+
+export const TRAINING_CATEGORIES = [
+    'Technical',
+    'Medical',
+    'Rescue',
+    'Certification'
+] as const;
+
+export const TRAINING_STATS = {
+    totalCourses: 15,
+    totalTrainingDays: 180,
+    totalStudents: 500,
+    averageRating: 4.9,
+    successRate: 98,
+    coursesCompleted: 250
+} as const;
 
 // Get dates for the next few months
 const getNextMonthDate = (monthsAhead: number) => {

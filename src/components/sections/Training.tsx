@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Modal from '@/components/common/Modal';
 import RequestTrainingModal from '@/components/common/RequestTrainingModal';
+import { CONTACT_INFO, COMPANY_STATS, SERVICES } from '@/data';
 
 const statsAnimation = {
     hidden: { opacity: 0, scale: 0.8 },
@@ -61,7 +62,7 @@ export default function Training() {
                                         className="bg-gray-800 rounded-2xl p-6"
                                     >
                                         <Users className="w-8 h-8 text-orange-500 mb-4" />
-                                        <h4 className="text-3xl font-bold text-white mb-2">15+</h4>
+                                        <h4 className="text-3xl font-bold text-white mb-2">{COMPANY_STATS.training.professionals}</h4>
                                         <p className="text-gray-400">Trained Professionals</p>
                                     </motion.div>
 
@@ -73,7 +74,7 @@ export default function Training() {
                                         className="bg-gray-800 rounded-2xl p-6"
                                     >
                                         <Award className="w-8 h-8 text-orange-500 mb-4" />
-                                        <h4 className="text-3xl font-bold text-white mb-2">15+</h4>
+                                        <h4 className="text-3xl font-bold text-white mb-2">{COMPANY_STATS.training.programs}</h4>
                                         <p className="text-gray-400">Training Programs</p>
                                     </motion.div>
                                 </div>

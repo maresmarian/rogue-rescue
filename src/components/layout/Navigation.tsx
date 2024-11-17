@@ -1,3 +1,4 @@
+// src/components/layout/Navigation.tsx
 'use client';
 
 import Link from 'next/link';
@@ -5,22 +6,8 @@ import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Shield, Phone } from 'lucide-react';
 import MobileMenu from './MobileMenu';
-
-const MENU_ITEMS = [
-    { label: 'Home', path: '/' },
-    { label: 'About', path: '/about' },
-    {
-        label: 'Services',
-        path: '/services',
-        subItems: [
-            { label: 'Wildfire EMS', path: '/services/wildfire-ems' },
-            { label: 'Technical Rescue', path: '/services/technical-rescue' },
-            { label: 'High Angle Rescue', path: '/services/high-angle' },
-        ]
-    },
-    { label: 'Training', path: '/training' },
-    { label: 'Contact', path: '/contact' },
-];
+import { MENU_ITEMS } from '@/data/navigation';
+import { CONTACT_INFO, COMPANY_INFO } from '@/data';
 
 export default function Navigation() {
     const pathname = usePathname();
@@ -33,7 +20,7 @@ export default function Navigation() {
                         <div className="h-10 w-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
                             <Shield className="text-white w-6 h-6" />
                         </div>
-                        <span className="font-bold text-xl text-gray-900">ROGUE RESCUE</span>
+                        <span className="font-bold text-xl text-gray-900">{COMPANY_INFO.name}</span>
                     </Link>
 
                     <div className="hidden lg:flex items-center gap-8">
@@ -47,11 +34,11 @@ export default function Navigation() {
                                         href={item.path}
                                         className="py-2"
                                     >
-                    <span className={`text-sm ${
-                        isActive ? 'text-orange-500' : 'text-gray-600 hover:text-gray-900'
-                    } transition-colors`}>
-                      {item.label}
-                    </span>
+                                        <span className={`text-sm ${
+                                            isActive ? 'text-orange-500' : 'text-gray-600 hover:text-gray-900'
+                                        } transition-colors`}>
+                                            {item.label}
+                                        </span>
                                         {isActive && (
                                             <motion.div
                                                 layoutId="underline"
@@ -60,7 +47,6 @@ export default function Navigation() {
                                         )}
                                     </Link>
 
-                                    {/* Dropdown for items with subitems */}
                                     {item.subItems && (
                                         <div className="absolute top-full left-0 pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200">
                                             <div className="bg-white rounded-xl shadow-xl border border-gray-100 py-2 min-w-[200px]">
@@ -84,18 +70,18 @@ export default function Navigation() {
                             );
                         })}
 
-                        <a
-                            href="tel:8337278534"
-                            className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all flex items-center gap-2"
+
+                        <a href={`tel:${CONTACT_INFO.phone.value}`}
+                        className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all flex items-center gap-2"
                         >
-                            <Phone className="w-4 h-4" />
-                            <span>(833) 727-8534</span>
-                        </a>
-                    </div>
+                        <Phone className="w-4 h-4" />
+                        <span>{CONTACT_INFO.phone.display}</span>
+                    </a>
+                </div>
 
                     <MobileMenu menu={MENU_ITEMS} />
                 </div>
-            </div>
-        </nav>
-    );
+        </div>
+</nav>
+);
 }

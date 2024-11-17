@@ -1,8 +1,10 @@
+// src/app/services/page.tsx
 'use client';
 
 import BaseTemplate from '@/components/layout/BaseTemplate';
 import { motion } from 'framer-motion';
-import { SERVICES } from '@/lib/constants';
+import { SERVICES } from '@/data/services';
+import { CONTACT_INFO } from '@/data/contact';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
@@ -79,6 +81,17 @@ export default function ServicesPage() {
                                     <p className="text-gray-600 mb-8">
                                         {service.description}
                                     </p>
+                                    <ul className="space-y-3 mb-8">
+                                        {service.features.map((feature, idx) => (
+                                            <li
+                                                key={idx}
+                                                className="flex items-center gap-2 text-gray-600"
+                                            >
+                                                <div className="w-1.5 h-1.5 bg-orange-500 rounded-full" />
+                                                {feature}
+                                            </li>
+                                        ))}
+                                    </ul>
                                     <Link
                                         href={`/services/${service.slug}`}
                                         className="inline-flex items-center gap-2 text-orange-500 hover:gap-4 transition-all"
@@ -108,22 +121,22 @@ export default function ServicesPage() {
                             Our team is available 24/7 for emergency response and rescue operations.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-
-                            <a href="tel:8337278534"
-                            className="bg-orange-500 text-white px-8 py-4 rounded-full hover:bg-orange-600 transition-colors inline-flex items-center justify-center gap-2"
+                            <a
+                                href={`tel:${CONTACT_INFO.phone.value}`}
+                                className="bg-orange-500 text-white px-8 py-4 rounded-full hover:bg-orange-600 transition-colors inline-flex items-center justify-center gap-2"
                             >
-                            Call Now: (833) 727-8534
-                        </a>
-                        <Link
-                            href="/contact"
-                            className="bg-white text-gray-900 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
-                        >
-                            Contact Us <ArrowRight className="w-5 h-5" />
-                        </Link>
+                                Call Now: {CONTACT_INFO.phone.display}
+                            </a>
+                            <Link
+                                href="/contact"
+                                className="bg-white text-gray-900 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
+                            >
+                                Contact Us <ArrowRight className="w-5 h-5" />
+                            </Link>
+                        </div>
+                    </motion.div>
                 </div>
-            </motion.div>
-        </div>
-</section>
-</BaseTemplate>
-);
+            </section>
+        </BaseTemplate>
+    );
 }

@@ -1,3 +1,4 @@
+// src/app/training/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -6,10 +7,11 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, Filter, ArrowRight, Clock, Users, Award } from 'lucide-react';
-import { TRAINING_COURSES } from '@/lib/constants';
 import TrainingCalendar from '@/components/training/Calendar';
 import Modal from '@/components/common/Modal';
 import RequestTrainingModal from '@/components/common/RequestTrainingModal';
+import { TRAINING_COURSES, TRAINING_STATS, TRAINING_CATEGORIES, TRAINING_LEVELS } from '@/data/training';
+import { CourseCategory, CourseLevel } from "@/types";
 
 export default function TrainingPage() {
     const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -80,10 +82,9 @@ export default function TrainingPage() {
                                 className="bg-white border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                             >
                                 <option value="">All Categories</option>
-                                <option value="Technical">Technical</option>
-                                <option value="Medical">Medical</option>
-                                <option value="Rescue">Rescue</option>
-                                <option value="Certification">Certification</option>
+                                {TRAINING_CATEGORIES.map((category: CourseCategory) => (
+                                    <option key={category} value={category}>{category}</option>
+                                ))}
                             </select>
                         </div>
 
@@ -93,9 +94,9 @@ export default function TrainingPage() {
                             className="bg-white border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                         >
                             <option value="">All Levels</option>
-                            <option value="Beginner">Beginner</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Advanced">Advanced</option>
+                            {TRAINING_LEVELS.map((level: CourseLevel) => (
+                                <option key={level} value={level}>{level}</option>
+                            ))}
                         </select>
                     </div>
 
@@ -162,7 +163,6 @@ export default function TrainingPage() {
                 </div>
             </section>
 
-
             {/* Calendar Section */}
             <section className="py-24 px-6 bg-gray-900" id="calendar">
                 <div className="max-w-7xl mx-auto">
@@ -182,13 +182,17 @@ export default function TrainingPage() {
                             <div className="grid grid-cols-2 gap-6 mb-12">
                                 <div className="bg-gray-800 rounded-2xl p-6">
                                     <Users className="w-8 h-8 text-orange-500 mb-4" />
-                                    <h4 className="text-3xl font-bold text-white mb-2">15+</h4>
+                                    <h4 className="text-3xl font-bold text-white mb-2">
+                                        {TRAINING_STATS.totalStudents}+
+                                    </h4>
                                     <p className="text-gray-400">Trained Professionals</p>
                                 </div>
 
                                 <div className="bg-gray-800 rounded-2xl p-6">
                                     <Award className="w-8 h-8 text-orange-500 mb-4" />
-                                    <h4 className="text-3xl font-bold text-white mb-2">{TRAINING_COURSES.length}+</h4>
+                                    <h4 className="text-3xl font-bold text-white mb-2">
+                                        {TRAINING_STATS.totalCourses}+
+                                    </h4>
                                     <p className="text-gray-400">Training Programs</p>
                                 </div>
                             </div>

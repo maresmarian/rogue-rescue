@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Phone, Mail } from 'lucide-react';
 import SectionTitle from '@/components/common/SectionTitle';
 import RequestTrainingModal from '@/components/common/RequestTrainingModal';
+import { CONTACT_INFO, COMPANY_STATS, SERVICES } from '@/data';
+
 
 export default function Contact() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,10 +30,10 @@ export default function Contact() {
                                     <div>
                                         <p className="text-gray-400">Call us at</p>
                                         <a
-                                            href="tel:+15413010579"
+                                            href={`tel:${CONTACT_INFO.phone.value}`}
                                             className="text-white font-bold hover:text-orange-500 transition-colors"
                                         >
-                                            +1 541 301 0579
+                                            {CONTACT_INFO.phone.display}
                                         </a>
                                     </div>
                                 </div>
@@ -43,10 +45,10 @@ export default function Contact() {
                                     <div>
                                         <p className="text-gray-400">Email us at</p>
                                         <a
-                                            href="mailto:weidman.roguerescue@gmail.com"
+                                            href={`tel:${CONTACT_INFO.email.general}`}
                                             className="text-white font-bold hover:text-orange-500 transition-colors"
                                         >
-                                            weidman.roguerescue@gmail.com
+                                            {CONTACT_INFO.email.general}
                                         </a>
                                     </div>
                                 </div>

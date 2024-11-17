@@ -1,16 +1,46 @@
-export interface TrainingCourse {
+import { BaseContent } from './common';
+
+export type CourseType = 'certification' | 'medical' | 'technical';
+export type CourseLevel = 'Beginner' | 'Intermediate' | 'Advanced';
+export type CourseCategory = 'Technical' | 'Medical' | 'Rescue' | 'Certification';
+
+export interface TrainingCourse extends BaseContent {
     id: string;
-    title: string;
-    slug: string;
-    description: string;
     duration: string;
     price: number;
-    level: 'Beginner' | 'Intermediate' | 'Advanced';
-    category: 'Technical' | 'Medical' | 'Rescue' | 'Certification';
+    level: CourseLevel;
+    category: CourseCategory;
     dates: string[];
-    prerequisites?: string[];
+    prerequisites: string[];
     includes: string[];
-    image: string;
     maxParticipants: number;
     location: string;
+    type: CourseType;
+}
+
+export interface TrainingEvent {
+    id: string;
+    courseId: string;
+    title: string;
+    date: Date;
+    type: CourseType;
+    category: CourseCategory;
+    spots: number;
+    duration: string;
+    price: number;
+    location: string;
+    slug: string;
+    level: CourseLevel;
+}
+
+export interface CourseStats {
+    totalCourses: number;
+    totalTrainingDays: number;
+    totalUpcomingDates: number;
+    totalTrainedProfessionals: number;
+}
+
+export interface RequestTrainingModalProps {
+    isOpen: boolean;
+    onClose: () => void;
 }
