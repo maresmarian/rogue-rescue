@@ -26,4 +26,4 @@ export const TRAINING_STATS = {
     averageRating: 4.9,
     successRate: 98,
     coursesCompleted: 250
-};
+} as const;
