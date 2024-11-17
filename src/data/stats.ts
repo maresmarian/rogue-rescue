@@ -1,8 +1,8 @@
 // src/data/stats.ts
 export const COMPANY_STATS = {
     training: {
-        professionals: "500+",
-        programs: "15+",
+        professionals: "15+",
+        programs: "10+",
         satisfactionRate: "98%",
         totalTrainingHours: "10,000+"
     },
@@ -18,12 +18,3 @@ export const COMPANY_STATS = {
         specializations: "15+"
     }
 };
-
-export const TRAINING_STATS = {
-    totalCourses: 15,
-    totalTrainingDays: 180,
-    totalStudents: 500,
-    averageRating: 4.9,
-    successRate: 98,
-    coursesCompleted: 250
-} as const;
