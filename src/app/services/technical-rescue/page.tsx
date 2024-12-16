@@ -5,17 +5,23 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, AlertTriangle, Phone } from 'lucide-react';
+import { CONTACT_INFO } from "@/data";
 
 const FEATURES = [
+    "Rope rescue operations",
     "Confined space rescue operations",
     "Industrial rescue services",
-    "Equipment inspections and maintenance",
     "Site safety assessments",
     "Emergency response planning",
     "Custom rescue solutions"
 ];
 
 const SCENARIOS = [
+    {
+        title: "Rope Rescue",
+        description: "Rope rescue personnel trained at the highest level prepared to support any needs.",
+        image: "/images/services/rope-rescue.jpg"
+    },
     {
         title: "Industrial Facilities",
         description: "Specialized rescue services for manufacturing and industrial environments.",
@@ -25,11 +31,6 @@ const SCENARIOS = [
         title: "Construction Sites",
         description: "Emergency response and rescue operations for construction projects.",
         image: "/images/services/technical-rescue.jpg"
-    },
-    {
-        title: "Infrastructure",
-        description: "Technical rescue services for bridges, tunnels, and other infrastructure.",
-        image: "/images/services/technical-rescue-2.jpg"
     }
 ];
 
@@ -186,24 +187,24 @@ export default function TechnicalRescuePage() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
 
-                        <a href="tel:8337278534"
-                        className="bg-white text-orange-500 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
+                        <a href={`tel:${CONTACT_INFO.phone.value}`}
+                           className="bg-white text-orange-500 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
                         >
-                        <Phone className="w-5 h-5" />
-                        (833) 727-8534
-                    </a>
-                    <Link
-                        href="/contact"
-                        className="bg-orange-600 text-white px-8 py-4 rounded-full hover:bg-orange-700 transition-colors inline-flex items-center justify-center gap-2"
-                    >
-                        Request Service
-                        <ArrowRight className="w-5 h-5" />
-                    </Link>
+                            <Phone className="w-5 h-5"/>
+                            {CONTACT_INFO.phone.display}
+                        </a>
+                        <Link
+                            href="/contact"
+                            className="bg-orange-600 text-white px-8 py-4 rounded-full hover:bg-orange-700 transition-colors inline-flex items-center justify-center gap-2"
+                        >
+                            Request Service
+                            <ArrowRight className="w-5 h-5"/>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-</BaseTemplate>
-);
+    </section>
+        </BaseTemplate>
+    );
 }

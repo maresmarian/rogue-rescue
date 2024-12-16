@@ -11,7 +11,7 @@ const MainChoices = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Rescue Services */}
-                    <Link href="/services">
+                    <Link href="/services" scroll={true}>
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ const MainChoices = () => {
                     </Link>
 
                     {/* Academy */}
-                    <Link href="/training">
+                    <Link href="/training" scroll={true}>
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}

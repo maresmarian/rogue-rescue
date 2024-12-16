@@ -7,10 +7,13 @@ import SectionTitle from '@/components/common/SectionTitle';
 import FadeInWhenVisible from '@/components/effects/FadeInWhenVisible';
 import TrainingEventCard from '@/components/common/TrainingEventCard';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '@/components/common/Modal';
 import RequestTrainingModal from '@/components/common/RequestTrainingModal';
 import { CONTACT_INFO, COMPANY_STATS, SERVICES } from '@/data';
+import CalendarModal from '@/components/training/CalendarModal';
+import type { TrainingEvent } from "@/types";
+
 
 const statsAnimation = {
     hidden: { opacity: 0, scale: 0.8 },
@@ -39,6 +42,14 @@ const cardAnimation = {
 export default function Training() {
     const [showRequestModal, setShowRequestModal] = useState(false);
     const upcomingEvents = getUpcomingEvents().slice(0, 3); // Show only 3 events
+    const [showCalendarModal, setShowCalendarModal] = useState(false);
+    const [events, setEvents] = useState<TrainingEvent[]>([]);
+    
+    useEffect(() => {
+        const upcomingEvents = getUpcomingEvents();
+        setEvents(upcomingEvents);
+    }, []);
+    
 
     return (
         <>
@@ -79,20 +90,20 @@ export default function Training() {
                                     </motion.div>
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <Link href="/training#calendar">
-                                        <motion.button
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            className="bg-orange-500 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all flex items-center justify-center gap-2"
-                                        >
-                                            View Calendar <Calendar className="w-5 h-5" />
-                                        </motion.button>
-                                    </Link>
+                                <div className="flex flex-col sm:flex-row gap-4">                                    
+                                    <motion.button
+                                        whileHover={{scale: 1.05}}
+                                        whileTap={{scale: 0.95}}
+                                        onClick={() => setShowCalendarModal(true)}
+                                        className="bg-orange-500 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                                    >
+                                        View Calendar <Calendar className="w-5 h-5"/>
+                                    </motion.button>
+
                                     <motion.button
                                         onClick={() => setShowRequestModal(true)}
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
+                                        whileHover={{scale: 1.05}}
+                                        whileTap={{scale: 0.95}}
                                         className="bg-gray-800 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all border border-gray-700 hover:border-gray-600"
                                     >
                                         Request Training
@@ -143,6 +154,11 @@ export default function Training() {
                     onClose={() => setShowRequestModal(false)}
                 />
             </Modal>
+            <CalendarModal
+                isOpen={showCalendarModal}
+                onClose={() => setShowCalendarModal(false)}
+                events={events}
+            />
         </>
     );
 }

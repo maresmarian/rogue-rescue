@@ -11,7 +11,8 @@ export default function Breadcrumbs() {
     if (pathname === '/') return null;
 
     return (
-        <div className="bg-gray-50 border-b border-gray-100">
+        // Added mt-20 to account for fixed navbar height
+        <div className="bg-gray-50 border-b border-gray-100 mt-20">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex items-center py-4 text-sm">
                     <Link

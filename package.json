@@ -12,9 +12,12 @@
   "dependencies": {
     "@eslint/config-array": "^0.18.0",
     "@eslint/object-schema": "^2.1.4",
+    "@types/leaflet": "^1.9.15",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "framer-motion": "^11.11.10",
+    "google-maps": "^4.3.3",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.453.0",
     "next": "^15.0.1",
     "react": "^18.3.1",
@@ -24,6 +27,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/google.maps": "^3.58.1",
     "@types/node": "^22.8.1",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -1,33 +1,12 @@
+// src/app/about/page.tsx
 "use client";
 
 import BaseTemplate from '@/components/layout/BaseTemplate';
 import { motion } from 'framer-motion';
-import { Users, Award, Clock, Shield } from 'lucide-react';
-import FAQ from '@/components/sections/FAQ';
 import Image from "next/image";
-
-const STATS = [
-    {
-        number: "50+",
-        label: "Rescue Operations",
-        icon: Shield
-    },
-    {
-        number: "10+",
-        label: "Years Experience",
-        icon: Clock
-    },
-    {
-        number: "15+",
-        label: "Trained Professionals",
-        icon: Users
-    },
-    {
-        number: "24/7",
-        label: "Emergency Response",
-        icon: Award
-    }
-];
+import TeamSection from "@/components/sections/TeamSection";
+import FAQ from '@/components/sections/FAQ';
+import { ABOUT_STATS, ABOUT_VALUES, ABOUT_CONTENT } from '@/data/about';
 
 export default function AboutPage() {
     return (
@@ -37,8 +16,8 @@ export default function AboutPage() {
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent z-10" />
                     <Image
-                        src="/images/hero/about-us.jpg"
-                        alt="Who are we"
+                        src={ABOUT_CONTENT.hero.image}
+                        alt={ABOUT_CONTENT.hero.title}
                         fill
                         className="object-cover"
                         priority
@@ -51,10 +30,10 @@ export default function AboutPage() {
                         transition={{ duration: 0.8 }}
                     >
                         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-                            Who We Are
+                            {ABOUT_CONTENT.hero.title}
                         </h1>
                         <p className="text-xl text-gray-200 max-w-xl">
-                            A dedicated team of rescue professionals committed to saving lives and providing exceptional training.
+                            {ABOUT_CONTENT.hero.subtitle}
                         </p>
                     </motion.div>
                 </div>
@@ -70,18 +49,15 @@ export default function AboutPage() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
-                            <p className="text-gray-600 mb-6">
-                                At Rogue Rescue, our mission is to provide the highest quality rescue services and professional training.
-                                We believe in constant improvement, cutting-edge techniques, and unwavering dedication to safety.
-                            </p>
-                            <p className="text-gray-600">
-                                Our team consists of highly trained professionals with extensive experience in technical rescue,
-                                emergency medical services, and specialized training delivery.
-                            </p>
+                            <h2 className="text-4xl font-bold text-gray-900 mb-6">{ABOUT_CONTENT.mission.title}</h2>
+                            {ABOUT_CONTENT.mission.description.map((paragraph, index) => (
+                                <p key={index} className="text-gray-600 mb-6">
+                                    {paragraph}
+                                </p>
+                            ))}
                         </motion.div>
                         <div className="grid grid-cols-2 gap-6">
-                            {STATS.map((stat, index) => {
+                            {ABOUT_STATS.map((stat, index) => {
                                 const Icon = stat.icon;
                                 return (
                                     <motion.div
@@ -114,34 +90,31 @@ export default function AboutPage() {
                         viewport={{ once: true }}
                         className="text-center mb-16"
                     >
-                        <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Values</h2>
+                        <h2 className="text-4xl font-bold text-gray-900 mb-6">{ABOUT_CONTENT.values.title}</h2>
                         <p className="text-gray-600 max-w-2xl mx-auto">
-                            Our core values guide everything we do, from emergency response to professional training.
+                            {ABOUT_CONTENT.values.subtitle}
                         </p>
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {['Excellence', 'Safety', 'Innovation'].map((value, index) => (
+                        {ABOUT_VALUES.map((value, index) => (
                             <motion.div
-                                key={value}
+                                key={value.title}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.2 }}
                                 className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-all"
                             >
-                                <h3 className="text-xl font-bold text-gray-900 mb-4">{value}</h3>
-                                <p className="text-gray-600">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                </p>
+                                <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
+                                <p className="text-gray-600">{value.description}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* FAQ Section */}
+            <TeamSection />
             <FAQ />
         </BaseTemplate>
     );

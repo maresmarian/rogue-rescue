@@ -5,14 +5,33 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, AlertTriangle, Phone, Mountain, Cog, Shield, Clipboard, Anchor } from 'lucide-react';
+import { CONTACT_INFO } from "@/data";
 
 const FEATURES = [
     "Technical rope rescue operations",
     "Tower and structure access",
-    "Cliff and mountain rescue",
+    "Mountain and wilderness rescue",
     "Equipment inspection and maintenance",
     "Vertical safety systems",
     "Emergency response planning"
+];
+
+const SPECIALIZATIONS = [
+    {
+        title: "Tower Rescue",
+        description: "Specialized rescue operations for telecommunications and wind turbine towers.",
+        image: "/images/services/tower-rescue.jpg"
+    },
+    {
+        title: "Mountain and Wilderness Rescue",
+        description: "Technical rescue operations in mountainous and wilderness environments.",
+        image: "/images/services/mountain-rescue.jpg"
+    },
+    {
+        title: "Industrial Access",
+        description: "Safe access and rescue capabilities for industrial vertical environments.",
+        image: "/images/services/industrial-rescue.jpg"
+    }
 ];
 
 const CAPABILITIES = [
@@ -36,24 +55,6 @@ const CAPABILITIES = [
         description: "Tailored rescue plans for unique vertical environments and challenges.",
         icon: Clipboard
     },
-];
-
-const SPECIALIZATIONS = [
-    {
-        title: "Tower Rescue",
-        description: "Specialized rescue operations for telecommunications and wind turbine towers.",
-        image: "/images/services/tower-rescue.jpg"
-    },
-    {
-        title: "Mountain Rescue",
-        description: "Technical rescue operations in mountainous and cliff environments.",
-        image: "/images/services/mountain-rescue.jpg"
-    },
-    {
-        title: "Industrial Access",
-        description: "Safe access and rescue capabilities for industrial vertical environments.",
-        image: "/images/services/industrial-rescue.jpg"
-    }
 ];
 
 export default function HighAngleRescuePage() {
@@ -255,11 +256,11 @@ export default function HighAngleRescuePage() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
 
-                        <a href="tel:8337278534"
+                        <a href={`tel:${CONTACT_INFO.phone.value}`}
                         className="bg-white text-orange-500 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
                         >
                         <Phone className="w-5 h-5" />
-                        (833) 727-8534
+                            {CONTACT_INFO.phone.display}
                     </a>
                     <Link
                         href="/contact"

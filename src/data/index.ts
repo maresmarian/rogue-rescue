@@ -9,6 +9,8 @@ export * from './company';
 export * from './services';
 export * from './partners';
 export * from './navigation';
+export * from './team';
+export * from './about';
 
 export const SITE_CONFIG = {
     company: COMPANY_INFO,

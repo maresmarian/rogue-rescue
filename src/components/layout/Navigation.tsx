@@ -12,6 +12,14 @@ import { CONTACT_INFO, COMPANY_INFO } from '@/data';
 export default function Navigation() {
     const pathname = usePathname();
 
+    // Helper function to check if a path is active
+    const isActivePath = (path: string, itemPath: string) => {
+        if (itemPath === '/') {
+            return path === itemPath;
+        }
+        return path.startsWith(itemPath);
+    };
+
     return (
         <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-50">
             <div className="max-w-7xl mx-auto px-6">
@@ -25,8 +33,8 @@ export default function Navigation() {
 
                     <div className="hidden lg:flex items-center gap-8">
                         {MENU_ITEMS.map((item) => {
-                            const isActive = pathname === item.path ||
-                                (item.subItems && item.subItems.some(subItem => pathname === subItem.path));
+                            const isActive = isActivePath(pathname, item.path) ||
+                                (item.subItems && item.subItems.some(subItem => isActivePath(pathname, subItem.path)));
 
                             return (
                                 <div key={item.path} className="relative group">
@@ -35,13 +43,13 @@ export default function Navigation() {
                                         className="py-2"
                                     >
                                         <span className={`text-sm ${
-                                            isActive ? 'text-orange-500' : 'text-gray-600 hover:text-gray-900'
+                                            isActive ? 'text-orange-500 font-medium' : 'text-gray-600 hover:text-gray-900'
                                         } transition-colors`}>
                                             {item.label}
                                         </span>
                                         {isActive && (
                                             <motion.div
-                                                layoutId="underline"
+                                                layoutId="navUnderline"
                                                 className="absolute left-0 right-0 h-0.5 bg-orange-500 bottom-0"
                                             />
                                         )}
@@ -55,8 +63,8 @@ export default function Navigation() {
                                                         key={subItem.path}
                                                         href={subItem.path}
                                                         className={`block px-4 py-2 text-sm ${
-                                                            pathname === subItem.path
-                                                                ? 'text-orange-500 bg-orange-50'
+                                                            isActivePath(pathname, subItem.path)
+                                                                ? 'text-orange-500 bg-orange-50 font-medium'
                                                                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                                                         } transition-colors`}
                                                     >
@@ -70,18 +78,18 @@ export default function Navigation() {
                             );
                         })}
 
-
-                        <a href={`tel:${CONTACT_INFO.phone.value}`}
-                        className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all flex items-center gap-2"
+                        <a
+                            href={`tel:${CONTACT_INFO.phone.value}`}
+                            className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full hover:shadow-lg transition-all flex items-center gap-2"
                         >
-                        <Phone className="w-4 h-4" />
-                        <span>{CONTACT_INFO.phone.display}</span>
-                    </a>
-                </div>
+                            <Phone className="w-4 h-4" />
+                            <span>{CONTACT_INFO.phone.display}</span>
+                        </a>
+                    </div>
 
                     <MobileMenu menu={MENU_ITEMS} />
                 </div>
-        </div>
-</nav>
-);
+            </div>
+        </nav>
+    );
 }

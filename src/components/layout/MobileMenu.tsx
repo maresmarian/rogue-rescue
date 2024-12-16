@@ -17,6 +17,14 @@ export default function MobileMenu({ menu }: MobileMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
 
+    // Helper function to check if a path is active
+    const isActivePath = (path: string, itemPath: string) => {
+        if (itemPath === '/') {
+            return path === itemPath;
+        }
+        return path.startsWith(itemPath);
+    };
+
     useEffect(() => {
         setIsOpen(false);
     }, [pathname]);
@@ -52,7 +60,7 @@ export default function MobileMenu({ menu }: MobileMenuProps) {
                     >
                         <div className="min-h-screen bg-white">
                             {/* Header */}
-                            <div className="bg-white px-6 py-4 flex items-center justify-between">
+                            <div className="bg-white px-6 py-4 flex items-center justify-between sticky top-0 border-b border-gray-100">
                                 <div className="flex items-center gap-3">
                                     <div className="bg-orange-500 w-12 h-12 rounded-2xl flex items-center justify-center">
                                         <Shield className="w-6 h-6 text-white" />
@@ -70,7 +78,7 @@ export default function MobileMenu({ menu }: MobileMenuProps) {
                             {/* Phone Button */}
 
                             <a href={`tel:${CONTACT_INFO.phone.value}`}
-                            className="block mx-6 py-4 px-6 bg-orange-500 rounded-full text-center text-white text-lg font-medium"
+                            className="block mx-6 my-4 py-4 px-6 bg-orange-500 rounded-full text-center text-white text-lg font-medium"
                             >
                             <Phone className="inline-block w-5 h-5 mr-2 -mt-1" />
                             {CONTACT_INFO.phone.display}
@@ -82,8 +90,11 @@ export default function MobileMenu({ menu }: MobileMenuProps) {
                                 <div key={item.path}>
                                     <Link
                                         href={item.path}
-                                        className={`block text-2xl ${pathname === item.path ? 'text-orange-500' : 'text-gray-900'}`}
-                                        onClick={() => setIsOpen(false)}
+                                        className={`block text-2xl ${
+                                            isActivePath(pathname, item.path)
+                                                ? 'text-orange-500 font-medium'
+                                                : 'text-gray-900'
+                                        }`}
                                     >
                                         {item.label}
                                     </Link>
@@ -93,8 +104,11 @@ export default function MobileMenu({ menu }: MobileMenuProps) {
                                                 <Link
                                                     key={subItem.path}
                                                     href={subItem.path}
-                                                    className={`block text-lg ${pathname === subItem.path ? 'text-orange-500' : 'text-gray-600'}`}
-                                                    onClick={() => setIsOpen(false)}
+                                                    className={`block text-lg ${
+                                                        isActivePath(pathname, subItem.path)
+                                                            ? 'text-orange-500 font-medium'
+                                                            : 'text-gray-600'
+                                                    }`}
                                                 >
                                                     {subItem.label}
                                                 </Link>

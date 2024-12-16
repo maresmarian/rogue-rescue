@@ -1,35 +1,38 @@
+// src/app/services/wildfire-ems/page.tsx
+
 'use client';
 
 import BaseTemplate from '@/components/layout/BaseTemplate';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, AlertTriangle, Phone, Flag, Thermometer, Users } from 'lucide-react';
+import { ArrowRight, CheckCircle2, AlertTriangle, Phone, Flag, Users, Shield } from 'lucide-react';
+import { CONTACT_INFO } from "@/data";
 
 const FEATURES = [
-    "Rapid response medical support",
+    "Wilderness medicine",
+    "Rapid extraction module support (REMS)",
+    "Fireline Paramedics and EMTs",
+    "Technical rescue support",
     "Remote area operations",
-    "Heat-related illness treatment",
-    "Smoke inhalation care",
-    "Mobile medical units",
     "24/7 emergency availability"
 ];
 
 const CAPABILITIES = [
     {
-        title: "Mobile Medical Units",
-        description: "Fully equipped mobile medical stations for rapid deployment in wildfire zones.",
-        icon: Flag
+        title: "Wilderness EMS",
+        description: "Specialized medical care in remote and wilderness environments.",
+        icon: Shield
     },
     {
-        title: "Heat Management",
-        description: "Specialized care for heat-related illnesses and environmental hazards.",
-        icon: Thermometer
-    },
-    {
-        title: "Team Support",
-        description: "Dedicated medical support for firefighting and rescue teams.",
+        title: "Rapid Extraction Module Support (REMS)",
+        description: "4-person technical rescue crews capable of extracting wildland firefighters from the most austere environments while providing ALS medical treatment.",
         icon: Users
+    },
+    {
+        title: "Fireline Paramedics and EMTs",
+        description: "Capable of accessing and providing wildland firefighters with ALS medical care.",
+        icon: Flag
     }
 ];
 
@@ -59,7 +62,7 @@ export default function WildfireEMSPage() {
                             Wildfire EMS
                         </h1>
                         <p className="text-xl text-gray-200 mb-8">
-                            Emergency medical services specialized for wildfire environments and remote operations.
+                            Emergency medical services specialized for wildfire environments and remote operations with dedicated crews.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4">
 
@@ -85,22 +88,22 @@ export default function WildfireEMSPage() {
         <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                    initial={{opacity: 0, x: -20}}
+                    whileInView={{opacity: 1, x: 0}}
+                    viewport={{once: true}}
                 >
                     <h2 className="text-3xl font-bold text-gray-900 mb-6">
                         Specialized Medical Support for Wildfire Operations
                     </h2>
                     <p className="text-gray-600 mb-8">
-                        Our Wildfire EMS team provides crucial medical support in challenging wildfire environments.
+                        Our Wildfire EMS crews provide crucial medical support in challenging wildfire environments.
                         With specialized training and equipment, we ensure the safety and well-being of firefighting
-                        teams and emergency responders.
+                        crews and emergency responders.
                     </p>
                     <div className="space-y-4">
                         {FEATURES.map((feature) => (
                             <div key={feature} className="flex items-start gap-3">
-                                <CheckCircle2 className="w-6 h-6 text-orange-500 flex-shrink-0 mt-1" />
+                                <CheckCircle2 className="w-6 h-6 text-orange-500 flex-shrink-0 mt-1"/>
                                 <span className="text-gray-700">{feature}</span>
                             </div>
                         ))}
@@ -119,11 +122,11 @@ export default function WildfireEMSPage() {
         </div>
     </section>
 
-    {/* Capabilities Section */}
-    <section className="py-24 px-6 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
+            {/* Capabilities Section */}
+            <section className="py-24 px-6 bg-gray-50">
+                <div className="max-w-7xl mx-auto">
+                    <motion.div
+                        initial={{opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 className="text-center mb-16"
@@ -182,24 +185,24 @@ export default function WildfireEMSPage() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4">
 
-                        <a href="tel:8337278534"
-                        className="bg-white text-orange-500 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
+                        <a href={`tel:${CONTACT_INFO.phone.value}`}
+                           className="bg-white text-orange-500 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
                         >
-                        <Phone className="w-5 h-5" />
-                        (833) 727-8534
-                    </a>
-                    <Link
-                        href="/contact"
-                        className="bg-orange-600 text-white px-8 py-4 rounded-full hover:bg-orange-700 transition-colors inline-flex items-center justify-center gap-2"
-                    >
-                        Request Service
-                        <ArrowRight className="w-5 h-5" />
-                    </Link>
+                            <Phone className="w-5 h-5"/>
+                            {CONTACT_INFO.phone.display}
+                        </a>
+                        <Link
+                            href="/contact"
+                            className="bg-orange-600 text-white px-8 py-4 rounded-full hover:bg-orange-700 transition-colors inline-flex items-center justify-center gap-2"
+                        >
+                            Request Service
+                            <ArrowRight className="w-5 h-5"/>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-</BaseTemplate>
-);
+    </section>
+        </BaseTemplate>
+    );
 }

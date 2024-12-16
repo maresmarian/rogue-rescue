@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import { CONTACT_INFO } from '@/data';
+import ContactMap from "@/components/map/ContactMap";
 
 const CONTACT_SUBJECTS = [
     { value: 'services', label: 'Services Inquiry' },
@@ -183,13 +184,7 @@ export default function ContactPage() {
         </div>
 </section>
 
-    {/* Map Section */}
-    <section className="h-[400px] bg-gray-100">
-        {/* Add map integration here using CONTACT_INFO.address.coordinates */}
-        <div className="w-full h-full flex items-center justify-center text-gray-500">
-            Map Integration Placeholder
-        </div>
-    </section>
+            <ContactMap />
 </BaseTemplate>
 );
 }
