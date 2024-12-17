@@ -3,52 +3,59 @@ export interface TeamMember {
     name: string;
     role: string;
     image: string;
-    linkedin?: string;
     email: string;
     bio: string;
-    specialties?: string[];
-    certifications?: string[];
+    specialties: string[];
+    certifications: string[];
+    awards?: string[]; // Keeping this as it's professional recognition
 }
 
 export const TEAM_MEMBERS: TeamMember[] = [
     {
         name: "Brian Weidman",
-        role: "Founder & Lead Instructor",
+        role: "Fire Captain & Lead Instructor",
         image: "/images/team/brian-weidman.jpg",
-        linkedin: "https://linkedin.com/in/brianweidman",
-        email: "weidman.roguerescue@gmail.com",
-        bio: "Experienced rescue professional with over 20 years in technical rescue and emergency response.",
+        email: "weidman@jcfd5.com",
+        bio: "Fire Captain with over 14 years of experience in fire service and technical rescue operations. Founder of Weidman Fire LLC, providing specialized training and hazard risk assessment services.",
         specialties: [
-            "Technical Rope Rescue",
-            "High Angle Rescue",
-            "Wilderness Medicine"
+            "Fire Service Administration",
+            "Technical Rescue Operations",
+            "Emergency Response",
+            "Personnel Training",
+            "Hazard Risk Assessment"
         ],
         certifications: [
-            "Paramedic",
+            "NFPA Fire Officer 1",
+            "NFPA Fire Instructor 1",
             "NFPA Rope Rescue Technician",
-            "Wilderness First Responder"
+            "Oregon Paramedic",
+            "NWCG Engine Boss"
         ]
     },
     {
         name: "Daniel Sarman",
         role: "Technical Rescue Specialist & Lead Instructor",
         image: "/images/team/daniel-sarman.jpg",
-        linkedin: "https://linkedin.com/in/danielsarman",
         email: "daniel.sarman@icloud.com",
-        bio: "Former Commander of Heli SAR and USAR with extensive international training experience across Europe, Middle East, and Asia.",
+        bio: "Former Commander of Helicopter SAR and USAR teams with extensive international training experience and multiple rescue operations awards.",
         specialties: [
             "Helicopter SAR",
             "Technical Rope Rescue",
             "High Angle Rescue",
-            "HHO/HEC Operations"
+            "Emergency Response",
+            "International Training"
         ],
         certifications: [
             "FF1, FF2",
             "EMT",
             "IRATA 2",
             "NFPA 472 HazMat",
-            "Instructor HHO, HEC",
-            "3D Nozzle Forward Instructor"
+            "Instructor HHO, HEC"
+        ],
+        awards: [
+            "Best Firefighter Crew 2014",
+            "Bronze Medal - Helicopter SAR",
+            "Medal for Saving Life"
         ]
     }
 ];

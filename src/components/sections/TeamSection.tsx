@@ -3,7 +3,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Linkedin, Mail, Award, List } from 'lucide-react';
+import { Mail, Award, List } from 'lucide-react';
 import { TEAM_MEMBERS } from '@/data/team';
 
 export default function TeamSection() {
@@ -22,7 +22,7 @@ export default function TeamSection() {
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {TEAM_MEMBERS.map((member, index) => (
                         <motion.div
                             key={member.name}
@@ -47,40 +47,57 @@ export default function TeamSection() {
                                 <p className="text-orange-500 text-sm mb-4">{member.role}</p>
                                 <p className="text-gray-600 mb-6">{member.bio}</p>
 
-                                {/* Specialties & Certifications */}
-                                <div className="space-y-4 mb-6">
-                                    {member.specialties && (
-                                        <div>
-                                            <div className="flex items-center gap-2 text-sm text-gray-900 font-medium mb-2">
-                                                <List className="w-4 h-4 text-orange-500" />
-                                                Specialties
-                                            </div>
-                                            <div className="flex flex-wrap gap-2">
-                                                {member.specialties.map(specialty => (
-                                                    <span
-                                                        key={specialty}
-                                                        className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full"
-                                                    >
-                                                        {specialty}
-                                                    </span>
-                                                ))}
-                                            </div>
+                                <div className="space-y-6 mb-6">
+                                    {/* Specialties */}
+                                    <div>
+                                        <div className="flex items-center gap-2 text-sm text-gray-900 font-medium mb-2">
+                                            <List className="w-4 h-4 text-orange-500" />
+                                            Specialties
                                         </div>
-                                    )}
+                                        <div className="flex flex-wrap gap-2">
+                                            {member.specialties.map(specialty => (
+                                                <span
+                                                    key={specialty}
+                                                    className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full"
+                                                >
+                                                    {specialty}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
 
-                                    {member.certifications && (
+                                    {/* Certifications */}
+                                    <div>
+                                        <div className="flex items-center gap-2 text-sm text-gray-900 font-medium mb-2">
+                                            <Award className="w-4 h-4 text-orange-500" />
+                                            Certifications
+                                        </div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {member.certifications.map(cert => (
+                                                <span
+                                                    key={cert}
+                                                    className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full"
+                                                >
+                                                    {cert}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Awards - Only if they exist */}
+                                    {member.awards && (
                                         <div>
                                             <div className="flex items-center gap-2 text-sm text-gray-900 font-medium mb-2">
                                                 <Award className="w-4 h-4 text-orange-500" />
-                                                Certifications
+                                                Awards
                                             </div>
                                             <div className="flex flex-wrap gap-2">
-                                                {member.certifications.map(cert => (
+                                                {member.awards.map(award => (
                                                     <span
-                                                        key={cert}
-                                                        className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full"
+                                                        key={award}
+                                                        className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full"
                                                     >
-                                                        {cert}
+                                                        {award}
                                                     </span>
                                                 ))}
                                             </div>
@@ -88,27 +105,16 @@ export default function TeamSection() {
                                     )}
                                 </div>
 
-                                <div className="flex items-center gap-4">
-                                    {member.linkedin && (
-
-                                        <a href={member.linkedin}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-gray-400 hover:text-blue-500 transition-colors"
-                                        >
-                                        <Linkedin className="w-5 h-5" />
-                                        </a>
-                                        )}
-
-                                    <a href={`mailto:${member.email}`}
-                                    className="text-gray-400 hover:text-orange-500 transition-colors"
-                                    >
-                                    <Mail className="w-5 h-5" />
+                                <a
+                                    href={`mailto:${member.email}`}
+                                    className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-orange-500 transition-colors"
+                                >
+                                    <Mail className="w-4 h-4" />
+                                    {member.email}
                                 </a>
                             </div>
-                        </div>
                         </motion.div>
-                        ))}
+                    ))}
                 </div>
             </div>
         </section>
