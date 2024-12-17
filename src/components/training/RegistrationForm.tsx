@@ -44,6 +44,7 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                     ...formData,
                 }),
             });
+            
 
             if (!response.ok) {
                 throw new Error('Failed to send form');

@@ -4,11 +4,22 @@ import sgMail from '@sendgrid/mail';
 import { MongoClient } from 'mongodb';
 import { getContactFormTemplate, getRegistrationTemplate, getTrainingRequestTemplate } from '@/lib/email-templates';
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
+if (!process.env.SENDGRID_API_KEY?.startsWith('SG.')) {
+    console.warn('Invalid SendGrid API key format');
+}
 
-// MongoDB setup
-const uri = process.env.MONGODB_URI!;
-const client = new MongoClient(uri);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
+
+// Initialize MongoDB client lazily
+let client: MongoClient | null = null;
+
+async function getMongoClient() {
+    if (!client) {
+        client = new MongoClient(process.env.MONGODB_URI || '');
+        await client.connect();
+    }
+    return client;
+}
 
 export async function POST(request: Request) {
     try {
@@ -17,7 +28,6 @@ export async function POST(request: Request) {
         let subject;
         let collectionName;
 
-        // Determine email template and collection based on form type
         switch (data.type) {
             case 'contact':
                 htmlContent = getContactFormTemplate(data);
@@ -38,25 +48,28 @@ export async function POST(request: Request) {
                 throw new Error('Invalid form type');
         }
 
-        // Connect to MongoDB
-        await client.connect();
-        const db = client.db('Rogue-rescue-services'); // or whatever your database name is
+        // MongoDB save
+        const mongoClient = await getMongoClient();
+        const db = mongoClient.db('rogueRescue');
         const collection = db.collection(collectionName);
 
-        // Save to MongoDB
-        const timestamp = new Date();
         await collection.insertOne({
             ...data,
-            createdAt: timestamp
+            createdAt: new Date()
         });
 
-        // Send email
-        await sgMail.send({
-            to: process.env.ADMIN_EMAIL!,
-            from: process.env.SENDER_EMAIL!,
-            subject,
-            html: htmlContent,
-        });
+        // SendGrid email
+        try {
+            await sgMail.send({
+                to: process.env.ADMIN_EMAIL || '',
+                from: process.env.SENDER_EMAIL || '',
+                subject,
+                html: htmlContent,
+            });
+        } catch (emailError) {
+            console.error('SendGrid error:', emailError);
+            // Continue execution even if email fails
+        }
 
         return NextResponse.json({ success: true });
     } catch (error) {
@@ -65,7 +78,5 @@ export async function POST(request: Request) {
             { error: 'Failed to process request' },
             { status: 500 }
         );
-    } finally {
-        await client.close();
     }
 }
