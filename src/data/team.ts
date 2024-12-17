@@ -24,9 +24,31 @@ export const TEAM_MEMBERS: TeamMember[] = [
             "Wilderness Medicine"
         ],
         certifications: [
-            "SPRAT Level 3",
+            "Paramedic",
             "NFPA Rope Rescue Technician",
             "Wilderness First Responder"
+        ]
+    },
+    {
+        name: "Daniel Sarman",
+        role: "Technical Rescue Specialist & Lead Instructor",
+        image: "/images/team/daniel-sarman.jpg",
+        linkedin: "https://linkedin.com/in/danielsarman",
+        email: "daniel.sarman@icloud.com",
+        bio: "Former Commander of Heli SAR and USAR with extensive international training experience across Europe, Middle East, and Asia.",
+        specialties: [
+            "Helicopter SAR",
+            "Technical Rope Rescue",
+            "High Angle Rescue",
+            "HHO/HEC Operations"
+        ],
+        certifications: [
+            "FF1, FF2",
+            "EMT",
+            "IRATA 2",
+            "NFPA 472 HazMat",
+            "Instructor HHO, HEC",
+            "3D Nozzle Forward Instructor"
         ]
     }
 ];
