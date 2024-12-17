@@ -21,6 +21,33 @@ export default function RequestTrainingModal({ isOpen, onClose }: RequestTrainin
 
     if (!isOpen) return null;
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: 'training-request',
+                    ...formData,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send form');
+            }
+
+            onClose();
+            // Maybe show success message
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle error
+        }
+    };
+
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
             <div className="bg-white rounded-3xl p-8 max-w-2xl w-full mx-4 relative">

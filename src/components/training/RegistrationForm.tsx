@@ -31,11 +31,31 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        try {
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: 'registration',
+                    course,
+                    selectedDate,
+                    ...formData,
+                }),
+            });
 
-        setIsSubmitting(false);
-        onSuccess();
+            if (!response.ok) {
+                throw new Error('Failed to send form');
+            }
+
+            setIsSubmitting(false);
+            onSuccess();
+        } catch (error) {
+            console.error('Error:', error);
+            setIsSubmitting(false);
+            // Handle error - you might want to show an error message
+        }
     };
 
     return (

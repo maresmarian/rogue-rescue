@@ -21,9 +21,34 @@ export default function ContactPage() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setIsSubmitting(false);
+
+        try {
+            const formData = new FormData(e.currentTarget as HTMLFormElement);
+            const data = Object.fromEntries(formData.entries());
+
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: 'contact',
+                    ...data,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send form');
+            }
+
+            setIsSubmitting(false);
+            // Show success message or reset form
+            (e.target as HTMLFormElement).reset();
+        } catch (error) {
+            console.error('Error:', error);
+            setIsSubmitting(false);
+            // Handle error
+        }
     };
 
     return (

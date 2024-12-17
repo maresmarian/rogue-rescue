@@ -9,6 +9,7 @@ import { CONTACT_INFO, COMPANY_STATS, SERVICES } from '@/data';
 
 export default function Contact() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
 
     return (
         <>
