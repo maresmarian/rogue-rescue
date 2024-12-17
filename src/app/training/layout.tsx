@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
+export const metadata = {
+    metadataBase: new URL('https://rogue.marianmares.cz'),
     title: {
-        template: '%s - Rogue Rescue Training',
-        default: 'Training Courses - Rogue Rescue',
+        template: '%s | Rogue Rescue',
+        default: 'Rogue Rescue - Professional Rescue Services',
     },
-    description: 'Professional rescue and emergency response training courses'
+    description: 'Professional rescue services and comprehensive training solutions',
 };
 
 export default function TrainingLayout({

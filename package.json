@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "predeploy": "echo 'rogue.marianmares.cz' > ./out/CNAME"
+    "predeploy": "mkdir -p out && echo 'rogue.marianmares.cz' > out/CNAME"
   },
   "dependencies": {
     "@eslint/config-array": "^0.18.0",
