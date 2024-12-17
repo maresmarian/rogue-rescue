@@ -7,8 +7,10 @@ import { getContactFormTemplate, getRegistrationTemplate, getTrainingRequestTemp
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-if (!process.env.SENDGRID_API_KEY?.startsWith('SG.')) {
-    console.warn('Invalid SendGrid API key format');
+if (!process.env.SENDGRID_API_KEY) {
+    console.warn('SendGrid API key not found');
+} else if (!process.env.SENDGRID_API_KEY.startsWith('SG.')) {
+    console.warn('SendGrid API key may be malformed');
 }
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
