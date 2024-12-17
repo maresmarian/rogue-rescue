@@ -13,10 +13,10 @@ export const CONTACT_INFO = {
         support: "support@roguerescue.com"
     },
     address: {
-        street: "123 Rescue Way",
-        city: "Mountain View",
-        state: "CA",
-        zip: "94043",
+        street: "2885 Oakridge Ave",
+        city: "Central Point",
+        state: "OR",
+        zip: "97502",
         country: "United States",
         coordinates: {
             lat: 37.386051,

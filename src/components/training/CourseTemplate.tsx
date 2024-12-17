@@ -5,14 +5,16 @@ import { motion } from 'framer-motion';
 import { Clock, Users, Award, MapPin, Calendar, CheckCircle2, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { TrainingCourse } from '@/types';
+import { useState } from "react";
+import { CourseTemplateProps } from '@/types/training';
 
-interface CourseTemplateProps {
-    course: TrainingCourse;
-    onRegister: () => void;
-    selectedDate?: string;
-}
+export default function CourseTemplate({ course, onRegister, selectedDate: initialDate }: CourseTemplateProps) {
+    const [selectedDate, setSelectedDate] = useState(initialDate || '');
 
-export default function CourseTemplate({ course, onRegister, selectedDate }: CourseTemplateProps) {
+    const handleRegister = () => {
+        onRegister(selectedDate); // Now TypeScript knows selectedDate is a string
+    };
+    
     return (
         <>
             {/* Hero Section with Parallax */}
@@ -127,9 +129,10 @@ export default function CourseTemplate({ course, onRegister, selectedDate }: Cou
 
                                 <div className="space-y-4 mb-6">
                                     <div className="flex items-center gap-3 text-gray-600">
-                                        <Calendar className="w-5 h-5" />
+                                        <Calendar className="w-5 h-5"/>
                                         <select
-                                            defaultValue={selectedDate || ''}
+                                            value={selectedDate}
+                                            onChange={(e) => setSelectedDate(e.target.value)}
                                             className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2"
                                         >
                                             <option value="">Select a date</option>
@@ -146,16 +149,17 @@ export default function CourseTemplate({ course, onRegister, selectedDate }: Cou
                                     </div>
 
                                     <div className="flex items-center gap-3 text-gray-600">
-                                        <MapPin className="w-5 h-5" />
+                                        <MapPin className="w-5 h-5"/>
                                         <span>{course.location}</span>
                                     </div>
                                 </div>
 
                                 <button
-                                    onClick={onRegister}
-                                    className="w-full bg-orange-500 text-white px-6 py-3 rounded-xl hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
+                                    onClick={handleRegister}
+                                    disabled={!selectedDate} // Optional: disable if no date selected
+                                    className="w-full bg-orange-500 text-white px-6 py-3 rounded-xl hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    Register Now
+                                    {!selectedDate ? 'Select a Date' : 'Register Now'}
                                     <ArrowRight className="w-4 h-4" />
                                 </button>
 

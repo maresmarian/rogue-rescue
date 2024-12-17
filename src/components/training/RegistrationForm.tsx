@@ -27,6 +27,8 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
         }
     });
 
+    const [showSuccess, setShowSuccess] = useState(false);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -44,20 +46,33 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                     ...formData,
                 }),
             });
-            
 
             if (!response.ok) {
                 throw new Error('Failed to send form');
             }
 
             setIsSubmitting(false);
-            onSuccess();
+            setShowSuccess(true);
+            // Reset form
+            setFormData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                phone: '',
+                company: '',
+                dietaryRestrictions: '',
+                emergencyContact: {
+                    name: '',
+                    phone: '',
+                    relationship: ''
+                }
+            });
         } catch (error) {
             console.error('Error:', error);
             setIsSubmitting(false);
-            // Handle error - you might want to show an error message
         }
     };
+    
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -178,7 +193,7 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                     </div>
                 </div>
             </div>
-
+            
             <button
                 type="submit"
                 disabled={isSubmitting}
@@ -193,6 +208,14 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                     'Complete Registration'
                 )}
             </button>
+            {showSuccess && (
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
+                    <p className="text-green-800">
+                        Registration submitted successfully! We'll contact you shortly with further details.
+                    </p>
+                </div>
+            )}
         </form>
+        
     );
 }

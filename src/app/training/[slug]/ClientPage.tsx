@@ -18,8 +18,10 @@ interface ClientPageProps {
 
 export default function ClientCoursePage({ course, params, searchParams }: ClientPageProps) {
     const routerSearchParams = useSearchParams();
-    const selectedDate = routerSearchParams.get('date') ||
-        (typeof searchParams.date === 'string' ? searchParams.date : undefined);
+    const [selectedDate, setSelectedDate] = useState<string>(
+        routerSearchParams.get('date') ||
+        (typeof searchParams.date === 'string' ? searchParams.date : '')
+    );
     const [showSuccess, setShowSuccess] = useState(false);
     const [isRegistering, setIsRegistering] = useState(false);
 
@@ -28,7 +30,10 @@ export default function ClientCoursePage({ course, params, searchParams }: Clien
             <CourseTemplate
                 course={course}
                 selectedDate={selectedDate}
-                onRegister={() => setIsRegistering(true)}
+                onRegister={(date: string) => {
+                    setSelectedDate(date);
+                    setIsRegistering(true);
+                }}
             />
 
             <Modal

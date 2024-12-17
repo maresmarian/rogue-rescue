@@ -1,7 +1,9 @@
-// Add this test route
 // src/app/api/test-email/route.ts
 import { NextResponse } from 'next/server';
 import sgMail from '@sendgrid/mail';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 

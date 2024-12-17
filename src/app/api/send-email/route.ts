@@ -4,13 +4,15 @@ import sgMail from '@sendgrid/mail';
 import { MongoClient } from 'mongodb';
 import { getContactFormTemplate, getRegistrationTemplate, getTrainingRequestTemplate } from '@/lib/email-templates';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 if (!process.env.SENDGRID_API_KEY?.startsWith('SG.')) {
     console.warn('Invalid SendGrid API key format');
 }
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
-// Initialize MongoDB client lazily
 let client: MongoClient | null = null;
 
 async function getMongoClient() {

@@ -10,6 +10,16 @@ interface RequestTrainingModalProps {
 }
 
 export default function RequestTrainingModal({ isOpen, onClose }: RequestTrainingModalProps) {
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const handleClickOutside = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).classList.contains('modal-overlay')) {
+            onClose();
+        }
+    };
+
+    if (!isOpen) return null;
+    
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -20,7 +30,6 @@ export default function RequestTrainingModal({ isOpen, onClose }: RequestTrainin
     });
 
     if (!isOpen) return null;
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -40,16 +49,20 @@ export default function RequestTrainingModal({ isOpen, onClose }: RequestTrainin
                 throw new Error('Failed to send form');
             }
 
-            onClose();
-            // Maybe show success message
+            setShowSuccess(true);
+            setTimeout(() => {
+                onClose();
+            }, 2000); // Close modal after 2 seconds
         } catch (error) {
             console.error('Error:', error);
-            // Handle error
         }
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+        <div
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center modal-overlay"
+            onClick={handleClickOutside}
+        >
             <div className="bg-white rounded-3xl p-8 max-w-2xl w-full mx-4 relative">
                 <button
                     onClick={onClose}
@@ -60,7 +73,7 @@ export default function RequestTrainingModal({ isOpen, onClose }: RequestTrainin
 
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Request Training</h3>
 
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
@@ -133,6 +146,13 @@ export default function RequestTrainingModal({ isOpen, onClose }: RequestTrainin
                     >
                         Submit Request
                     </button>
+                    {showSuccess && (
+                        <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
+                            <p className="text-green-800">
+                                Training request submitted successfully! We'll get back to you soon.
+                            </p>
+                        </div>
+                    )}
                 </form>
             </div>
         </div>

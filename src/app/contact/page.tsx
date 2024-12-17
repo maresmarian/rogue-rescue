@@ -18,23 +18,30 @@ const CONTACT_SUBJECTS = [
 export default function ContactPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const [showSuccess, setShowSuccess] = useState(false);
+
+// Update handleSubmit
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
 
         try {
-            const formData = new FormData(e.currentTarget as HTMLFormElement);
-            const data = Object.fromEntries(formData.entries());
+            const form = e.currentTarget;
+            const formData = {
+                type: 'contact',
+                firstName: form.querySelector<HTMLInputElement>('[name="firstName"]')?.value,
+                lastName: form.querySelector<HTMLInputElement>('[name="lastName"]')?.value,
+                email: form.querySelector<HTMLInputElement>('[name="email"]')?.value,
+                subject: form.querySelector<HTMLSelectElement>('[name="subject"]')?.value,
+                message: form.querySelector<HTMLTextAreaElement>('[name="message"]')?.value
+            };
 
             const response = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    type: 'contact',
-                    ...data,
-                }),
+                body: JSON.stringify(formData),
             });
 
             if (!response.ok) {
@@ -42,12 +49,16 @@ export default function ContactPage() {
             }
 
             setIsSubmitting(false);
-            // Show success message or reset form
-            (e.target as HTMLFormElement).reset();
+            setShowSuccess(true);
+            form.reset();
+
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                setShowSuccess(false);
+            }, 5000);
         } catch (error) {
             console.error('Error:', error);
             setIsSubmitting(false);
-            // Handle error
         }
     };
 
@@ -135,6 +146,7 @@ export default function ContactPage() {
                                 </label>
                                 <input
                                     type="text"
+                                    name="firstName"
                                     required
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
                                 />
@@ -145,6 +157,7 @@ export default function ContactPage() {
                                 </label>
                                 <input
                                     type="text"
+                                    name="lastName"
                                     required
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
                                 />
@@ -157,6 +170,7 @@ export default function ContactPage() {
                             </label>
                             <input
                                 type="email"
+                                name="email"
                                 required
                                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
                             />
@@ -168,6 +182,7 @@ export default function ContactPage() {
                             </label>
                             <select
                                 required
+                                name="subject"
                                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
                             >
                                 <option value="">Select a subject</option>
@@ -185,6 +200,7 @@ export default function ContactPage() {
                             </label>
                             <textarea
                                 required
+                                name="message"
                                 rows={4}
                                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
                             />
@@ -203,6 +219,17 @@ export default function ContactPage() {
                                 </>
                             )}
                         </button>
+                        {showSuccess && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6"
+                            >
+                                <p className="text-green-800">
+                                    Message sent successfully! We'll get back to you soon.
+                                </p>
+                            </motion.div>
+                        )}
                     </form>
                 </motion.div>
             </div>
