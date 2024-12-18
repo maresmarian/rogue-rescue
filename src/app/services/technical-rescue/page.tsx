@@ -20,7 +20,7 @@ const SCENARIOS = [
     {
         title: "Rope Rescue",
         description: "Rope rescue personnel trained at the highest level prepared to support any needs.",
-        image: "/images/services/rope-rescue.jpg"
+        image: "/images/services/high-angle-rescue.jpg"
     },
     {
         title: "Industrial Facilities",

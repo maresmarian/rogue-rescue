@@ -72,21 +72,28 @@ export default function MapComponentInner() {
 
     return (
         <div className="w-full h-[400px] relative rounded-xl overflow-hidden">
-            <div ref={mapRef} className="h-full w-full" />
+            <div ref={mapRef} className="h-full w-full custom-map-z-index"/>
             {/* Add styles for custom marker */}
             <style jsx global>{`
                 .custom-marker {
                     transition: transform 0.2s;
                 }
+
                 .custom-marker:hover {
                     transform: scale(1.1);
                 }
+
                 .leaflet-popup-content-wrapper {
                     border-radius: 1rem;
                     padding: 0.5rem;
                 }
+
                 .leaflet-popup-tip {
                     display: none;
+                }
+
+                .custom-map-z-index {
+                    z-index: 1; /* Set your desired z-index value here */
                 }
             `}</style>
         </div>

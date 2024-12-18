@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import MainChoices from "@/components/sections/MainChoices";
 import References from "@/components/sections/References";
 import Partners from "@/components/sections/Partners";
+import ScrollToTop from "@/components/common/ScrollToTop";
 
 export default function Home() {
     return (
@@ -17,6 +18,7 @@ export default function Home() {
             <Training />
             <Partners />
             <Contact />
+            <ScrollToTop />
             <Footer />
         </main>
     );

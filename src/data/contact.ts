@@ -19,8 +19,8 @@ export const CONTACT_INFO = {
         zip: "97502",
         country: "United States",
         coordinates: {
-            lat: 37.386051,
-            lng: -122.083855
+            lat: 42.341238952148935,
+            lng: -122.94186183024644
         }
     },
     hours: {

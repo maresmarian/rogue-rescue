@@ -65,8 +65,8 @@ export default function HighAngleRescuePage() {
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent z-10" />
                     <Image
-                        src="/images/services/high-angle-rescue-2.jpg"
-                        alt="Technical Rescue"
+                        src="/images/services/high-angle-rescue.jpg"
+                        alt="High Angle Rescue"
                         fill
                         className="object-cover"
                         priority
@@ -139,7 +139,7 @@ export default function HighAngleRescuePage() {
 
                 <div className="relative h-[500px] rounded-2xl overflow-hidden">
                     <Image
-                        src="/images/services/high-angle-2.jpg"
+                        src="/images/services/high-angle-rescue-2.jpg"
                         alt="High Angle Rescue Operations"
                         fill
                         className="object-cover"
