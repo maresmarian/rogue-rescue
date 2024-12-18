@@ -65,12 +65,12 @@ export default function MobileMenu({ menu }: MobileMenuProps) {
                             <div
                                 className="bg-white px-6 py-4 flex items-center justify-between sticky top-0 border-b border-gray-100">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 flex items-center justify-center">
+                                    <div className="h-10 w-10 flex items-center justify-center">
                                         <Image
                                             src="/logo.png"
                                             alt="Rogue Rescue Logo"
-                                            width={48}
-                                            height={48}
+                                            width={40}
+                                            height={40}
                                             className="object-contain"
                                         />
                                     </div>
