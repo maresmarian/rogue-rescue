@@ -32,14 +32,16 @@ jobs:
 
       - name: Build with Next.js
         run: npm run build
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
 
-      # Create CNAME file
-      - name: Setup custom domain
-        run: echo "rogue.marianmares.cz" > out/CNAME
-
-      # Create .nojekyll file to prevent GitHub Pages from ignoring files that begin with an underscore
-      - name: Add .nojekyll file
-        run: touch out/.nojekyll
+      - name: Prepare deployment
+        run: |
+          touch out/.nojekyll
+          echo "rogue.marianmares.cz" > out/CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
