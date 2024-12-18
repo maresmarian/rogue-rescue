@@ -7,78 +7,91 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
     <head>
       <style>
         body {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Icons', 'Helvetica Neue', Arial, sans-serif;
           line-height: 1.6;
-          color: #374151;
+          color: #1d1d1f;
           margin: 0;
           padding: 0;
-          background-color: #f3f4f6;
+          background-color: #fbfbfd;
         }
         .header {
-          background: linear-gradient(to right, #f4511e, #f97316);
+          background: linear-gradient(135deg, #f4511e, #ff7644);
           color: white;
-          padding: 40px 20px;
+          padding: 48px 20px;
           text-align: center;
+          border-radius: 0 0 24px 24px;
         }
-        .header-icon {
-          font-size: 48px;
-          margin-bottom: 20px;
+        .logo {
+          width: 64px;
+          height: 64px;
+          margin: 0 auto 20px;
+          background: white;
+          padding: 12px;
+          border-radius: 16px;
         }
         .header-title {
           font-size: 32px;
-          font-weight: bold;
-          margin-bottom: 10px;
+          font-weight: 600;
+          margin-bottom: 8px;
+          letter-spacing: -0.5px;
         }
         .header-subtitle {
           font-size: 18px;
           opacity: 0.9;
+          font-weight: 400;
         }
         .content {
           max-width: 600px;
-          margin: 0 auto;
-          padding: 40px 20px;
+          margin: -24px auto 0;
+          padding: 32px 24px;
           background: white;
-          border-radius: 8px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          margin-top: -40px;
+          border-radius: 24px;
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
           position: relative;
         }
         .section {
-          margin: 30px 0;
-          padding: 20px;
-          background: #f9fafb;
-          border-radius: 12px;
-          border-left: 4px solid #f4511e;
+          margin: 24px 0;
+          padding: 24px;
+          background: #fbfbfd;
+          border-radius: 16px;
         }
         .section-title {
           color: #f4511e;
-          font-size: 20px;
-          font-weight: bold;
-          margin-bottom: 15px;
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 16px;
           display: flex;
           align-items: center;
           gap: 8px;
         }
         .field {
-          margin: 12px 0;
-          padding: 8px 0;
-          border-bottom: 1px solid #e5e7eb;
+          margin: 16px 0;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
         }
         .label {
-          font-weight: 600;
-          color: #4b5563;
+          font-weight: 500;
+          color: #6e6e73;
           min-width: 120px;
-          display: inline-block;
         }
         .value {
-          color: #1f2937;
+          color: #1d1d1f;
+          flex: 1;
+        }
+        .metadata {
+          font-size: 13px;
+          color: #6e6e73;
+          text-align: center;
+          margin-top: 16px;
+          padding-top: 16px;
+          border-top: 1px solid #d2d2d7;
         }
         .footer {
           text-align: center;
-          padding: 20px;
-          color: #6b7280;
-          font-size: 14px;
-          margin-top: 20px;
+          padding: 32px 20px;
+          color: #6e6e73;
+          font-size: 13px;
         }
         .button {
           display: inline-block;
@@ -86,23 +99,46 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
           background-color: #f4511e;
           color: white;
           text-decoration: none;
-          border-radius: 8px;
+          border-radius: 24px;
+          font-weight: 500;
           margin-top: 20px;
         }
       </style>
     </head>
     <body>
       <div class="header">
-        <div class="header-icon">${icon}</div>
+        <div class="logo">
+          <img src="cid:logo" alt="${COMPANY_INFO.name}" width="40" height="40" />
+        </div>
         <div class="header-title">${COMPANY_INFO.name}</div>
         <div class="header-subtitle">${title}</div>
       </div>
       <div class="content">
         ${content}
+        <div class="metadata">
+          Submitted on ${new Date().toLocaleString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short'
+})}
+        </div>
       </div>
       <div class="footer">
         <p>© ${new Date().getFullYear()} ${COMPANY_INFO.name}. All rights reserved.</p>
         <p>${CONTACT_INFO.address.street}, ${CONTACT_INFO.address.city}, ${CONTACT_INFO.address.state}</p>
+        <p>
+          <a href="tel:${CONTACT_INFO.phone.value}" style="color: #f4511e; text-decoration: none;">
+            ${CONTACT_INFO.phone.display}
+          </a>
+          &nbsp;•&nbsp;
+          <a href="mailto:${CONTACT_INFO.email.general}" style="color: #f4511e; text-decoration: none;">
+            ${CONTACT_INFO.email.general}
+          </a>
+        </p>
       </div>
     </body>
   </html>

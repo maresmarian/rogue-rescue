@@ -6,6 +6,7 @@ import { Phone, Mail } from 'lucide-react';
 import SectionTitle from '@/components/common/SectionTitle';
 import RequestTrainingModal from '@/components/common/RequestTrainingModal';
 import { CONTACT_INFO, COMPANY_STATS, SERVICES } from '@/data';
+import Modal from "@/components/common/Modal";
 
 
 export default function Contact() {
@@ -18,12 +19,15 @@ export default function Contact() {
         setIsSubmitting(true);
 
         try {
-            const form = e.currentTarget;
+            const formEl = e.currentTarget;
             const formData = {
                 type: 'contact',
-                name: form.querySelector<HTMLInputElement>('[name="name"]')?.value,
-                email: form.querySelector<HTMLInputElement>('[name="email"]')?.value,
-                message: form.querySelector<HTMLTextAreaElement>('[name="message"]')?.value,
+                firstName: formEl.querySelector<HTMLInputElement>('[name="name"]')?.value.split(' ')[0],
+                lastName: formEl.querySelector<HTMLInputElement>('[name="name"]')?.value.split(' ').slice(1).join(' '),
+                email: formEl.querySelector<HTMLInputElement>('[name="email"]')?.value,
+                subject: 'Website Contact Form',  // Added default subject
+                message: formEl.querySelector<HTMLTextAreaElement>('[name="message"]')?.value,
+                timestamp: new Date().toISOString()
             };
 
             const response = await fetch('/api/send-email', {
@@ -37,7 +41,7 @@ export default function Contact() {
             if (!response.ok) throw new Error('Failed to send message');
 
             setShowSuccess(true);
-            form.reset();
+            formEl.reset();
             setTimeout(() => setShowSuccess(false), 5000);
         } catch (error) {
             console.error('Error:', error);
@@ -151,10 +155,16 @@ export default function Contact() {
                 </div>
             </section>
 
-            <RequestTrainingModal
+            <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-            />
+                title="Request Custom Training"
+            >
+                <RequestTrainingModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                />
+            </Modal>
         </>
     );
 }

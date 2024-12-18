@@ -27,7 +27,7 @@ export default function Footer() {
                                     alt="Rogue Rescue Logo"
                                     width={40}
                                     height={40}
-                                    className="object-contain brightness-0 invert"
+                                    className="object-contain"
                                 />
                             </div>
                             <span className="font-bold">{COMPANY_INFO.name}</span>
