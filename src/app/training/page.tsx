@@ -40,9 +40,9 @@ export default function TrainingPage() {
                 </div>
                 <div className="max-w-7xl mx-auto px-6 relative z-20">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        initial={{opacity: 0, y: 20}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 0.8}}
                     >
                         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
                             Training Programs
@@ -53,16 +53,43 @@ export default function TrainingPage() {
                         <div className="flex flex-col sm:flex-row gap-4">
                             <Link
                                 href="#courses"
+                                scroll={false}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    document.getElementById('courses')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start'
+                                    });
+                                }}
                                 className="bg-orange-500 text-white px-8 py-4 rounded-full hover:bg-orange-600 transition-colors inline-flex items-center justify-center gap-2"
                             >
-                                View Courses <ArrowRight className="w-5 h-5" />
+                                <motion.span
+                                    whileHover={{x: 5}}
+                                    className="flex items-center gap-2"
+                                >
+                                    View Courses <ArrowRight className="w-5 h-5"/>
+                                </motion.span>
                             </Link>
+
                             <Link
                                 href="#calendar"
+                                scroll={false}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    document.getElementById('calendar')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start'
+                                    });
+                                }}
                                 className="bg-white text-gray-900 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center justify-center gap-2"
                             >
-                                <Calendar className="w-5 h-5" />
-                                Training Calendar
+                                <motion.span
+                                    whileHover={{x: 5}}
+                                    className="flex items-center gap-2"
+                                >
+                                    <Calendar className="w-5 h-5"/>
+                                    Training Calendar
+                                </motion.span>
                             </Link>
                         </div>
                     </motion.div>

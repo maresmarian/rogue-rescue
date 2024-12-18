@@ -8,6 +8,8 @@ import { Shield, Phone } from 'lucide-react';
 import MobileMenu from './MobileMenu';
 import { MENU_ITEMS } from '@/data/navigation';
 import { CONTACT_INFO, COMPANY_INFO } from '@/data';
+import Image from 'next/image';
+
 
 export default function Navigation() {
     const pathname = usePathname();
@@ -25,8 +27,14 @@ export default function Navigation() {
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex items-center justify-between h-20">
                     <Link href="/" className="flex items-center gap-2">
-                        <div className="h-10 w-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
-                            <Shield className="text-white w-6 h-6" />
+                        <div className="h-10 w-10 flex items-center justify-center">
+                            <Image
+                                src="/logo.png"
+                                alt="Rogue Rescue Logo"
+                                width={40}
+                                height={40}
+                                className="object-contain"
+                            />
                         </div>
                         <span className="font-bold text-xl text-gray-900">{COMPANY_INFO.name}</span>
                     </Link>

@@ -2,6 +2,8 @@
 import Link from 'next/link';
 import { Facebook, Instagram, Linkedin, Mail, Shield } from 'lucide-react';
 import { CONTACT_INFO, COMPANY_INFO, SERVICES, MENU_ITEMS } from '@/data';
+import Image from 'next/image';
+
 
 // In the social media section:
 const socialIcons = {
@@ -19,8 +21,14 @@ export default function Footer() {
                     {/* Company Info */}
                     <div>
                         <div className="flex items-center gap-2 mb-6">
-                            <div className="h-10 w-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
-                                <Shield className="text-white w-6 h-6" />
+                            <div className="h-10 w-10 flex items-center justify-center">
+                                <Image
+                                    src="/logo.png"
+                                    alt="Rogue Rescue Logo"
+                                    width={40}
+                                    height={40}
+                                    className="object-contain brightness-0 invert"
+                                />
                             </div>
                             <span className="font-bold">{COMPANY_INFO.name}</span>
                         </div>
@@ -38,7 +46,7 @@ export default function Footer() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        <Icon className="w-5 h-5" />
+                                        <Icon className="w-5 h-5"/>
                                     </a>
                                 ) : null;
                             })}
@@ -81,7 +89,7 @@ export default function Footer() {
                         <h4 className="font-bold mb-6">Contact Us</h4>
                         <ul className="space-y-4">
                             <li className="flex items-center gap-2 text-gray-400">
-                                <Mail className="w-5 h-5" />
+                                <Mail className="w-5 h-5"/>
                                 <a
                                     href={`mailto:${CONTACT_INFO.email.general}`}
                                     className="hover:text-white transition-colors"
@@ -90,7 +98,7 @@ export default function Footer() {
                                 </a>
                             </li>
                             <li className="text-gray-400">
-                                {CONTACT_INFO.address.street}<br />
+                                {CONTACT_INFO.address.street}<br/>
                                 {CONTACT_INFO.address.city}, {CONTACT_INFO.address.state} {CONTACT_INFO.address.zip}
                             </li>
                         </ul>

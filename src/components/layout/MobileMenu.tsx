@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone, Shield } from 'lucide-react';
 import { MenuItem } from '@/data/navigation';
 import { CONTACT_INFO, COMPANY_INFO } from '@/data';
+import Image from 'next/image';
+
 
 interface MobileMenuProps {
     menu: ReadonlyArray<MenuItem>;
@@ -60,10 +62,17 @@ export default function MobileMenu({ menu }: MobileMenuProps) {
                     >
                         <div className="min-h-screen bg-white">
                             {/* Header */}
-                            <div className="bg-white px-6 py-4 flex items-center justify-between sticky top-0 border-b border-gray-100">
+                            <div
+                                className="bg-white px-6 py-4 flex items-center justify-between sticky top-0 border-b border-gray-100">
                                 <div className="flex items-center gap-3">
-                                    <div className="bg-orange-500 w-12 h-12 rounded-2xl flex items-center justify-center">
-                                        <Shield className="w-6 h-6 text-white" />
+                                    <div className="w-12 h-12 flex items-center justify-center">
+                                        <Image
+                                            src="/logo.png"
+                                            alt="Rogue Rescue Logo"
+                                            width={48}
+                                            height={48}
+                                            className="object-contain"
+                                        />
                                     </div>
                                     <span className="text-xl font-bold">{COMPANY_INFO.name}</span>
                                 </div>
@@ -71,27 +80,27 @@ export default function MobileMenu({ menu }: MobileMenuProps) {
                                     onClick={() => setIsOpen(false)}
                                     className="p-2"
                                 >
-                                    <X className="w-6 h-6" />
+                                    <X className="w-6 h-6"/>
                                 </button>
                             </div>
 
                             {/* Phone Button */}
 
                             <a href={`tel:${CONTACT_INFO.phone.value}`}
-                            className="block mx-6 my-4 py-4 px-6 bg-orange-500 rounded-full text-center text-white text-lg font-medium"
+                               className="block mx-6 my-4 py-4 px-6 bg-orange-500 rounded-full text-center text-white text-lg font-medium"
                             >
-                            <Phone className="inline-block w-5 h-5 mr-2 -mt-1" />
-                            {CONTACT_INFO.phone.display}
-                        </a>
+                                <Phone className="inline-block w-5 h-5 mr-2 -mt-1"/>
+                                {CONTACT_INFO.phone.display}
+                            </a>
 
-                        {/* Navigation Links */}
-                        <nav className="mt-8 px-6 space-y-6">
-                            {menu.map((item) => (
-                                <div key={item.path}>
-                                    <Link
-                                        href={item.path}
-                                        className={`block text-2xl ${
-                                            isActivePath(pathname, item.path)
+                            {/* Navigation Links */}
+                            <nav className="mt-8 px-6 space-y-6">
+                                {menu.map((item) => (
+                                    <div key={item.path}>
+                                        <Link
+                                            href={item.path}
+                                            className={`block text-2xl ${
+                                                isActivePath(pathname, item.path)
                                                 ? 'text-orange-500 font-medium'
                                                 : 'text-gray-900'
                                         }`}

@@ -1,3 +1,4 @@
+// src/components/sections/Contact.tsx
 'use client';
 
 import { useState } from 'react';
@@ -9,6 +10,41 @@ import { CONTACT_INFO, COMPANY_STATS, SERVICES } from '@/data';
 
 export default function Contact() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+
+        try {
+            const form = e.currentTarget;
+            const formData = {
+                type: 'contact',
+                name: form.querySelector<HTMLInputElement>('[name="name"]')?.value,
+                email: form.querySelector<HTMLInputElement>('[name="email"]')?.value,
+                message: form.querySelector<HTMLTextAreaElement>('[name="message"]')?.value,
+            };
+
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) throw new Error('Failed to send message');
+
+            setShowSuccess(true);
+            form.reset();
+            setTimeout(() => setShowSuccess(false), 5000);
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     
 
     return (
@@ -49,7 +85,7 @@ export default function Contact() {
                                         <div>
                                             <p className="text-gray-400">Email us at</p>
                                             <a
-                                                href={`tel:${CONTACT_INFO.email.general}`}
+                                                href={`mailto:${CONTACT_INFO.email.general}`}
                                                 className="text-white font-bold hover:text-orange-500 transition-colors"
                                             >
                                                 {CONTACT_INFO.email.general}
@@ -68,26 +104,45 @@ export default function Contact() {
 
                             {/* Contact Form */}
                             <div className="bg-white rounded-2xl p-8">
-                                <form className="space-y-6">
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    {showSuccess && (
+                                        <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                                            <p className="text-green-800">Message sent successfully!</p>
+                                        </div>
+                                    )}
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                                        <input type="text"
-                                               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"/>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            required
+                                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                                        <input type="email"
-                                               className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"/>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            required
+                                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
                                         <textarea
+                                            name="message"
+                                            required
+                                            rows={4}
                                             className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
-                                            rows={4}></textarea>
+                                        ></textarea>
                                     </div>
                                     <button
-                                        className="w-full bg-orange-500 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all">
-                                        Send Message
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="w-full bg-orange-500 text-white px-8 py-4 rounded-full hover:shadow-xl transition-all disabled:opacity-50"
+                                    >
+                                        {isSubmitting ? 'Sending...' : 'Send Message'}
                                     </button>
                                 </form>
                             </div>
@@ -101,5 +156,5 @@ export default function Contact() {
                 onClose={() => setIsModalOpen(false)}
             />
         </>
-);
+    );
 }

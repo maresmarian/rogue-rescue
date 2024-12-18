@@ -4,11 +4,5 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["fra1"],
-  "env": {
-    "MONGODB_URI": "@mongodb-uri",
-    "SENDGRID_API_KEY": "@sendgrid-api-key",
-    "ADMIN_EMAIL": "@admin-email",
-    "SENDER_EMAIL": "@sender-email"
-  }
+  "regions": ["fra1"]
 }
