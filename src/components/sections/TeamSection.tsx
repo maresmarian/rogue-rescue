@@ -26,18 +26,19 @@ export default function TeamSection() {
                     {TEAM_MEMBERS.map((member, index) => (
                         <motion.div
                             key={member.name}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
+                            initial={{opacity: 0, y: 20}}
+                            whileInView={{opacity: 1, y: 0}}
+                            viewport={{once: true}}
+                            transition={{delay: index * 0.1}}
                             className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all"
                         >
-                            <div className="relative h-64 w-full">
+                            <div className="relative w-full aspect-[4/3]">
                                 <Image
                                     src={member.image}
                                     alt={member.name}
                                     fill
-                                    className="object-cover"
+                                    className="object-cover object-center"
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw"
                                 />
                             </div>
                             <div className="p-6">
@@ -48,10 +49,10 @@ export default function TeamSection() {
                                 <p className="text-gray-600 mb-6">{member.bio}</p>
 
                                 <div className="space-y-6 mb-6">
-                                    {/* Specialties */}
+                                {/* Specialties */}
                                     <div>
                                         <div className="flex items-center gap-2 text-sm text-gray-900 font-medium mb-2">
-                                            <List className="w-4 h-4 text-orange-500" />
+                                            <List className="w-4 h-4 text-orange-500"/>
                                             Specialties
                                         </div>
                                         <div className="flex flex-wrap gap-2">
@@ -69,7 +70,7 @@ export default function TeamSection() {
                                     {/* Certifications */}
                                     <div>
                                         <div className="flex items-center gap-2 text-sm text-gray-900 font-medium mb-2">
-                                            <Award className="w-4 h-4 text-orange-500" />
+                                            <Award className="w-4 h-4 text-orange-500"/>
                                             Certifications
                                         </div>
                                         <div className="flex flex-wrap gap-2">
@@ -87,8 +88,9 @@ export default function TeamSection() {
                                     {/* Awards - Only if they exist */}
                                     {member.awards && (
                                         <div>
-                                            <div className="flex items-center gap-2 text-sm text-gray-900 font-medium mb-2">
-                                                <Award className="w-4 h-4 text-orange-500" />
+                                            <div
+                                                className="flex items-center gap-2 text-sm text-gray-900 font-medium mb-2">
+                                                <Award className="w-4 h-4 text-orange-500"/>
                                                 Awards
                                             </div>
                                             <div className="flex flex-wrap gap-2">
@@ -109,7 +111,7 @@ export default function TeamSection() {
                                     href={`mailto:${member.email}`}
                                     className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-orange-500 transition-colors"
                                 >
-                                    <Mail className="w-4 h-4" />
+                                    <Mail className="w-4 h-4"/>
                                     {member.email}
                                 </a>
                             </div>

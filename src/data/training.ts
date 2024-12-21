@@ -34,84 +34,28 @@ const getNextMonthDate = (monthsAhead: number) => {
 export const TRAINING_COURSES: TrainingCourse[] = [
     {
         id: 'tr-001',
-        title: 'Technical Rope Rescue - Level 1',
-        slug: 'technical-rope-rescue-1',
+        title: 'NFPA Rope Rescue Operations',
+        slug: 'nfpa-rope-rescue-operations',
         category: 'Technical',
-        description: 'Comprehensive introduction to technical rope rescue operations...',
-        duration: '5 days',
-        price: 1299,
-        level: 'Beginner',
-        dates: [
-            getNextMonthDate(1),
-            getNextMonthDate(2),
-            getNextMonthDate(3)
-        ],
-        prerequisites: ['Basic first aid certification', 'Physical fitness requirement'],
-        includes: [
-            'All necessary equipment',
-            'Course materials',
-            'Certification upon completion',
-            'Lunch and refreshments'
-        ],
-        image: '/images/training/rope-rescue-1.jpg',
-        maxParticipants: 12,
-        location: 'Main Training Facility',
-        type: 'technical'
-    },
-    {
-        id: 'tr-002',
-        title: 'Wilderness First Responder',
-        slug: 'wilderness-first-responder',
-        category: 'Medical',
-        description: 'Essential medical training for outdoor professionals...',
-        duration: '6 days',
-        price: 995,
+        description: 'Comprehensive NFPA-standard rope rescue operations training designed to provide participants with the knowledge and skills needed for technical rope rescue scenarios.',
+        duration: '4 days',
+        price: 950,
         level: 'Intermediate',
-        dates: [
-            getNextMonthDate(1.5),  // 1.5 months from now
-            getNextMonthDate(2.5),  // 2.5 months from now
-            getNextMonthDate(3.5)   // 3.5 months from now
-        ],
-        prerequisites: ['Basic first aid certification'],
-        includes: [
-            'Medical supplies and training equipment',
-            'Course manual and materials',
-            'WFR certification upon completion',
-            'Daily meals and refreshments'
-        ],
-        image: '/images/training/medical-training.jpg',
-        maxParticipants: 8,
-        location: 'Mountain Training Center',
-        type: 'medical'
-    },
-    {
-        id: 'tr-003',
-        title: 'High Angle Rescue Specialist',
-        slug: 'high-angle-rescue',
-        category: 'Rescue',
-        description: 'Advanced training in vertical rescue operations...',
-        duration: '5 days',
-        price: 1499,
-        level: 'Advanced',
-        dates: [
-            getNextMonthDate(0.5),  // 2 weeks from now
-            getNextMonthDate(1.5),  // 1.5 months from now
-            getNextMonthDate(2.5)   // 2.5 months from now
-        ],
+        dates: ['2024-01-13'], // January 13-16
         prerequisites: [
-            'Technical Rope Rescue Level 1',
-            'Current first aid certification',
-            'Physical fitness requirements'
+            'Basic first aid certification',
+            'Physical fitness requirement',
+            'Previous rope rescue experience recommended'
         ],
         includes: [
-            'Advanced rescue equipment',
-            'Technical manuals',
-            'Certification exam',
-            'Meals and accommodation'
+            'All necessary rope rescue equipment',
+            'NFPA compliant course materials',
+            'Certification upon completion',
+            'Daily refreshments'
         ],
-        image: '/images/training/technical-training.jpg',
-        maxParticipants: 10,
-        location: 'Smith Rock, OR',
+        image: '/images/training/rope-rescue-operations.jpg',
+        maxParticipants: 12,
+        location: 'TBD',
         type: 'technical'
     }
 ];

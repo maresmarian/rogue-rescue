@@ -7,18 +7,17 @@ export interface TeamMember {
     bio: string;
     specialties: string[];
     certifications: string[];
-    awards?: string[]; // Keeping this as it's professional recognition
+    awards?: string[];
 }
 
 export const TEAM_MEMBERS: TeamMember[] = [
     {
         name: "Brian Weidman",
-        role: "Fire Captain & Lead Instructor",
+        role: "Founder, Lead Instructor & REMS Lead",
         image: "/images/team/brian-weidman.jpg",
-        email: "weidman@jcfd5.com",
-        bio: "Fire Captain with over 14 years of experience in fire service and technical rescue operations. Founder of Weidman Fire LLC, providing specialized training and hazard risk assessment services.",
+        email: "weidman.roguerescue@gmail.com",
+        bio: "Fire Captain with over 14 years of experience in the fire service and technical rescue operations.",
         specialties: [
-            "Fire Service Administration",
             "Technical Rescue Operations",
             "Emergency Response",
             "Personnel Training",
@@ -28,8 +27,10 @@ export const TEAM_MEMBERS: TeamMember[] = [
             "NFPA Fire Officer 1",
             "NFPA Fire Instructor 1",
             "NFPA Rope Rescue Technician",
+            "NFPA Vehicle Extrication Technician",
             "Oregon Paramedic",
-            "NWCG Engine Boss"
+            "NWCG Engine Boss",
+            "NWCG Task Force Leader"
         ]
     },
     {
