@@ -55,7 +55,7 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                         displayEvents.map((event) => (
                             <Link
                                 key={event.id}
-                                href={`/training/${event.slug}`}
+                                href={`/training/${event.slug}?date=${event.date.toISOString().split('T')[0]}`}
                             >
                                 <motion.div
                                     whileHover={{ x: 5 }}

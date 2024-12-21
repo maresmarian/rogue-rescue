@@ -2,7 +2,7 @@
 
 import { Users, Award, Calendar, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { getUpcomingEvents } from '@/lib/constants';
+import { getUpcomingEvents } from '@/data/training';
 import SectionTitle from '@/components/common/SectionTitle';
 import FadeInWhenVisible from '@/components/effects/FadeInWhenVisible';
 import TrainingEventCard from '@/components/common/TrainingEventCard';
