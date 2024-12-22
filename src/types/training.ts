@@ -40,11 +40,6 @@ export interface CourseStats {
     totalTrainedProfessionals: number;
 }
 
-export interface RequestTrainingModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-}
-
 export interface CourseTemplateProps {
     course: TrainingCourse;
     selectedDate?: string;

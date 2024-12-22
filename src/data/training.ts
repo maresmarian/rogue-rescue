@@ -24,13 +24,6 @@ export const TRAINING_STATS = {
     coursesCompleted: 250
 } as const;
 
-// Get dates for the next few months
-const getNextMonthDate = (monthsAhead: number) => {
-    const date = new Date();
-    date.setMonth(date.getMonth() + monthsAhead);
-    return date.toISOString().split('T')[0];
-};
-
 export const TRAINING_COURSES: TrainingCourse[] = [
     {
         id: 'tr-001',
@@ -41,7 +34,7 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         duration: '4 days',
         price: 950,
         level: 'Intermediate',
-        dates: ['2024-01-13'], // January 13-16
+        dates: ['2025-01-12'], // January 12-16
         prerequisites: [
             'Basic first aid certification',
             'Physical fitness requirement',
@@ -53,7 +46,7 @@ export const TRAINING_COURSES: TrainingCourse[] = [
             'Certification upon completion',
             'Daily refreshments'
         ],
-        image: '/images/training/rope-rescue-operations.jpg',
+        image: '/images/training/rope-rescue-1.jpg',
         maxParticipants: 12,
         location: 'TBD',
         type: 'technical'
@@ -88,15 +81,4 @@ export function getUpcomingEvents() {
     return allEvents
         .filter(event => event.date >= now)
         .sort((a, b) => a.date.getTime() - b.date.getTime());
-}
-
-// Helper to get total number of courses and other stats
-export function getCourseStats(): CourseStats {
-    return {
-        totalCourses: TRAINING_COURSES.length,
-        totalTrainingDays: TRAINING_COURSES.reduce((acc, course) =>
-            acc + parseInt(course.duration.split(' ')[0]), 0),
-        totalUpcomingDates: getUpcomingEvents().length,
-        totalTrainedProfessionals: 500 // This could be dynamic if you have actual data
-    };
 }
