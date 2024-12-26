@@ -1,4 +1,3 @@
-
 // src/data/training.ts
 import type { TrainingCourse, CourseLevel, CourseStats, CourseCategory } from '@/types';
 
@@ -30,13 +29,12 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         title: 'NFPA Rope Rescue Operations',
         slug: 'nfpa-rope-rescue-operations',
         category: 'Technical',
-        description: 'Comprehensive NFPA-standard rope rescue operations training designed to provide participants with the knowledge and skills needed for technical rope rescue scenarios.',
+        description: 'Comprehensive Oregon DPSST NFPA Rope Rescue Operations training designed to provide participants with the necessary knowledge and skills needed for technical rope rescue scenarios.',
         duration: '4 days',
         price: 950,
         level: 'Intermediate',
         dates: ['2025-01-12'], // January 12-16
         prerequisites: [
-            'Basic first aid certification',
             'Physical fitness requirement',
             'Previous rope rescue experience recommended'
         ],
