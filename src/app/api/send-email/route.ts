@@ -66,9 +66,13 @@ export async function POST(request: Request) {
         try {
             await sgMail.send({
                 to: process.env.ADMIN_EMAIL || '',
-                from: process.env.SENDER_EMAIL || '',
+                from: {
+                    email: process.env.SENDER_EMAIL || '', 
+                    name: 'Rogue Rescue INFO'
+                },
                 subject,
                 html: htmlContent,
+                
             });
         } catch (emailError) {
             console.error('SendGrid error:', emailError);

@@ -21,14 +21,6 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
           text-align: center;
           border-radius: 0 0 24px 24px;
         }
-        .logo {
-          width: 64px;
-          height: 64px;
-          margin: 0 auto 20px;
-          background: white;
-          padding: 12px;
-          border-radius: 16px;
-        }
         .header-title {
           font-size: 32px;
           font-weight: 600;
@@ -107,9 +99,6 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
     </head>
     <body>
       <div class="header">
-        <div class="logo">
-          <img src="cid:logo" alt="${COMPANY_INFO.name}" width="40" height="40" />
-        </div>
         <div class="header-title">${COMPANY_INFO.name}</div>
         <div class="header-subtitle">${title}</div>
       </div>

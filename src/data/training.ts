@@ -33,7 +33,7 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         duration: '4 days',
         price: 950,
         level: 'Intermediate',
-        dates: ['2025-01-13'], // January 12-16
+        dates: ['2025-01-13'], // January 13-17
         prerequisites: [
             'Physical fitness requirement',
             'Previous rope rescue experience recommended'
