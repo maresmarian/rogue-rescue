@@ -33,7 +33,7 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         duration: '4 days',
         price: 950,
         level: 'Intermediate',
-        dates: ['2025-01-13'], // January 13-17
+        dates: ['2025-02-03'], // February 3-6
         prerequisites: [
             'Physical fitness requirement',
             'Previous rope rescue experience recommended'
@@ -46,6 +46,32 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         ],
         image: '/images/training/rope-rescue-1.jpg',
         maxParticipants: 12,
+        location: 'TBD',
+        type: 'technical'
+    },
+    {
+        id: 'tr-002',
+        title: 'NFPA Rope Rescue Technician',
+        slug: 'nfpa-rope-rescue-technician',
+        category: 'Technical',
+        description: 'Advanced NFPA Rope Rescue Technician training focused on complex rescue scenarios and advanced rope systems. This course builds upon the Operations level skills.',
+        duration: '4 days',
+        price: 1250,
+        level: 'Advanced',
+        dates: ['2025-03-05'], // March 5-8
+        prerequisites: [
+            'NFPA Rope Rescue Operations certification',
+            'Physical fitness requirement',
+            'Documented rope rescue experience'
+        ],
+        includes: [
+            'Advanced rope rescue equipment',
+            'NFPA compliant course materials',
+            'Technician-level certification upon completion',
+            'Daily refreshments'
+        ],
+        image: '/images/services/high-angle-rescue.jpg',
+        maxParticipants: 8,
         location: 'TBD',
         type: 'technical'
     }
@@ -65,7 +91,7 @@ export function getUpcomingEvents() {
                 title: course.title,
                 date: date,
                 type: course.type,
-                category: course.category, // Add category to event
+                category: course.category,
                 spots: course.maxParticipants,
                 duration: course.duration,
                 price: course.price,
