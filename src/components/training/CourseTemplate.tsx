@@ -2,23 +2,44 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Clock, Users, Award, MapPin, Calendar, CheckCircle2, ArrowRight } from 'lucide-react';
+import {
+    Clock, Users, Award, MapPin, Calendar, CheckCircle2, ArrowRight,
+    BookOpen, Target, ShieldCheck, GraduationCap, AlertCircle, Package,
+    Construction, MountainSnow, Link, Link2, Trophy, HeartPulse
+} from 'lucide-react';
 import Image from 'next/image';
-import { TrainingCourse } from '@/types';
 import { useState } from "react";
 import { CourseTemplateProps } from '@/types/training';
+import type { LucideIcon } from 'lucide-react';
+
+const ICON_MAP: Record<string, LucideIcon> = {
+    BookOpen,
+    Construction,
+    MountainSnow,
+    Link,
+    Link2,
+    Trophy,
+    HeartPulse,
+    GraduationCap
+};
 
 export default function CourseTemplate({ course, onRegister, selectedDate: initialDate }: CourseTemplateProps) {
     const [selectedDate, setSelectedDate] = useState(initialDate || '');
 
     const handleRegister = () => {
-        onRegister(selectedDate); // Now TypeScript knows selectedDate is a string
+        onRegister(selectedDate);
     };
-    
+
+    // Helper function to get icon component from string name
+    const getIconComponent = (iconName: string): LucideIcon => {
+        return ICON_MAP[iconName] || BookOpen;
+    };
+
+
     return (
         <>
-            {/* Hero Section with Parallax */}
-            <section className="relative h-[60vh] min-h-[500px] overflow-hidden">
+            {/* Hero Section */}
+            <section className="relative h-[80vh] min-h-[600px] overflow-hidden">
                 <motion.div
                     initial={{ scale: 1.1 }}
                     animate={{ scale: 1 }}
@@ -32,42 +53,59 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
                         className="object-cover"
                         priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent" />
                 </motion.div>
 
                 <div className="relative z-10 h-full max-w-7xl mx-auto px-6 flex items-center">
-                    <div className="max-w-2xl">
+                    <div className="max-w-3xl">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             className="space-y-6"
                         >
-                            <div className="flex items-center gap-4">
-                <span className="bg-orange-500 text-white px-4 py-1 rounded-full text-sm">
-                  {course.category}
-                </span>
-                                <span className="text-white/80 flex items-center gap-2">
-                  <Award className="w-4 h-4" />
+                            <div className="flex flex-wrap items-center gap-4">
+                                <span className="bg-orange-500 text-white px-4 py-1.5 rounded-full text-sm font-medium">
+                                    {course.category}
+                                </span>
+                                <span className="bg-white/20 backdrop-blur-sm text-white px-4 py-1.5 rounded-full text-sm font-medium flex items-center gap-2">
+                                    <Award className="w-4 h-4" />
                                     {course.level}
-                </span>
+                                </span>
                             </div>
 
-                            <h1 className="text-4xl md:text-5xl font-bold text-white">
+                            <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
                                 {course.title}
                             </h1>
 
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                                <div className="flex items-center gap-2 text-white/90">
-                                    <Clock className="w-5 h-5" />
-                                    <span>{course.duration}</span>
+                            <div className="grid grid-cols-3 gap-8 py-6">
+                                <div className="flex items-center gap-3 text-white/90">
+                                    <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                                        <Clock className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <div className="text-sm text-white/60">Duration</div>
+                                        <div className="font-medium">{course.duration}</div>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2 text-white/90">
-                                    <Users className="w-5 h-5" />
-                                    <span>Max {course.maxParticipants} students</span>
+
+                                <div className="flex items-center gap-3 text-white/90">
+                                    <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                                        <Users className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <div className="text-sm text-white/60">Class Size</div>
+                                        <div className="font-medium">Max {course.maxParticipants}</div>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2 text-white/90">
-                                    <MapPin className="w-5 h-5" />
-                                    <span>{course.location}</span>
+
+                                <div className="flex items-center gap-3 text-white/90">
+                                    <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                                        <MapPin className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <div className="text-sm text-white/60">Location</div>
+                                        <div className="font-medium">{course.location}</div>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
@@ -75,48 +113,116 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
                 </div>
             </section>
 
-            {/* Course Details */}
+            {/* Course Content */}
             <section className="py-16 px-6">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                        {/* Main Content */}
                         <div className="lg:col-span-2 space-y-12">
-                            {/* Description */}
-                            <div className="prose prose-lg max-w-none">
-                                <h2 className="text-3xl font-bold text-gray-900">Course Overview</h2>
-                                <p className="text-gray-600">{course.description}</p>
+                            {/* Course Schedule */}
+                            <div className="bg-orange-50 rounded-2xl p-8">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                                    Program Schedule
+                                </h3>
+                                <div className="space-y-6">
+                                    {course.schedule.map((day, index) => {
+                                        const DayIcon = getIconComponent(day.icon);
+                                        return (
+                                            <motion.div
+                                                key={index}
+                                                className="relative pl-12"
+                                                initial={{ opacity: 0, x: -20 }}
+                                                whileInView={{ opacity: 1, x: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: index * 0.1 }}
+                                            >
+                                                <div className="absolute left-0 top-0 w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                                                    <DayIcon className="w-5 h-5 text-orange-500" />
+                                                </div>
+                                                <div className="bg-white rounded-xl p-4 shadow-sm">
+                                                    <h4 className="font-bold text-gray-900">Day {day.day}</h4>
+                                                    <p className="text-gray-600">{day.focus}</p>
+                                                </div>
+                                            </motion.div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* Course Description Blocks */}
+                            <div className="space-y-8">
+                                {course.description.split('\n\n').map((block, index) => {
+                                    // Handle bullet point sections
+                                    if (block.includes('•')) {
+                                        const [title, ...points] = block.split('\n');
+                                        return (
+                                            <motion.div
+                                                key={index}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                className="bg-gray-50 rounded-xl p-6"
+                                            >
+                                                {title && <h3 className="text-xl font-bold text-gray-900 mb-4">{title.replace(':', '')}</h3>}
+                                                <div className="space-y-3">
+                                                    {points.map((point, i) => (
+                                                        <div key={i} className="flex items-start gap-3">
+                                                            <CheckCircle2 className="w-5 h-5 text-orange-500 mt-1 flex-shrink-0" />
+                                                            <span className="text-gray-700">{point.replace('•', '').trim()}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </motion.div>
+                                        );
+                                    }
+
+                                    // Regular paragraphs
+                                    return (
+                                        <motion.div
+                                            key={index}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            className="prose prose-lg max-w-none"
+                                        >
+                                            <p className="text-gray-600">{block.trim()}</p>
+                                        </motion.div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Prerequisites */}
+                            <div className="bg-gray-50 rounded-2xl p-8">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                    <AlertCircle className="w-6 h-6 text-orange-500" />
+                                    Prerequisites
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {course.prerequisites.map((prereq, index) => (
+                                        <div key={index}
+                                             className="flex items-start gap-3 bg-white p-4 rounded-xl shadow-sm">
+                                            <CheckCircle2 className="w-5 h-5 text-orange-500 mt-1 flex-shrink-0" />
+                                            <span className="text-gray-600">{prereq}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
 
                             {/* What's Included */}
-                            <div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-6">What's Included</h3>
+                            <div className="bg-white rounded-2xl border border-gray-100 p-8">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                    <Package className="w-6 h-6 text-orange-500" />
+                                    What's Included
+                                </h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     {course.includes.map((item, index) => (
-                                        <div
-                                            key={index}
-                                            className="flex items-start gap-3 bg-white p-4 rounded-xl border border-gray-100"
-                                        >
+                                        <div key={index}
+                                             className="flex items-start gap-3 bg-gray-50 p-4 rounded-xl">
                                             <CheckCircle2 className="w-5 h-5 text-orange-500 mt-1 flex-shrink-0" />
                                             <span className="text-gray-600">{item}</span>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-
-                            {/* Prerequisites */}
-                            {course.prerequisites && (
-                                <div>
-                                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Prerequisites</h3>
-                                    <ul className="space-y-3">
-                                        {course.prerequisites.map((prereq, index) => (
-                                            <li key={index} className="flex items-center gap-3 text-gray-600">
-                                                <ArrowRight className="w-4 h-4 text-orange-500" />
-                                                {prereq}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
                         </div>
 
                         {/* Registration Sidebar */}

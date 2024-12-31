@@ -23,57 +23,134 @@ export const TRAINING_STATS = {
     coursesCompleted: 250
 } as const;
 
+// src/data/training.ts
 export const TRAINING_COURSES: TrainingCourse[] = [
     {
         id: 'tr-001',
         title: 'NFPA Rope Rescue Operations',
         slug: 'nfpa-rope-rescue-operations',
         category: 'Technical',
-        description: 'Comprehensive Oregon DPSST NFPA Rope Rescue Operations training designed to provide participants with the necessary knowledge and skills needed for technical rope rescue scenarios.',
+        description: `This comprehensive operations-level course provides emergency responders with essential knowledge and practical skills in rope rescue operations.
+
+        Key Learning Objectives:
+        • Master fundamental rope rescue concepts and terminology
+        • Develop proficiency in basic and intermediate knot tying
+        • Learn mechanical advantage systems and their applications
+        • Practice patient packaging and litter operations
+        • Understanding scene safety and risk assessment
+
+        Course Methodology:
+        Our experienced instructors emphasize hands-on learning through practical scenarios. Each participant receives individual attention to ensure skill mastery in a supportive learning environment.
+
+        Equipment and Systems:
+        • Industry-standard rope rescue equipment
+        • Multiple anchor point systems
+        • Mechanical advantage systems
+        • Patient packaging equipment
+        • Personal protective equipment
+
+        Certification Benefits:
+        This operations-level certification serves as the foundation for technical rescue capabilities, preparing rescuers for both low and steep-angle rescue scenarios. Upon completion, participants will have the confidence and competence to perform essential rope rescue operations.`,
+        schedule: [
+            {
+                day: 1,
+                focus: 'Basic Concepts and Safety Fundamentals',
+                icon: 'BookOpen'
+            },
+            {
+                day: 2,
+                focus: 'Knots, Anchors, and Mechanical Advantage',
+                icon: 'Link'
+            },
+            {
+                day: 3,
+                focus: 'Litter Operations and Patient Care',
+                icon: 'HeartPulse'
+            },
+            {
+                day: 4,
+                focus: 'Practical Scenarios and Certification',
+                icon: 'GraduationCap'
+            }
+        ],
         duration: '4 days',
         price: 950,
         level: 'Intermediate',
-        dates: ['2025-02-03'], // February 3-6
+        dates: ['2025-02-03'],
         prerequisites: [
             'Physical fitness requirement',
-            'Previous rope rescue experience recommended'
+            'Previous rope rescue experience recommended',
+            'Basic ICS understanding',
+            'Ability to work at height'
         ],
         includes: [
             'All necessary rope rescue equipment',
             'NFPA compliant course materials',
-            'Certification upon completion',
-            'Daily refreshments'
+            'Operations-level certification upon completion',
+            'Daily refreshments',
+            'Professional documentation',
+            'Access to instructor expertise'
         ],
         image: '/images/training/rope-rescue-1.jpg',
         maxParticipants: 12,
         location: 'Central Point, OR',
-        type: 'technical'
+        type: 'technical',
     },
     {
         id: 'tr-002',
         title: 'NFPA Rope Rescue Technician',
         slug: 'nfpa-rope-rescue-technician',
         category: 'Technical',
-        description: `NFPA Rope Rescue Technician expands on concepts learned in operations as well as the introduction of new concepts. Unlike the operations class, this class operates in a completely vertical environment. The introduction of various vertical litter tending techniques as well as the introduction of guidelines and high lines will challenge students in a rigorous learning environment.
+        description: `Take your rescue capabilities to the next level with our advanced technician-level training program.
 
-        This advanced course provides students with intensive, hands-on experience in complex rope rescue scenarios. Participants will learn and practice:
+        Advanced Skills Development:
+        • Complex mechanical advantage systems
+        • Advanced anchor point configurations
+        • High-line operations setup and management
+        • Technical rope system analysis
+        • Advanced patient packaging techniques
 
-        • Advanced knot craft and rope system analysis
-        • Complex mechanical advantage systems and their applications
-        • Comprehensive vertical rescue techniques including multiple point anchors
-        • High-line operations and advanced rigging scenarios
-        • Guidelines for both vertical and horizontal applications
-        • Advanced litter attending techniques in fully vertical environments
-        • Patient packaging and environmental considerations
-        • Critical decision making in technical rescue operations
-        • Risk assessment and scene safety management
-        • Team leadership and rescue scene organization
+        Vertical Environment Operations:
+        Our course operates in a completely vertical environment, challenging students to master advanced techniques in real-world conditions.
 
-        The course emphasizes practical applications with numerous hands-on scenarios, allowing students to build confidence and competency in their technical rescue capabilities. Our experienced instructors provide detailed feedback and ensure each participant masters the required skills.
+        Technical Competencies:
+        • Vertical litter attendance techniques
+        • Guideline operations for various scenarios
+        • High-line rescue methods
+        • Advanced belay systems
+        • Complex rope system management
 
-        This technician-level certification represents an advanced qualification in rope rescue operations, preparing rescuers for complex vertical rescue scenarios in both urban and wilderness environments. Successful completion demonstrates a high level of proficiency in technical rope rescue operations and leadership capabilities.
+        Leadership and Decision Making:
+        • Risk assessment strategies
+        • Team leadership development
+        • Critical decision-making scenarios
+        • Advanced safety management
+        • Rescue scene organization
 
-        Class size is intentionally limited to ensure optimal instructor-student interaction and maximum hands-on time with equipment and scenarios.`,
+        Professional Development:
+        This technician-level certification represents the highest standard in rope rescue operations. Successful completion demonstrates advanced proficiency and leadership capabilities in technical rescue operations.`,
+        schedule: [
+            {
+                day: 1,
+                focus: 'Advanced Systems and Complex Anchors',
+                icon: 'Construction'
+            },
+            {
+                day: 2,
+                focus: 'Vertical Environment Operations',
+                icon: 'MountainSnow'
+            },
+            {
+                day: 3,
+                focus: 'High Lines and Advanced Rigging',
+                icon: 'Link2'
+            },
+            {
+                day: 4,
+                focus: 'Advanced Scenarios and Leadership',
+                icon: 'Trophy'
+            }
+        ],
         duration: '4 days',
         price: 1100,
         level: 'Advanced',
@@ -81,7 +158,9 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         prerequisites: [
             'NFPA Rope Rescue Operations certification',
             'Physical fitness requirement',
-            'Documented rope rescue experience'
+            'Documented rope rescue experience',
+            'Comfort working in vertical environments',
+            'Previous rescue team experience'
         ],
         includes: [
             'Advanced rope rescue equipment',
@@ -89,12 +168,13 @@ export const TRAINING_COURSES: TrainingCourse[] = [
             'Technician-level certification upon completion',
             'Daily refreshments',
             'Professional certification documentation',
-            'Access to instructor expertise and networking opportunities'
+            'Access to instructor expertise and networking opportunities',
+            'Post-course support and resources'
         ],
         image: '/images/services/high-angle-rescue.jpg',
         maxParticipants: 8,
         location: 'Central Point, OR',
-        type: 'technical'
+        type: 'technical',
     }
 ];
 

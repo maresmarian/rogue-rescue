@@ -4,6 +4,12 @@ export type CourseType = 'certification' | 'medical' | 'technical';
 export type CourseLevel = 'Beginner' | 'Intermediate' | 'Advanced';
 export type CourseCategory = 'Technical' | 'Medical' | 'Rescue' | 'Certification';
 
+export interface ScheduleDay {
+    day: number;
+    focus: string;
+    icon: string; // This will store the Lucide icon name
+}
+
 export interface TrainingCourse extends BaseContent {
     id: string;
     duration: string;
@@ -16,6 +22,7 @@ export interface TrainingCourse extends BaseContent {
     maxParticipants: number;
     location: string;
     type: CourseType;
+    schedule: ScheduleDay[];
 }
 
 export interface TrainingEvent {
