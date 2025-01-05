@@ -5,13 +5,15 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
   <!DOCTYPE html>
   <html>
     <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <style>
         body {
           font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Icons', 'Helvetica Neue', Arial, sans-serif;
           line-height: 1.6;
           color: #1d1d1f;
-          margin: 0;
-          padding: 0;
+          margin: 0 auto;
+          padding: 20px;
+          max-width: 800px;
           background-color: #fbfbfd;
         }
         .header {
@@ -33,9 +35,10 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
           font-weight: 400;
         }
         .content {
-          max-width: 600px;
           margin: -24px auto 0;
-          padding: 32px 24px;
+          width: 100%;
+          max-width: 600px;
+          box-sizing: border-box;
           background: white;
           border-radius: 24px;
           box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
@@ -94,6 +97,14 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
           border-radius: 24px;
           font-weight: 500;
           margin-top: 20px;
+        }
+        @media only screen and (max-width: 600px) {
+          body {
+            padding: 10px;
+          }
+          .content {
+            padding: 20px 16px;
+          }
         }
       </style>
     </head>
@@ -250,4 +261,91 @@ export function getTrainingRequestTemplate(data: any) {
     </div>
   `;
     return getBaseTemplate(content, '📚', 'New Training Request');
+}
+
+// Add these new functions for sender confirmation emails
+export function getContactConfirmationTemplate(data: any) {
+    const content = `
+    <div style="text-align: left;">
+      <p>Dear ${data.firstName},</p>
+      
+      <p>Thank you for contacting Rogue Rescue. We have received your message and will get back to you as soon as possible.</p>
+      
+      <p>Here's a summary of your message:</p>
+      
+      <div class="section">
+        <div class="field">
+          <span class="label">Subject:</span>
+          <span class="value">${data.subject}</span>
+        </div>
+        <div class="field">
+          <span class="label">Message:</span>
+          <div style="white-space: pre-wrap; margin-top: 10px;">${data.message}</div>
+        </div>
+      </div>
+
+      <p>If you need immediate assistance, please don't hesitate to call us at ${CONTACT_INFO.phone.display}.</p>
+      
+      <p>Best regards,<br>${COMPANY_INFO.name} Team</p>
+    </div>
+  `;
+    return getBaseTemplate(content, '📨', 'Thank You for Contacting Us');
+}
+
+export function getRegistrationConfirmationTemplate(data: any, course: any) {
+    const content = `
+    <div style="text-align: left;">
+      <p>Dear ${data.firstName},</p>
+      
+      <p>Thank you for registering for our ${course.title} course. Your registration has been received and is being processed.</p>
+      
+      <div class="section">
+        <div class="section-title">Course Details</div>
+        <div class="field">
+          <span class="label">Course:</span>
+          <span class="value">${course.title}</span>
+        </div>
+        <div class="field">
+          <span class="label">Date:</span>
+          <span class="value">${data.selectedDate || 'To be confirmed'}</span>
+        </div>
+        <div class="field">
+          <span class="label">Location:</span>
+          <span class="value">${course.location}</span>
+        </div>
+      </div>
+
+      <p>You will receive a separate email with additional course information and payment instructions within the next 24 hours.</p>
+      
+      <p>If you have any questions, please contact us at ${CONTACT_INFO.email.training}.</p>
+      
+      <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
+    </div>
+  `;
+    return getBaseTemplate(content, '📚', 'Course Registration Confirmation');
+}
+
+export function getTrainingRequestConfirmationTemplate(data: any) {
+    const content = `
+    <div style="text-align: left;">
+      <p>Dear ${data.name},</p>
+      
+      <p>Thank you for your interest in our training programs. We have received your request and our team will review it shortly.</p>
+      
+      <div class="section">
+        <div class="section-title">Request Details</div>
+        <div class="field">
+          <span class="label">Training Type:</span>
+          <span class="value">${data.trainingType}</span>
+        </div>
+      </div>
+
+      <p>We aim to respond to all training requests within 2 business days.</p>
+      
+      <p>If you need immediate assistance, please contact us at ${CONTACT_INFO.phone.display}.</p>
+      
+      <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
+    </div>
+  `;
+    return getBaseTemplate(content, '📋', 'Training Request Received');
 }

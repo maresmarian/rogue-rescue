@@ -1,8 +1,17 @@
 // src/app/api/send-email/route.ts
 import { NextResponse } from 'next/server';
 import sgMail from '@sendgrid/mail';
+import type { MailDataRequired } from '@sendgrid/mail';
 import { MongoClient } from 'mongodb';
-import { getContactFormTemplate, getRegistrationTemplate, getTrainingRequestTemplate } from '@/lib/email-templates';
+import { COMPANY_INFO } from '@/data';
+import {
+    getContactFormTemplate,
+    getRegistrationTemplate,
+    getTrainingRequestTemplate,
+    getContactConfirmationTemplate,
+    getRegistrationConfirmationTemplate,
+    getTrainingRequestConfirmationTemplate
+} from '@/lib/email-templates';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -28,10 +37,11 @@ async function getMongoClient() {
 export async function POST(request: Request) {
     try {
         const data = await request.json();
-        let htmlContent;
-        let subject;
-        let collectionName;
+        let htmlContent: string;
+        let subject: string;
+        let collectionName: string;
 
+        // Determine email content and MongoDB collection based on form type
         switch (data.type) {
             case 'contact':
                 htmlContent = getContactFormTemplate(data);
@@ -52,7 +62,7 @@ export async function POST(request: Request) {
                 throw new Error('Invalid form type');
         }
 
-        // MongoDB save
+        // Save to MongoDB
         const mongoClient = await getMongoClient();
         const db = mongoClient.db('rogueRescue');
         const collection = db.collection(collectionName);
@@ -62,21 +72,62 @@ export async function POST(request: Request) {
             createdAt: new Date()
         });
 
-        // SendGrid email
+        // Send emails
         try {
-            await sgMail.send({
+            // Send notification to admin
+            const adminMsg: MailDataRequired = {
                 to: process.env.ADMIN_EMAIL || '',
                 from: {
-                    email: process.env.SENDER_EMAIL || '', 
+                    email: process.env.SENDER_EMAIL || '',
                     name: 'Rogue Rescue INFO'
                 },
                 subject,
                 html: htmlContent,
-                
-            });
+                text: subject // Fallback plain text
+            };
+
+            await sgMail.send(adminMsg);
+
+            // Send confirmation email to user if email is provided
+            if (data.email) {
+                let confirmationHtml: string;
+                let confirmationSubject: string;
+
+                switch (data.type) {
+                    case 'contact':
+                        confirmationHtml = getContactConfirmationTemplate(data);
+                        confirmationSubject = 'Thank You for Contacting Rogue Rescue';
+                        break;
+                    case 'registration':
+                        confirmationHtml = getRegistrationConfirmationTemplate(data, data.course);
+                        confirmationSubject = 'Course Registration Confirmation';
+                        break;
+                    case 'training-request':
+                        confirmationHtml = getTrainingRequestConfirmationTemplate(data);
+                        confirmationSubject = 'Training Request Received';
+                        break;
+                    default:
+                        throw new Error('Invalid form type for confirmation');
+                }
+
+                const userMsg: MailDataRequired = {
+                    to: data.email,
+                    from: {
+                        email: process.env.SENDER_EMAIL || '',
+                        name: COMPANY_INFO.name
+                    },
+                    subject: confirmationSubject,
+                    html: confirmationHtml,
+                    text: confirmationSubject // Fallback plain text
+                };
+
+                await sgMail.send(userMsg);
+            }
+
         } catch (emailError) {
             console.error('SendGrid error:', emailError);
             // Continue execution even if email fails
+            // We don't want to fail the whole request just because email sending failed
         }
 
         return NextResponse.json({ success: true });

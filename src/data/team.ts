@@ -15,7 +15,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
         name: "Brian Weidman",
         role: "Founder, Lead Instructor & REMS Lead",
         image: "/images/team/brian-weidman.jpg",
-        email: "weidman.roguerescue@gmail.com",
+        email: "brian.weidman@roguerescueservices.com",
         bio: "Fire Captain with over 14 years of experience in the fire service and technical rescue operations.",
         specialties: [
             "Technical Rescue Operations",
@@ -37,7 +37,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
         name: "Daniel Sarman",
         role: "Technical Rescue Specialist & Lead Instructor",
         image: "/images/team/daniel-sarman.jpg",
-        email: "daniel.sarman@icloud.com",
+        email: "daniel.sarman@roguerescueservices.com",
         bio: "Former Commander of Helicopter SAR and USAR teams with extensive international training experience and multiple rescue operations awards.",
         specialties: [
             "Helicopter SAR",

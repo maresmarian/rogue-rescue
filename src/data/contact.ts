@@ -8,9 +8,9 @@ export const CONTACT_INFO = {
         emergency: true
     },
     email: {
-        general: "weidman.roguerescue@gmail.com",
-        training: "training@roguerescue.com",
-        support: "support@roguerescue.com"
+        general: "info@roguerescueservices.com",
+        training: "info@roguerescueservices.com",
+        support: "info@roguerescueservices.com"
     },
     address: {
         street: "2885 Oakridge Ave",
