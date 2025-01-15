@@ -13,6 +13,9 @@ import RequestTrainingModal from '@/components/common/RequestTrainingModal';
 import { TRAINING_COURSES, TRAINING_STATS, TRAINING_CATEGORIES, TRAINING_LEVELS } from '@/data/training';
 import { CourseCategory, CourseLevel } from "@/types";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function TrainingPage() {
     const [selectedCategory, setSelectedCategory] = useState<string>('');
     const [selectedLevel, setSelectedLevel] = useState<string>('');
