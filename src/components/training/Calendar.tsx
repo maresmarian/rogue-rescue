@@ -7,6 +7,8 @@ import { getUpcomingEvents } from '@/data/training';
 import { useEffect, useState } from 'react';
 import type { TrainingEvent } from '@/types';
 import CalendarModal from './CalendarModal';
+import { formatDateInPT, formatDateForURL } from '@/lib/formatDate';
+
 
 interface CalendarProps {
     className?: string;
@@ -55,7 +57,7 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                         displayEvents.map((event) => (
                             <Link
                                 key={event.id}
-                                href={`/training/${event.slug}?date=${event.date.toISOString().split('T')[0]}`}
+                                href={`/training/${event.slug}?date=${formatDateForURL(event.date)}`}
                             >
                                 <motion.div
                                     whileHover={{x: 5}}
@@ -64,16 +66,10 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                                     <div
                                         className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                                         <span className="text-orange-500 font-bold">
-                                            {new Intl.DateTimeFormat('en-US', {
-                                                timeZone: 'America/Los_Angeles',
-                                                day: 'numeric'
-                                            }).format(event.date)}
+                                            {formatDateInPT(event.date, {day: 'numeric'})}
                                         </span>
                                         <span className="text-orange-500 text-sm">
-                                            {new Intl.DateTimeFormat('en-US', {
-                                                timeZone: 'America/Los_Angeles',
-                                                month: 'short'
-                                            }).format(event.date)}
+                                            {formatDateInPT(event.date, {month: 'short'})}
                                         </span>
                                     </div>
 

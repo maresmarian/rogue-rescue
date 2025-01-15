@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { TrainingEvent } from '@/types';
 import Link from 'next/link';
+import { formatDateForURL, formatDateInPT } from "@/lib/formatDate";
 
 interface CalendarModalProps {
     isOpen: boolean;
@@ -52,13 +53,9 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
     };
 
     // Group events by date with locale date formatting
+    // Update eventsByDate
     const eventsByDate = events.reduce((acc, event) => {
-        const dateKey = new Intl.DateTimeFormat('en-US', {
-            timeZone: 'America/Los_Angeles',
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-        }).format(event.date);
+        const dateKey = formatDateForURL(event.date);
         if (!acc[dateKey]) {
             acc[dateKey] = [];
         }
@@ -80,13 +77,7 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
         // Add cells for each day of the month
         for (let day = 1; day <= daysInMonth; day++) {
             const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-// Change this line
-            const dateKey = new Intl.DateTimeFormat('en-US', {
-                timeZone: 'America/Los_Angeles',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            }).format(date);
+            const dateKey = formatDateForURL(date);
             const dayEvents = eventsByDate[dateKey] || [];
 
             days.push(
@@ -94,23 +85,19 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
                     key={day}
                     className="border border-gray-200 p-2 min-h-[6rem] md:min-h-[8rem] relative group hover:bg-gray-50 transition-colors"
                 >
-                    <span className="text-sm text-gray-500">
-                        {new Intl.DateTimeFormat('en-US', {
-                            timeZone: 'America/Los_Angeles',
-                            day: 'numeric'
-                        }).format(date)}
-                    </span>
+            <span className="text-sm text-gray-500">
+                {formatDateInPT(date, { day: 'numeric' })}
+            </span>
 
                     {dayEvents.length > 0 && (
                         <div className="mt-1 space-y-1">
                             {dayEvents.map((event) => (
                                 <Link
                                     key={event.id}
-                                    href={`/training/${event.slug}?date=${dateKey}`}
+                                    href={`/training/${event.slug}?date=${formatDateForURL(event.date)}`}
                                     className="block"
                                 >
-                                    <div
-                                        className="bg-orange-100 text-orange-800 text-xs p-1 rounded truncate hover:bg-orange-200 transition-colors">
+                                    <div className="bg-orange-100 text-orange-800 text-xs p-1 rounded truncate hover:bg-orange-200 transition-colors">
                                         {event.title}
                                     </div>
                                 </Link>
@@ -126,9 +113,20 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
 
     const renderMobileList = () => {
         const monthEvents = events.filter(event => {
-            const eventDate = new Date(event.date);
-            return eventDate.getMonth() === currentDate.getMonth() &&
-                eventDate.getFullYear() === currentDate.getFullYear();
+            // Convert both dates to PT before comparison
+            const eventDateInPT = new Date(formatDateInPT(event.date, {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric'
+            }));
+            const currentDateInPT = new Date(formatDateInPT(currentDate, {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric'
+            }));
+
+            return eventDateInPT.getMonth() === currentDateInPT.getMonth() &&
+                eventDateInPT.getFullYear() === currentDateInPT.getFullYear();
         }).sort((a, b) => a.date.getTime() - b.date.getTime());
 
         return (
@@ -139,23 +137,17 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
                     monthEvents.map((event) => (
                         <Link
                             key={event.id}
-                            href={`/training/${event.slug}?date=${event.date.toISOString().split('T')[0]}`}
+                            href={`/training/${event.slug}?date=${formatDateForURL(event.date)}`}
                             className="block"
                         >
                             <div className="flex items-center gap-4 p-4 bg-white rounded-xl hover:bg-gray-50 transition-colors border border-gray-200">
                                 <div
                                     className="h-14 w-14 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                                     <span className="text-orange-500 font-bold">
-                                        {new Intl.DateTimeFormat('en-US', {
-                                            timeZone: 'America/Los_Angeles',
-                                            day: 'numeric'
-                                        }).format(event.date)}
+                                        {formatDateInPT(event.date, { day: 'numeric' })}
                                     </span>
-                                                                        <span className="text-orange-500 text-sm">
-                                        {new Intl.DateTimeFormat('en-US', {
-                                            timeZone: 'America/Los_Angeles',
-                                            month: 'short'
-                                        }).format(event.date)}
+                                    <span className="text-orange-500 text-sm">
+                                        {formatDateInPT(event.date, { month: 'short' })}
                                     </span>
                                 </div>
 
@@ -202,7 +194,7 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
                                         <ChevronLeft className="w-5 h-5" />
                                     </button>
                                     <span className="text-base md:text-lg font-medium min-w-[150px] text-center">
-                                        {currentDate.toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+                                        {formatDateInPT(currentDate, { month: 'long', year: 'numeric' })}
                                     </span>
                                     <button
                                         onClick={nextMonth}

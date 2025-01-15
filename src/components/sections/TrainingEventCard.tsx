@@ -5,6 +5,7 @@
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
 import type { TrainingEvent } from '@/types';
+import { formatDateInPT } from "@/lib/formatDate";
 
 interface TrainingEventCardProps {
     event: TrainingEvent;
@@ -12,13 +13,6 @@ interface TrainingEventCardProps {
 }
 
 export default function TrainingEventCard({ event, onClick }: TrainingEventCardProps) {
-    const formatDate = (date: Date) => {
-        return new Intl.DateTimeFormat('en-US', {
-            timeZone: 'America/Los_Angeles',
-            month: 'short',
-            day: 'numeric'
-        }).format(date);
-    };
 
     return (
         <motion.div
@@ -28,10 +22,10 @@ export default function TrainingEventCard({ event, onClick }: TrainingEventCardP
         >
             <div className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                 <span className="text-orange-500 font-bold">
-                    {new Date(event.date).getDate()}
+                    {formatDateInPT(event.date, {day: 'numeric'})}
                 </span>
                 <span className="text-orange-500 text-sm">
-                    {formatDate(event.date)}
+                    {formatDateInPT(event.date, {month: 'short'})}
                 </span>
             </div>
 

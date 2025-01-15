@@ -180,34 +180,27 @@ export const TRAINING_COURSES: TrainingCourse[] = [
 
 // Helper function to get upcoming events
 export function getUpcomingEvents() {
-    // Create "now" in Pacific Time (Oregon)
     const now = new Date();
-    // Convert to PT (UTC-8)
-    const pt = new Intl.DateTimeFormat('en-US', {
+    const ptFormatter = new Intl.DateTimeFormat('en-US', {
         timeZone: 'America/Los_Angeles',
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
-    }).format(now);
-    const ptDate = new Date(pt);
-    ptDate.setHours(0, 0, 0, 0);
+    });
 
     const allEvents = TRAINING_COURSES.flatMap(course =>
         course.dates.map(dateStr => {
-            // Convert course date to PT as well
-            const date = new Date(dateStr);
-            const ptEventDate = new Intl.DateTimeFormat('en-US', {
-                timeZone: 'America/Los_Angeles',
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-            }).format(date);
+            const originalDate = new Date(dateStr);
+            // Format the date string in PT and create a new date object
+            const ptDate = ptFormatter.format(originalDate);
+            const [month, day, year] = ptDate.split('/');
+            const formattedDate = new Date(`${year}-${month}-${day}`);
 
             return {
                 id: `${course.id}-${dateStr}`,
                 courseId: course.id,
                 title: course.title,
-                date: new Date(ptEventDate),
+                date: formattedDate,
                 type: course.type,
                 category: course.category,
                 spots: course.maxParticipants,
@@ -220,7 +213,12 @@ export function getUpcomingEvents() {
         })
     );
 
+    // Filter and sort using PT dates
     return allEvents
-        .filter(event => event.date >= ptDate)
+        .filter(event => {
+            const ptNow = ptFormatter.format(now);
+            const ptEvent = ptFormatter.format(event.date);
+            return ptEvent >= ptNow;
+        })
         .sort((a, b) => a.date.getTime() - b.date.getTime());
 }
