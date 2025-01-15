@@ -12,6 +12,14 @@ interface TrainingEventCardProps {
 }
 
 export default function TrainingEventCard({ event, onClick }: TrainingEventCardProps) {
+    const formatDate = (date: Date) => {
+        return new Intl.DateTimeFormat('en-US', {
+            timeZone: 'America/Los_Angeles',
+            month: 'short',
+            day: 'numeric'
+        }).format(date);
+    };
+
     return (
         <motion.div
             whileHover={{ x: 5 }}
@@ -20,10 +28,10 @@ export default function TrainingEventCard({ event, onClick }: TrainingEventCardP
         >
             <div className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                 <span className="text-orange-500 font-bold">
-                    {event.date.getDate()}
+                    {new Date(event.date).getDate()}
                 </span>
                 <span className="text-orange-500 text-sm">
-                    {event.date.toLocaleString('default', { month: 'short' })}
+                    {formatDate(event.date)}
                 </span>
             </div>
 

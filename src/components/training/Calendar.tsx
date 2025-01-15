@@ -58,15 +58,22 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                                 href={`/training/${event.slug}?date=${event.date.toISOString().split('T')[0]}`}
                             >
                                 <motion.div
-                                    whileHover={{ x: 5 }}
+                                    whileHover={{x: 5}}
                                     className="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group"
                                 >
-                                    <div className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+                                    <div
+                                        className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                                         <span className="text-orange-500 font-bold">
-                                            {new Date(event.date).toLocaleString('en-US', { day: 'numeric' })}
+                                            {new Intl.DateTimeFormat('en-US', {
+                                                timeZone: 'America/Los_Angeles',
+                                                day: 'numeric'
+                                            }).format(event.date)}
                                         </span>
                                         <span className="text-orange-500 text-sm">
-                                            {new Date(event.date).toLocaleString('en-US', { month: 'short' })}
+                                            {new Intl.DateTimeFormat('en-US', {
+                                                timeZone: 'America/Los_Angeles',
+                                                month: 'short'
+                                            }).format(event.date)}
                                         </span>
                                     </div>
 
@@ -74,7 +81,8 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                                         <h4 className="font-bold text-gray-900 truncate">{event.title}</h4>
                                         <p className="text-gray-600 truncate">{event.location}</p>
                                         <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                            <span className="text-sm bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full">
+                                            <span
+                                                className="text-sm bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full">
                                                 {event.category}
                                             </span>
                                             <span className="text-sm text-gray-400 hidden sm:inline">•</span>
@@ -84,7 +92,8 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                                         </div>
                                     </div>
 
-                                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors flex-shrink-0" />
+                                    <ArrowRight
+                                        className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors flex-shrink-0"/>
                                 </motion.div>
                             </Link>
                         ))

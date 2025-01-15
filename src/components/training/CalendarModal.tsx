@@ -16,6 +16,7 @@ interface CalendarModalProps {
 export default function CalendarModal({ isOpen, onClose, events }: CalendarModalProps) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const modalRef = useRef<HTMLDivElement>(null);
+    
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -52,7 +53,12 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
 
     // Group events by date with locale date formatting
     const eventsByDate = events.reduce((acc, event) => {
-        const dateKey = event.date.toISOString().split('T')[0];
+        const dateKey = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'America/Los_Angeles',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).format(event.date);
         if (!acc[dateKey]) {
             acc[dateKey] = [];
         }
@@ -64,6 +70,7 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
         const daysInMonth = getDaysInMonth(currentDate);
         const firstDayOfMonth = getFirstDayOfMonth(currentDate);
         const days = [];
+        
 
         // Add empty cells for days before the first day of the month
         for (let i = 0; i < firstDayOfMonth; i++) {
@@ -73,7 +80,13 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
         // Add cells for each day of the month
         for (let day = 1; day <= daysInMonth; day++) {
             const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-            const dateKey = date.toISOString().split('T')[0];
+// Change this line
+            const dateKey = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/Los_Angeles',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).format(date);
             const dayEvents = eventsByDate[dateKey] || [];
 
             days.push(
@@ -82,7 +95,10 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
                     className="border border-gray-200 p-2 min-h-[6rem] md:min-h-[8rem] relative group hover:bg-gray-50 transition-colors"
                 >
                     <span className="text-sm text-gray-500">
-                        {date.toLocaleDateString('en-US', { day: 'numeric' })}
+                        {new Intl.DateTimeFormat('en-US', {
+                            timeZone: 'America/Los_Angeles',
+                            day: 'numeric'
+                        }).format(date)}
                     </span>
 
                     {dayEvents.length > 0 && (
@@ -93,7 +109,8 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
                                     href={`/training/${event.slug}?date=${dateKey}`}
                                     className="block"
                                 >
-                                    <div className="bg-orange-100 text-orange-800 text-xs p-1 rounded truncate hover:bg-orange-200 transition-colors">
+                                    <div
+                                        className="bg-orange-100 text-orange-800 text-xs p-1 rounded truncate hover:bg-orange-200 transition-colors">
                                         {event.title}
                                     </div>
                                 </Link>
@@ -126,12 +143,19 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
                             className="block"
                         >
                             <div className="flex items-center gap-4 p-4 bg-white rounded-xl hover:bg-gray-50 transition-colors border border-gray-200">
-                                <div className="h-14 w-14 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+                                <div
+                                    className="h-14 w-14 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                                     <span className="text-orange-500 font-bold">
-                                        {event.date.getDate()}
+                                        {new Intl.DateTimeFormat('en-US', {
+                                            timeZone: 'America/Los_Angeles',
+                                            day: 'numeric'
+                                        }).format(event.date)}
                                     </span>
-                                    <span className="text-orange-500 text-sm">
-                                        {event.date.toLocaleString('en-US', { month: 'short' })}
+                                                                        <span className="text-orange-500 text-sm">
+                                        {new Intl.DateTimeFormat('en-US', {
+                                            timeZone: 'America/Los_Angeles',
+                                            month: 'short'
+                                        }).format(event.date)}
                                     </span>
                                 </div>
 

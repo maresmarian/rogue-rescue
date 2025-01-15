@@ -180,17 +180,34 @@ export const TRAINING_COURSES: TrainingCourse[] = [
 
 // Helper function to get upcoming events
 export function getUpcomingEvents() {
+    // Create "now" in Pacific Time (Oregon)
     const now = new Date();
-    now.setHours(0, 0, 0, 0);
+    // Convert to PT (UTC-8)
+    const pt = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Los_Angeles',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+    }).format(now);
+    const ptDate = new Date(pt);
+    ptDate.setHours(0, 0, 0, 0);
 
     const allEvents = TRAINING_COURSES.flatMap(course =>
         course.dates.map(dateStr => {
+            // Convert course date to PT as well
             const date = new Date(dateStr);
+            const ptEventDate = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/Los_Angeles',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+            }).format(date);
+
             return {
                 id: `${course.id}-${dateStr}`,
                 courseId: course.id,
                 title: course.title,
-                date: date,
+                date: new Date(ptEventDate),
                 type: course.type,
                 category: course.category,
                 spots: course.maxParticipants,
@@ -204,6 +221,6 @@ export function getUpcomingEvents() {
     );
 
     return allEvents
-        .filter(event => event.date >= now)
+        .filter(event => event.date >= ptDate)
         .sort((a, b) => a.date.getTime() - b.date.getTime());
 }
