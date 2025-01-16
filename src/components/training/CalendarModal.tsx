@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { TrainingEvent } from '@/types';
 import Link from 'next/link';
-import { formatDateForURL, formatDateInPT } from "@/lib/formatDate";
+import { formatDateForURL, formatDay, formatMonth, formatMonthYear } from '@/lib/formatDate';
 
 interface CalendarModalProps {
     isOpen: boolean;
@@ -17,7 +17,13 @@ interface CalendarModalProps {
 export default function CalendarModal({ isOpen, onClose, events }: CalendarModalProps) {
     const [currentDate, setCurrentDate] = useState(new Date());
     const modalRef = useRef<HTMLDivElement>(null);
-    
+
+    useEffect(() => {
+        console.log('Calendar Events:', events.map(e => ({
+            date: e.date,
+            formatted: formatDateForURL(e.date)
+        })));
+    }, [events]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -86,7 +92,7 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
                     className="border border-gray-200 p-2 min-h-[6rem] md:min-h-[8rem] relative group hover:bg-gray-50 transition-colors"
                 >
             <span className="text-sm text-gray-500">
-                {formatDateInPT(date, { day: 'numeric' })}
+                {formatDay(date)}
             </span>
 
                     {dayEvents.length > 0 && (
@@ -113,20 +119,9 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
 
     const renderMobileList = () => {
         const monthEvents = events.filter(event => {
-            // Convert both dates to PT before comparison
-            const eventDateInPT = new Date(formatDateInPT(event.date, {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric'
-            }));
-            const currentDateInPT = new Date(formatDateInPT(currentDate, {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric'
-            }));
-
-            return eventDateInPT.getMonth() === currentDateInPT.getMonth() &&
-                eventDateInPT.getFullYear() === currentDateInPT.getFullYear();
+            const eventDate = new Date(event.date);
+            return eventDate.getMonth() === currentDate.getMonth() &&
+                eventDate.getFullYear() === currentDate.getFullYear();
         }).sort((a, b) => a.date.getTime() - b.date.getTime());
 
         return (
@@ -144,10 +139,10 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
                                 <div
                                     className="h-14 w-14 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                                     <span className="text-orange-500 font-bold">
-                                        {formatDateInPT(event.date, { day: 'numeric' })}
+                                        {formatDay(event.date)}
                                     </span>
                                     <span className="text-orange-500 text-sm">
-                                        {formatDateInPT(event.date, { month: 'short' })}
+                                        {formatMonth(event.date)}
                                     </span>
                                 </div>
 
@@ -194,7 +189,7 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
                                         <ChevronLeft className="w-5 h-5" />
                                     </button>
                                     <span className="text-base md:text-lg font-medium min-w-[150px] text-center">
-                                        {formatDateInPT(currentDate, { month: 'long', year: 'numeric' })}
+                                        {formatMonthYear(currentDate)}
                                     </span>
                                     <button
                                         onClick={nextMonth}

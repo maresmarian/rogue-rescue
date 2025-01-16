@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { getUpcomingEvents } from '@/data/training';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { TrainingEvent } from '@/types';
 import CalendarModal from './CalendarModal';
-import { formatDateInPT, formatDateForURL } from '@/lib/formatDate';
+import { formatDateForURL, formatDay, formatMonth } from '@/lib/formatDate';
 
 
 interface CalendarProps {
@@ -18,7 +18,7 @@ interface CalendarProps {
 export default function TrainingCalendar({ className = '', limit }: CalendarProps) {
     const [events, setEvents] = useState<TrainingEvent[]>([]);
     const [showCalendarModal, setShowCalendarModal] = useState(false);
-
+    
     useEffect(() => {
         const upcomingEvents = getUpcomingEvents();
         setEvents(upcomingEvents);
@@ -65,12 +65,15 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                                 >
                                     <div
                                         className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
-                                        <span className="text-orange-500 font-bold">
-                                            {formatDateInPT(event.date, {day: 'numeric'})}
-                                        </span>
-                                        <span className="text-orange-500 text-sm">
-                                            {formatDateInPT(event.date, {month: 'short'})}
-                                        </span>
+                                        <div
+                                            className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+                                            <span className="text-orange-500 font-bold">
+                                                {formatDay(event.date)}
+                                            </span>
+                                            <span className="text-orange-500 text-sm">
+                                                {formatMonth(event.date)}
+                                            </span>
+                                        </div>
                                     </div>
 
                                     <div className="flex-grow min-w-0">

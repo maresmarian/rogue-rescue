@@ -76,7 +76,7 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         duration: '4 days',
         price: 950,
         level: 'Intermediate',
-        dates: ['2025-02-04'],
+        dates: ['2025-02-03'],
         prerequisites: [
             'Physical fitness requirement',
             'Previous rope rescue experience recommended',
@@ -181,44 +181,26 @@ export const TRAINING_COURSES: TrainingCourse[] = [
 // Helper function to get upcoming events
 export function getUpcomingEvents() {
     const now = new Date();
-    const ptFormatter = new Intl.DateTimeFormat('en-US', {
-        timeZone: 'America/Los_Angeles',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-    });
+    now.setHours(0, 0, 0, 0);
 
     const allEvents = TRAINING_COURSES.flatMap(course =>
-        course.dates.map(dateStr => {
-            const originalDate = new Date(dateStr);
-            // Format the date string in PT and create a new date object
-            const ptDate = ptFormatter.format(originalDate);
-            const [month, day, year] = ptDate.split('/');
-            const formattedDate = new Date(`${year}-${month}-${day}`);
-
-            return {
-                id: `${course.id}-${dateStr}`,
-                courseId: course.id,
-                title: course.title,
-                date: formattedDate,
-                type: course.type,
-                category: course.category,
-                spots: course.maxParticipants,
-                duration: course.duration,
-                price: course.price,
-                location: course.location,
-                slug: course.slug,
-                level: course.level
-            };
-        })
+        course.dates.map(dateStr => ({
+            id: `${course.id}-${dateStr}`,
+            courseId: course.id,
+            title: course.title,
+            date: new Date(dateStr),
+            type: course.type,
+            category: course.category,
+            spots: course.maxParticipants,
+            duration: course.duration,
+            price: course.price,
+            location: course.location,
+            slug: course.slug,
+            level: course.level
+        }))
     );
 
-    // Filter and sort using PT dates
     return allEvents
-        .filter(event => {
-            const ptNow = ptFormatter.format(now);
-            const ptEvent = ptFormatter.format(event.date);
-            return ptEvent >= ptNow;
-        })
+        .filter(event => event.date >= now)
         .sort((a, b) => a.date.getTime() - b.date.getTime());
 }

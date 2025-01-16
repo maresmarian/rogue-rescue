@@ -5,7 +5,7 @@
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
 import type { TrainingEvent } from '@/types';
-import { formatDateInPT } from "@/lib/formatDate";
+import { formatDateForURL, formatDay, formatMonth } from "@/lib/formatDate";
 
 interface TrainingEventCardProps {
     event: TrainingEvent;
@@ -22,10 +22,10 @@ export default function TrainingEventCard({ event, onClick }: TrainingEventCardP
         >
             <div className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
                 <span className="text-orange-500 font-bold">
-                    {formatDateInPT(event.date, {day: 'numeric'})}
+                    {formatDay(event.date)}
                 </span>
                 <span className="text-orange-500 text-sm">
-                    {formatDateInPT(event.date, {month: 'short'})}
+                    {formatMonth(event.date)}
                 </span>
             </div>
 

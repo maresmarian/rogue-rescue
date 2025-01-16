@@ -8,6 +8,9 @@ import References from "@/components/sections/References";
 import Partners from "@/components/sections/Partners";
 import ScrollToTop from "@/components/common/ScrollToTop";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function Home() {
     return (
         <main className="min-h-screen bg-gradient-to-b from-white to-gray-50">

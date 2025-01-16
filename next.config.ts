@@ -13,7 +13,6 @@ const nextConfig = {
         contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     },
     generateEtags: false,
-    unstable_runtimeJS: false,
     async headers() {
         return [
             {
@@ -21,15 +20,7 @@ const nextConfig = {
                 headers: [
                     {
                         key: 'Cache-Control',
-                        value: 'no-cache, no-store, must-revalidate',
-                    },
-                    {
-                        key: 'Pragma',
-                        value: 'no-cache',
-                    },
-                    {
-                        key: 'Expires',
-                        value: '0',
+                        value: 'no-store, max-age=0, must-revalidate',
                     },
                 ],
             },

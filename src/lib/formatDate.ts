@@ -1,19 +1,23 @@
 // src/lib/formatDate.ts
-
-export const formatDateInPT = (date: Date, options: Intl.DateTimeFormatOptions = {}) => {
-    return new Intl.DateTimeFormat('en-US', {
-        timeZone: 'America/Los_Angeles',
-        ...options
-    }).format(date);
+export const formatDateForURL = (date: Date | string) => {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 };
 
-export const formatDateForURL = (date: Date) => {
-    const formatted = formatDateInPT(date, {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-    });
-    // Convert from MM/DD/YYYY to YYYY-MM-DD
-    const [month, day, year] = formatted.split('/');
-    return `${year}-${month}-${day}`;
+export const formatDay = (date: Date | string) => {
+    const d = new Date(date);
+    return d.getDate();
+};
+
+export const formatMonth = (date: Date | string) => {
+    const d = new Date(date);
+    return new Intl.DateTimeFormat('en-US', { month: 'short' }).format(d);
+};
+
+export const formatMonthYear = (date: Date | string) => {
+    const d = new Date(date);
+    return new Intl.DateTimeFormat('en-US', {
+        month: 'long',
+        year: 'numeric'
+    }).format(d);
 };
