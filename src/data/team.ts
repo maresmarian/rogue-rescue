@@ -16,11 +16,13 @@ export interface TeamMember {
         rescue?: string[];
         fire?: string[];
         other?: string[];
+        education?: string[];
     };
     awards?: {
         year: string;
         title: string;
         issuer?: string;
+        description?: string;
     }[];
     education?: {
         year: string;
@@ -114,6 +116,88 @@ export const TEAM_MEMBERS: TeamMember[] = [
         location: {
             current: "Southern Oregon, USA",
             origin: "Prague, Czech Republic"
+        }
+    },
+    {
+        name: "Bryan Studebaker",
+        role: "Technical Rescue Specialist & Lead Instructor",
+        image: "/images/team/bryan-studebaker.jpg",
+        email: "bryan.studebaker@roguerescueservices.com",
+        shortBio: "Former US Army veteran with extensive military and firefighting experience. Currently serves as the rope rescue lead for Medford Fire Department with 17 years of fire service experience.",
+        career: [
+            { year: '2023', title: 'Medford Fire Department', description: 'Rope Rescue Lead' },
+            { year: '2006', title: 'Career Firefighter', description: 'Medford Fire Department' },
+            { year: '1999', title: 'US Army', description: 'Military Service' },
+        ],
+        specialties: [
+            "Technical Rescue",
+            "Emergency Response",
+            "Land Navigation",
+            "Rope Rescue Training"
+        ],
+        certifications: {
+            fire: [
+                "NFPA Fire Officer 1",
+                "NFPA Fire Instructor II",
+                "NWCG Engine Boss",
+                "NFA Incident Safety Officer"
+            ],
+            rescue: [
+                "NFPA Rope Rescue Technician",
+                "NFPA Confined Space Technician",
+                "NFPA Trench Rescue Technician",
+                "NFPA Vehicle Rescue Technician",
+                "NFPA Machinery Rescue Technician"
+            ],
+            other: [
+                "NFPA HazMat Technician",
+                "Oregon EMT"
+            ]
+        },
+        awards: [
+            { year: '2015', title: 'Company Citation' },
+            { year: '2006', title: 'Army Commendation Medal', issuer: 'US Army', description: 'Awarded 4 times' }
+        ],
+        location: {
+            current: "Medford, Oregon",
+        }
+    },
+    {
+        name: "Mike Calhoun",
+        role: "REMS Team Leader & Lead Instructor",
+        image: "/images/team/mike-calhoun.jpg",
+        email: "mike.calhoun@roguerescueservices.com",
+        shortBio: "32+ year fire service professional with extensive technical rescue experience. Former Deputy Chief of Operations and technical rescue team leader with comprehensive instruction background.",
+        career: [
+            { year: '2023', title: 'REMS Team Leader', description: 'Rogue Rescue Services' },
+            { year: '2022', title: 'Retired Deputy Chief of Operations' },
+            { year: '2013', title: 'Technical Rescue Team Leader', description: '2013-2021' },
+            { year: '2008', title: 'Technical Rescue Instructor', description: 'Peak Rescue Institute' },
+            { year: '2002', title: 'Rescue Instructor', description: 'Rogue Community College (2002-2018)' },
+            { year: '1996', title: 'Technical Rescue Practitioner' },
+            { year: '1990', title: 'Volunteer Firefighter', description: 'Career Start' }
+        ],
+        specialties: [
+            "Technical Rescue Operations",
+            "Rescue Incident Command",
+            "High Angle Rescue",
+            "Technical Rescue Instruction"
+        ],
+        certifications: {
+            rescue: [
+                "Technical Rescue Practitioner",
+                "High Angle Rescue Specialist"
+            ],
+            other: [
+                "Multiple Fire Service Professional Certifications"
+            ],
+            education: [
+                "AAS in Fire Science",
+                "Oregon Executive Development Institute Graduate"
+            ]
+        },
+        location: {
+            current: "Southern Oregon, USA"
         }
     }
 ];

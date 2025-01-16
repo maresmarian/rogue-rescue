@@ -19,13 +19,6 @@ export default function CalendarModal({ isOpen, onClose, events }: CalendarModal
     const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        console.log('Calendar Events:', events.map(e => ({
-            date: e.date,
-            formatted: formatDateForURL(e.date)
-        })));
-    }, [events]);
-
-    useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
                 onClose();
