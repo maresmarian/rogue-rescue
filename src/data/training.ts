@@ -76,7 +76,7 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         duration: '4 days',
         price: 950,
         level: 'Intermediate',
-        dates: ['2025-02-03'],
+        dates: ['2025-02-03T12:00:00Z'],
         prerequisites: [
             'Physical fitness requirement',
             'Previous rope rescue experience recommended',
@@ -154,7 +154,7 @@ export const TRAINING_COURSES: TrainingCourse[] = [
         duration: '4 days',
         price: 1100,
         level: 'Advanced',
-        dates: ['2025-03-05'],
+        dates: ['2025-03-05T12:00:00Z'],
         prerequisites: [
             'NFPA Rope Rescue Operations certification',
             'Physical fitness requirement',
@@ -181,14 +181,14 @@ export const TRAINING_COURSES: TrainingCourse[] = [
 // Helper function to get upcoming events
 export function getUpcomingEvents() {
     const now = new Date();
-    now.setHours(0, 0, 0, 0);
+    now.setUTCHours(0, 0, 0, 0);
 
     const allEvents = TRAINING_COURSES.flatMap(course =>
         course.dates.map(dateStr => ({
             id: `${course.id}-${dateStr}`,
             courseId: course.id,
             title: course.title,
-            date: new Date(dateStr),
+            date: new Date(dateStr), // Toto už bude UTC datum z data stringu
             type: course.type,
             category: course.category,
             spots: course.maxParticipants,
