@@ -34,7 +34,7 @@ export default function TrainingPage() {
                 <div className="absolute inset-0">
                     <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent z-10" />
                     <Image
-                        src="/images/training/training-hero.jpg"
+                        src="/images/hero/training-hero.jpg"
                         alt="Training Programs"
                         fill
                         className="object-cover"

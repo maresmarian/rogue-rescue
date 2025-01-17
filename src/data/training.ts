@@ -91,7 +91,7 @@ export const TRAINING_COURSES: TrainingCourse[] = [
             'Professional documentation',
             'Access to instructor expertise'
         ],
-        image: '/images/training/rope-rescue-1.jpg',
+        image: '/images/services/high-angle-rescue.jpg',
         maxParticipants: 12,
         location: 'Central Point, OR',
         type: 'technical',
@@ -171,7 +171,7 @@ export const TRAINING_COURSES: TrainingCourse[] = [
             'Access to instructor expertise and networking opportunities',
             'Post-course support and resources'
         ],
-        image: '/images/services/high-angle-rescue.jpg',
+        image: '/images/services/high-angle-rescue-2.jpg',
         maxParticipants: 8,
         location: 'Central Point, OR',
         type: 'technical',
