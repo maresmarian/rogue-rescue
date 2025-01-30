@@ -11,3 +11,17 @@
     }
   }
 }
+
+.scroll-indicator {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 640px) {
+  .scroll-indicator {
+    width: 100%;
+    left: 0;
+    transform: none;
+    text-align: center;
+  }
+}

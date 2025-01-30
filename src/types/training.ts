@@ -1,3 +1,4 @@
+// src/types/training.ts
 import { BaseContent } from './common';
 
 export type CourseType = 'certification' | 'medical' | 'technical';
@@ -7,7 +8,7 @@ export type CourseCategory = 'Technical' | 'Medical' | 'Rescue' | 'Certification
 export interface ScheduleDay {
     day: number;
     focus: string;
-    icon: string; // This will store the Lucide icon name
+    icon: string;
 }
 
 export interface TrainingCourse extends BaseContent {
@@ -20,6 +21,7 @@ export interface TrainingCourse extends BaseContent {
     prerequisites: string[];
     includes: string[];
     maxParticipants: number;
+    spotsAvailable: number; // Added this field
     location: string;
     type: CourseType;
     schedule: ScheduleDay[];
@@ -33,6 +35,7 @@ export interface TrainingEvent {
     type: CourseType;
     category: CourseCategory;
     spots: number;
+    spotsAvailable: number; // Added this field
     duration: string;
     price: number;
     location: string;
@@ -50,5 +53,5 @@ export interface CourseStats {
 export interface CourseTemplateProps {
     course: TrainingCourse;
     selectedDate?: string;
-    onRegister: (date: string) => void;  // Updated type
+    onRegister: (date: string) => void;
 }

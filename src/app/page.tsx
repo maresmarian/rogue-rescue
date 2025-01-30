@@ -7,6 +7,7 @@ import MainChoices from "@/components/sections/MainChoices";
 import References from "@/components/sections/References";
 import Partners from "@/components/sections/Partners";
 import ScrollToTop from "@/components/common/ScrollToTop";
+import FDICSection from "@/components/sections/FDICSection";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -20,6 +21,7 @@ export default function Home() {
             {/*<References />*/}
             <Training />
             <Partners />
+            <FDICSection />
             <Contact />
             <ScrollToTop />
             <Footer />

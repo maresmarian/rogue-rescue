@@ -125,9 +125,31 @@ export const TEAM_MEMBERS: TeamMember[] = [
         email: "bryan.studebaker@roguerescueservices.com",
         shortBio: "Former US Army veteran with extensive military and firefighting experience. Currently serves as the rope rescue lead for Medford Fire Department with 17 years of fire service experience.",
         career: [
-            { year: '2023', title: 'Medford Fire Department', description: 'Rope Rescue Lead' },
-            { year: '2006', title: 'Career Firefighter', description: 'Medford Fire Department' },
-            { year: '1999', title: 'US Army', description: 'Military Service' },
+            {
+                year: '2023-Current',
+                title: 'Medford Fire Department',
+                description: 'Career Firefighter, Rope Rescue Lead, Rope Rescue Instructor'
+            },
+            {
+                year: '2023-Current ',
+                title: 'Rogue Rescue Services',
+                description: 'REMS Team Member, Rope Rescue Instructor'
+            },
+            {
+                year: '2014-Current',
+                title: 'Rogue Community College',
+                description: 'Adjunct Instructor'
+            },
+            {
+                year: '2010-2013',
+                title: 'Roseburg Fire Department',
+                description: 'Career Firefighter'
+            },
+            {
+                year: '2000-2007',
+                title: 'Military Service',
+                description: 'US Army'
+            },
         ],
         specialties: [
             "Technical Rescue",

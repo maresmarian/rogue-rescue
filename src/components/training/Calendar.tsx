@@ -1,14 +1,14 @@
+// src/components/training/Calendar.tsx
 'use client';
 
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { getUpcomingEvents } from '@/data/training';
+import { getUpcomingEvents } from '@/data/training/courses'; // Update import path
 import { useEffect, useMemo, useState } from 'react';
 import type { TrainingEvent } from '@/types';
 import CalendarModal from './CalendarModal';
 import { formatDateForURL, formatDay, formatMonth } from '@/lib/formatDate';
-
 
 interface CalendarProps {
     className?: string;
@@ -18,7 +18,7 @@ interface CalendarProps {
 export default function TrainingCalendar({ className = '', limit }: CalendarProps) {
     const [events, setEvents] = useState<TrainingEvent[]>([]);
     const [showCalendarModal, setShowCalendarModal] = useState(false);
-    
+
     useEffect(() => {
         const upcomingEvents = getUpcomingEvents();
         setEvents(upcomingEvents);
@@ -63,36 +63,30 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                                     whileHover={{x: 5}}
                                     className="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group"
                                 >
-                                    <div
-                                        className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
-                                        <div
-                                            className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
-                                            <span className="text-orange-500 font-bold">
-                                                {formatDay(event.date)}
-                                            </span>
-                                            <span className="text-orange-500 text-sm">
-                                                {formatMonth(event.date)}
-                                            </span>
-                                        </div>
+                                    <div className="h-16 w-16 bg-orange-100 rounded-xl flex flex-col items-center justify-center flex-shrink-0">
+                                        <span className="text-orange-500 font-bold">
+                                            {formatDay(event.date)}
+                                        </span>
+                                        <span className="text-orange-500 text-sm">
+                                            {formatMonth(event.date)}
+                                        </span>
                                     </div>
 
                                     <div className="flex-grow min-w-0">
                                         <h4 className="font-bold text-gray-900 truncate">{event.title}</h4>
                                         <p className="text-gray-600 truncate">{event.location}</p>
                                         <div className="flex items-center gap-2 mt-1 flex-wrap">
-                                            <span
-                                                className="text-sm bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full">
+                                            <span className="text-sm bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full">
                                                 {event.category}
                                             </span>
                                             <span className="text-sm text-gray-400 hidden sm:inline">•</span>
-                                            <span className="text-sm text-gray-600">{event.spots} spots</span>
+                                            <span className="text-sm text-gray-600">{event.spotsAvailable} spots available</span>
                                             <span className="text-sm text-gray-400 hidden sm:inline">•</span>
                                             <span className="text-sm text-gray-600">${event.price}</span>
                                         </div>
                                     </div>
 
-                                    <ArrowRight
-                                        className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors flex-shrink-0"/>
+                                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-orange-500 transition-colors flex-shrink-0"/>
                                 </motion.div>
                             </Link>
                         ))

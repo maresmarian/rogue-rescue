@@ -29,7 +29,7 @@ export default function Navigation() {
                     <Link href="/" className="flex items-center gap-2">
                         <div className="h-10 w-10 flex items-center justify-center">
                             <Image
-                                src="/logo.png"
+                                src="/logo/logo.png"
                                 alt="Rogue Rescue Logo"
                                 width={40}
                                 height={40}

@@ -4,8 +4,8 @@
 import { motion } from 'framer-motion';
 import {
     Clock, Users, Award, MapPin, Calendar, CheckCircle2, ArrowRight,
-    BookOpen, Target, ShieldCheck, GraduationCap, AlertCircle, Package,
-    Construction, MountainSnow, Link, Link2, Trophy, HeartPulse
+    BookOpen, Target, ShieldCheck, GraduationCap, AlertTriangle, Package,
+    Construction, MountainSnow, Link, Link2, Trophy, HeartPulse, AlertCircle
 } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from "react";
@@ -27,6 +27,10 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
     const [selectedDate, setSelectedDate] = useState(initialDate || '');
 
     const handleRegister = () => {
+        if (course.spotsAvailable <= 0) {
+            alert('This course is currently full. Please choose another date or contact us for waiting list.');
+            return;
+        }
         onRegister(selectedDate);
     };
 
@@ -35,6 +39,14 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
         return ICON_MAP[iconName] || BookOpen;
     };
 
+    // Format dates for display
+    const formatDate = (dateStr: string) => {
+        return new Date(dateStr).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
+    };
 
     return (
         <>
@@ -93,8 +105,8 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
                                         <Users className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <div className="text-sm text-white/60">Class Size</div>
-                                        <div className="font-medium">Max {course.maxParticipants}</div>
+                                        <div className="text-sm text-white/60">Spots Available</div>
+                                        <div className="font-medium">{course.spotsAvailable} of {course.maxParticipants}</div>
                                     </div>
                                 </div>
 
@@ -226,53 +238,61 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
                         </div>
 
                         {/* Registration Sidebar */}
-                        <div>
+                        <div className="lg:col-start-3">
                             <div className="sticky top-24 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                                <div className="flex items-baseline justify-between mb-6">
-                                    <span className="text-3xl font-bold text-gray-900">${course.price}</span>
-                                    <span className="text-gray-500">{course.duration}</span>
-                                </div>
-
-                                <div className="space-y-4 mb-6">
-                                    <div className="flex items-center gap-3 text-gray-600">
-                                        <Calendar className="w-5 h-5"/>
-                                        <select
-                                            value={selectedDate}
-                                            onChange={(e) => setSelectedDate(e.target.value)}
-                                            className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2"
-                                        >
-                                            <option value="">Select a date</option>
-                                            {course.dates.map(date => (
-                                                <option key={date} value={date}>
-                                                    {new Date(date).toLocaleDateString('en-US', {
-                                                        month: 'long',
-                                                        day: 'numeric',
-                                                        year: 'numeric'
-                                                    })}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-
-                                    <div className="flex items-center gap-3 text-gray-600">
-                                        <MapPin className="w-5 h-5"/>
-                                        <span>{course.location}</span>
-                                    </div>
-                                </div>
-
-                                <button
-                                    onClick={handleRegister}
-                                    disabled={!selectedDate} // Optional: disable if no date selected
-                                    className="w-full bg-orange-500 text-white px-6 py-3 rounded-xl hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    {!selectedDate ? 'Select a Date' : 'Register Now'}
-                                    <ArrowRight className="w-4 h-4" />
-                                </button>
-
-                                <p className="text-sm text-gray-500 text-center mt-4">
-                                    * Equipment and materials included
-                                </p>
+                            <div className="flex items-baseline justify-between mb-6">
+                                <span className="text-3xl font-bold text-gray-900">${course.price}</span>
+                                <span className="text-gray-500">{course.duration}</span>
                             </div>
+
+                            <div className="space-y-4 mb-6">
+                                <div className="flex items-center gap-3 text-gray-600">
+                                    <Calendar className="w-5 h-5"/>
+                                    <select
+                                        value={selectedDate}
+                                        onChange={(e) => setSelectedDate(e.target.value)}
+                                        className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2"
+                                    >
+                                        <option value="">Select a date</option>
+                                        {course.dates.map(date => (
+                                            <option key={date} value={date}>
+                                                {formatDate(date)}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div className="flex items-center gap-3 text-gray-600">
+                                    <MapPin className="w-5 h-5"/>
+                                    <span>{course.location}</span>
+                                </div>
+
+                                {course.spotsAvailable > 0 ? (
+                                    <div className="flex items-center gap-3 text-green-600">
+                                        <Users className="w-5 h-5"/>
+                                        <span>{course.spotsAvailable} spots available</span>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center gap-3 text-red-600">
+                                        <AlertTriangle className="w-5 h-5"/>
+                                        <span>Course Full</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            <button
+                                onClick={handleRegister}
+                                disabled={!selectedDate || course.spotsAvailable <= 0}
+                                className="w-full bg-orange-500 text-white px-6 py-3 rounded-xl hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {!selectedDate ? 'Select a Date' : course.spotsAvailable <= 0 ? 'Course Full' : 'Register Now'}
+                                <ArrowRight className="w-4 h-4" />
+                            </button>
+
+                            <p className="text-sm text-gray-500 text-center mt-4">
+                                * Equipment and materials included
+                            </p>
+                        </div>
                         </div>
                     </div>
                 </div>
