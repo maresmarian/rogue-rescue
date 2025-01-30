@@ -1,12 +1,12 @@
+// src/components/training/RegistrationForm.tsx
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
-import type { TrainingCourse } from '@/types/training';
+import type { TrainingCourse } from '@/types';
 
 interface RegistrationFormProps {
-    course: any;
+    course: TrainingCourse;
     selectedDate: string | null | undefined;
     onSuccess: () => void;
 }
@@ -32,6 +32,13 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+
+        // Check if course is full
+        if (course.spotsAvailable <= 0) {
+            alert('Sorry, this course is currently full. Please select another date or contact us for the waiting list.');
+            setIsSubmitting(false);
+            return;
+        }
 
         try {
             const response = await fetch('/api/send-email', {
@@ -67,12 +74,15 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                     relationship: ''
                 }
             });
+
+            // Call success callback
+            onSuccess();
         } catch (error) {
             console.error('Error:', error);
             setIsSubmitting(false);
+            alert('There was an error processing your registration. Please try again or contact us directly.');
         }
     };
-    
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -141,6 +151,18 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                 />
             </div>
 
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Dietary Restrictions/Allergies
+                </label>
+                <input
+                    type="text"
+                    value={formData.dietaryRestrictions}
+                    onChange={e => setFormData(prev => ({ ...prev, dietaryRestrictions: e.target.value }))}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                />
+            </div>
+
             <div className="border-t border-gray-100 pt-6">
                 <h3 className="font-bold text-gray-900 mb-4">Emergency Contact</h3>
                 <div className="space-y-4">
@@ -193,7 +215,7 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                     </div>
                 </div>
             </div>
-            
+
             <button
                 type="submit"
                 disabled={isSubmitting}
@@ -208,6 +230,7 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                     'Complete Registration'
                 )}
             </button>
+
             {showSuccess && (
                 <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
                     <p className="text-green-800">
@@ -216,6 +239,5 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                 </div>
             )}
         </form>
-        
     );
 }
