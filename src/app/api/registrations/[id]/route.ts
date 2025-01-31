@@ -9,10 +9,10 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
 export async function PUT(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const client = new MongoClient(process.env.MONGODB_URI || '');
-    const id = params.id;
+    const { id } = await params;
 
     try {
         const { status } = await request.json();
@@ -100,10 +100,10 @@ export async function PUT(
 
 export async function DELETE(
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     const client = new MongoClient(process.env.MONGODB_URI || '');
-    const id = params.id;
+    const { id } = await params;
 
     try {
         await client.connect();
