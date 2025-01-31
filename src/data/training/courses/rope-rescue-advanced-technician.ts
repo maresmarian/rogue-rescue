@@ -2,7 +2,7 @@
 import { TrainingCourse } from '@/types';
 
 export const RopeRescueAdvancedTechnician: TrainingCourse = {
-    id: 'tr-003',
+    id: 'rrat-001',
     title: 'Rope Rescue Advanced Technician',
     slug: 'rope-rescue-advanced-technician',
     category: 'Technical',

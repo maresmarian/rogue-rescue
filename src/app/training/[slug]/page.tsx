@@ -10,8 +10,8 @@ interface Props {
     searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export const dynamic = 'force-static';
-export const dynamicParams = false;
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 // This ensures all paths are generated at build time
 export async function generateStaticParams() {

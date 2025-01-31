@@ -2,7 +2,7 @@
 import { TrainingCourse } from '@/types';
 
 export const PPEInspection: TrainingCourse = {
-    id: 'tr-004',
+    id: 'ppe-i-001',
     title: 'PPE Inspection Class',
     slug: 'ppe-inspection',
     category: 'Technical',

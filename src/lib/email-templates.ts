@@ -1,5 +1,6 @@
 // src/lib/email-templates.ts
 import { COMPANY_INFO, CONTACT_INFO } from "@/data";
+import { formatCourseDate } from "@/lib/formatDate";
 
 const getBaseTemplate = (content: string, icon: string, title: string) => `
   <!DOCTYPE html>
@@ -8,13 +9,14 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <style>
         body {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Icons', 'Helvetica Neue', Arial, sans-serif;
-          line-height: 1.6;
-          color: #1d1d1f;
-          margin: 0 auto;
-          padding: 20px;
-          max-width: 800px;
-          background-color: #fbfbfd;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Icons', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 800px;
+            background-color: #fbfbfd;
+            text-align: center;
         }
         .header {
           background: linear-gradient(135deg, #f4511e, #ff7644);
@@ -35,14 +37,16 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
           font-weight: 400;
         }
         .content {
-          margin: -24px auto 0;
-          width: 100%;
-          max-width: 600px;
-          box-sizing: border-box;
-          background: white;
-          border-radius: 24px;
-          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
-          position: relative;
+            margin: -24px auto 0;
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding: 24px;
+            text-align: left;
         }
         .section {
           margin: 24px 0;
@@ -172,14 +176,18 @@ export function getContactFormTemplate(data: any) {
 export function getRegistrationTemplate(data: any, course: any) {
     const content = `
     <div class="section">
-      <div class="section-title">📚 Course Details</div>
+      <div class="section-title">📚 Registration Details</div>
+      <div class="field">
+        <span class="label">Reference Number:</span>
+        <span class="value">${data.referenceNumber}</span>
+      </div>
       <div class="field">
         <span class="label">Course:</span>
         <span class="value">${course.title}</span>
       </div>
       <div class="field">
         <span class="label">Date:</span>
-        <span class="value">${data.selectedDate || 'Not specified'}</span>
+        <span class="value">${data.selectedDate ? formatCourseDate(data.selectedDate) : 'Not specified'}</span>
       </div>
       <div class="field">
         <span class="label">Price:</span>
@@ -302,12 +310,16 @@ export function getRegistrationConfirmationTemplate(data: any, course: any) {
       <div class="section">
         <div class="section-title">Course Details</div>
         <div class="field">
+        <span class="label">Reference Number:</span>
+        <span class="value">${data.referenceNumber}</span>
+        </div>
+        <div class="field">
           <span class="label">Course:</span>
           <span class="value">${course.title}</span>
         </div>
         <div class="field">
           <span class="label">Date:</span>
-          <span class="value">${data.selectedDate || 'To be confirmed'}</span>
+          <span class="value">${data.selectedDate ? formatCourseDate(data.selectedDate) : 'To be confirmed'}</span>
         </div>
         <div class="field">
           <span class="label">Location:</span>
@@ -348,4 +360,35 @@ export function getTrainingRequestConfirmationTemplate(data: any) {
     </div>
   `;
     return getBaseTemplate(content, '📋', 'Training Request Received');
+}
+
+export function getRejectionTemplate(data: any, course: any) {
+    const content = `
+    <div style="text-align: left;">
+      <p>Dear ${data.firstName},</p>
+      
+      <p>We regret to inform you that your registration for the ${course.title} course has not been approved at this time.</p>
+      
+      <div class="section">
+        <div class="section-title">Registration Details</div>
+        <div class="field">
+          <span class="label">Reference Number:</span>
+          <span class="value">${data.referenceNumber}</span>
+        </div>
+        <div class="field">
+          <span class="label">Course:</span>
+          <span class="value">${course.title}</span>
+        </div>
+        <div class="field">
+          <span class="label">Date:</span>
+          <span class="value">${data.selectedDate}</span>
+        </div>
+      </div>
+
+      <p>If you have any questions or would like to discuss alternative dates, please contact us at ${CONTACT_INFO.email.training}.</p>
+      
+      <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
+    </div>
+  `;
+    return getBaseTemplate(content, '📋', 'Course Registration Status');
 }

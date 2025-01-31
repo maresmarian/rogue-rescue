@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import type { TrainingCourse } from '@/types';
+import { API_BASE_URL } from "@/lib/constants";
 
 interface RegistrationFormProps {
     course: TrainingCourse;
@@ -33,33 +34,27 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Check if course is full
-        if (course.spotsAvailable <= 0) {
-            alert('Sorry, this course is currently full. Please select another date or contact us for the waiting list.');
-            setIsSubmitting(false);
-            return;
-        }
-
         try {
-            const response = await fetch('/api/send-email', {
+            const response = await fetch(`${API_BASE_URL}/api/send-email`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     type: 'registration',
-                    course,
-                    selectedDate,
+                    courseId: course.id,
+                    selectedDate: selectedDate,
                     ...formData,
                 }),
             });
 
             if (!response.ok) {
-                throw new Error('Failed to send form');
+                const error = await response.json();
+                throw new Error(error.error || 'Failed to send form');
             }
 
             setIsSubmitting(false);
-            setShowSuccess(true);
+            onSuccess();
             // Reset form
             setFormData({
                 firstName: '',
@@ -74,13 +69,10 @@ export default function RegistrationForm({ course, selectedDate, onSuccess }: Re
                     relationship: ''
                 }
             });
-
-            // Call success callback
-            onSuccess();
         } catch (error) {
             console.error('Error:', error);
             setIsSubmitting(false);
-            alert('There was an error processing your registration. Please try again or contact us directly.');
+            alert(error instanceof Error ? error.message : 'Failed to submit registration');
         }
     };
 

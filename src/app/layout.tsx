@@ -1,8 +1,8 @@
+// src/app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
-import Navigation from "@/components/layout/Navigation";
-import EmergencyModal from "@/components/common/EmergencyModal";
-import { motion, AnimatePresence } from 'framer-motion';
+import { RootLayoutClient } from './RootLayoutClient';
+import AuthProvider from '@/providers/AuthProvider';
 
 export const metadata: Metadata = {
     title: "Rogue Rescue Services",
@@ -15,14 +15,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-        <body className="font-sans">
-        <Navigation />
-        <AnimatePresence mode="wait">
-            {children}
-        </AnimatePresence>
-        <EmergencyModal />
-        </body>
-        </html>
+        <AuthProvider>
+            <RootLayoutClient>{children}</RootLayoutClient>
+        </AuthProvider>
     );
 }

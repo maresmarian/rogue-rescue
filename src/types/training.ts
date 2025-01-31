@@ -55,3 +55,24 @@ export interface CourseTemplateProps {
     selectedDate?: string;
     onRegister: (date: string) => void;
 }
+
+export interface Registration {
+    _id: string;
+    referenceNumber: string;
+    courseId: string; // Make sure this matches the course IDs
+    courseName: string;
+    courseTitle: string;
+    selectedDate: string;
+    status: 'pending' | 'approved' | 'rejected';
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    company?: string;
+    emergencyContact: {
+        name: string;
+        phone: string;
+        relationship: string;
+    };
+    createdAt: Date;
+}

@@ -2,7 +2,7 @@
 import { TrainingCourse } from '@/types';
 
 export const NFPARopeRescueOperations: TrainingCourse = {
-    id: 'tr-001',
+    id: 'nfpa-rro-001',
     title: 'NFPA Rope Rescue Operations',
     slug: 'nfpa-rope-rescue-operations',
     category: 'Technical',

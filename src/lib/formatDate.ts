@@ -25,3 +25,24 @@ export const formatMonthYear = (date: Date | string) => {
         timeZone: 'UTC'
     }).format(d);
 };
+
+export const formatDateForDisplay = (date: Date | string) => {
+    const d = typeof date === 'string' ? new Date(date) : date;
+    return new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC'
+    }).format(d);
+};
+
+export const formatCourseDate = (date: string) => {
+    const d = new Date(date);
+    return d.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+};

@@ -9,6 +9,9 @@ export const metadata = {
     description: 'Professional rescue services and comprehensive training solutions',
 };
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // Revalidate every hour, adjust as needed
+
 export default function TrainingLayout({
                                            children,
                                        }: {
