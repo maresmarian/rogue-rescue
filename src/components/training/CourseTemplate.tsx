@@ -11,7 +11,7 @@ import Image from 'next/image';
 import { useState } from "react";
 import { CourseTemplateProps } from '@/types/training';
 import type { LucideIcon } from 'lucide-react';
-import { formatCourseDate } from "@/lib/formatDate";
+import { formatCourseDate, formatDateForDisplay } from "@/lib/formatDate";
 
 const ICON_MAP: Record<string, LucideIcon> = {
     BookOpen,
@@ -27,8 +27,14 @@ const ICON_MAP: Record<string, LucideIcon> = {
 export default function CourseTemplate({ course, onRegister, selectedDate: initialDate }: CourseTemplateProps) {
     const [selectedDate, setSelectedDate] = useState(initialDate || '');
 
+    const getAvailableSpots = (date: string | null) => {
+        if (!date) return 0;
+        return course.dates.find(d => d.date === date)?.spotsAvailable || 0;
+    };
+
     const handleRegister = () => {
-        if (course.spotsAvailable <= 0) {
+        const availableSpots = getAvailableSpots(selectedDate);
+        if (availableSpots <= 0) {
             alert('This course is currently full. Please choose another date or contact us for waiting list.');
             return;
         }
@@ -38,6 +44,16 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
     // Helper function to get icon component from string name
     const getIconComponent = (iconName: string): LucideIcon => {
         return ICON_MAP[iconName] || BookOpen;
+    };
+
+
+    const formatSelectDate = (date: string) => {
+        const d = new Date(date);
+        return d.toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
     };
 
     return (
@@ -97,8 +113,8 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
                                         <Users className="w-6 h-6" />
                                     </div>
                                     <div>
-                                        <div className="text-sm text-white/60">Spots Available</div>
-                                        <div className="font-medium">{course.spotsAvailable} of {course.maxParticipants}</div>
+                                        <div className="text-sm text-white/60">Capacity</div>
+                                        <div className="font-medium">{course.maxParticipants} spots</div>
                                     </div>
                                 </div>
 
@@ -237,50 +253,55 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
                                 <span className="text-gray-500">{course.duration}</span>
                             </div>
 
-                            <div className="space-y-4 mb-6">
-                                <div className="flex items-center gap-3 text-gray-600">
-                                    <Calendar className="w-5 h-5"/>
-                                    <select
-                                        value={selectedDate}
-                                        onChange={(e) => setSelectedDate(e.target.value)}
-                                        className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2"
-                                    >
-                                        <option value="">Select a date</option>
-                                        {course.dates.map(({ date, spotsAvailable }) => (
-                                            <option
-                                                key={date} // Použijeme date string jako klíč místo celého objektu
-                                                value={date}
-                                            >
-                                                {formatCourseDate(date)}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+                                <div className="space-y-3 mb-3"> {/* Změna z mb-6 na space-y-6 pro lepší spacing */}
+                                    {/* Datum */}
+                                    <div className="flex items-center gap-3 text-gray-600">
+                                        <Calendar className="w-5 h-5 flex-shrink-0"/>
+                                        <select
+                                            value={selectedDate}
+                                            onChange={(e) => setSelectedDate(e.target.value)}
+                                            className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2"
+                                        >
+                                            <option value="">Select a date</option>
+                                            {course.dates.map(({ date }) => (
+                                                <option
+                                                    key={date}
+                                                    value={date}
+                                                >
+                                                    {formatSelectDate(date)}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
 
+                                {/* Lokace - vždy viditelná */}
                                 <div className="flex items-center gap-3 text-gray-600">
-                                    <MapPin className="w-5 h-5"/>
+                                    <MapPin className="w-5 h-5 flex-shrink-0"/>
                                     <span>{course.location}</span>
                                 </div>
 
-                                {course.spotsAvailable > 0 ? (
-                                    <div className="flex items-center gap-3 text-green-600">
-                                        <Users className="w-5 h-5"/>
-                                        <span>{course.spotsAvailable} spots available</span>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center gap-3 text-red-600">
-                                        <AlertTriangle className="w-5 h-5"/>
-                                        <span>Course Full</span>
+                                {/* Dostupnost - pouze když je vybráno datum */}
+                                {selectedDate && (
+                                    <div className={`flex items-center gap-3 ${
+                                        getAvailableSpots(selectedDate) > 0 ? 'text-green-600' : 'text-red-600'
+                                    }`}>
+                                        <Users className="w-5 h-5 flex-shrink-0"/>
+                                        <span>
+                                            {getAvailableSpots(selectedDate) > 0
+                                                ? `${getAvailableSpots(selectedDate)} spots available`
+                                                : 'Course Full'
+                                            }
+                                        </span>
                                     </div>
                                 )}
                             </div>
 
                             <button
                                 onClick={handleRegister}
-                                disabled={!selectedDate || course.spotsAvailable <= 0}
+                                disabled={!selectedDate || getAvailableSpots(selectedDate) <= 0}
                                 className="w-full bg-orange-500 text-white px-6 py-3 rounded-xl hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {!selectedDate ? 'Select a Date' : course.spotsAvailable <= 0 ? 'Course Full' : 'Register Now'}
+                                {!selectedDate ? 'Select a Date' : getAvailableSpots(selectedDate) <= 0 ? 'Course Full' : 'Register Now'}
                                 <ArrowRight className="w-4 h-4" />
                             </button>
 

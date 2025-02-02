@@ -1,7 +1,8 @@
 // src/app/training/[slug]/ClientPage.tsx
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import BaseTemplate from '@/components/layout/BaseTemplate';
 import Modal from '@/components/common/Modal';
@@ -19,16 +20,37 @@ interface ClientPageProps {
 export default function ClientCoursePage({ course, params, searchParams }: ClientPageProps) {
     const routerSearchParams = useSearchParams();
     const [selectedDate, setSelectedDate] = useState<string>(
-        routerSearchParams.get('date') ||
-        (typeof searchParams.date === 'string' ? searchParams.date : '')
+        routerSearchParams.get('date') || ''
     );
     const [showSuccess, setShowSuccess] = useState(false);
     const [isRegistering, setIsRegistering] = useState(false);
+    const [currentCourse, setCurrentCourse] = useState(course);
+
+    // Fetch aktuálních dat kurzu včetně dostupnosti míst
+    const fetchCurrentCourse = async () => {
+        try {
+            const response = await fetch('/api/courses/availability');
+            if (!response.ok) throw new Error('Failed to fetch courses');
+            const courses = await response.json();
+            const updatedCourse = courses.find((c: TrainingCourse) => c.slug === params.slug);
+            if (updatedCourse) {
+                setCurrentCourse(updatedCourse);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCurrentCourse();
+        const interval = setInterval(fetchCurrentCourse, 30000);
+        return () => clearInterval(interval);
+    }, [params.slug, selectedDate]);
 
     return (
         <BaseTemplate>
             <CourseTemplate
-                course={course}
+                course={currentCourse}
                 selectedDate={selectedDate}
                 onRegister={(date: string) => {
                     setSelectedDate(date);

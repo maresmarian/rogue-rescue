@@ -5,14 +5,16 @@ import { useEffect, useState } from "react";
 import type { TrainingCourse } from "@/types";
 import Training from './Training';
 
+// src/components/sections/TrainingWrapper.tsx
+
 export default function TrainingWrapper() {
-    const [isLoading, setIsLoading] = useState(true);
     const [courses, setCourses] = useState<TrainingCourse[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchCourses = async () => {
         try {
             const response = await fetch('/api/courses/availability', {
-                cache: 'no-store',  // Přidáme no-store pro vždy aktuální data
+                cache: 'no-store',
                 next: { revalidate: 0 }
             });
             if (!response.ok) throw new Error('Failed to fetch courses');
@@ -27,7 +29,6 @@ export default function TrainingWrapper() {
 
     useEffect(() => {
         fetchCourses();
-
         // Přidáme interval pro pravidelnou aktualizaci
         const interval = setInterval(fetchCourses, 30000); // každých 30 sekund
 
