@@ -1,5 +1,5 @@
 export interface HeroSlide {
-    image: string;
-    title: string;
-    subtitle: string;
+  image: string;
+  title: string;
+  subtitle: string;
 }

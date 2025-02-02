@@ -9,18 +9,18 @@ export * from '@/data/partners';
 
 // If you need to combine data for specific use cases, you can create config objects here:
 export const SITE_CONFIG = {
-    meta: {
-        title: 'Rogue Rescue',
-        description: 'Professional rescue services and training solutions'
-    },
-    api: {
-        baseUrl: process.env.NEXT_PUBLIC_API_URL || '',
-        timeout: 5000
-    },
-    pagination: {
-        defaultLimit: 10,
-        maxLimit: 50
-    }
+  meta: {
+    title: 'Rogue Rescue',
+    description: 'Professional rescue services and training solutions',
+  },
+  api: {
+    baseUrl: process.env.NEXT_PUBLIC_API_URL || '',
+    timeout: 5000,
+  },
+  pagination: {
+    defaultLimit: 10,
+    maxLimit: 50,
+  },
 };
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';

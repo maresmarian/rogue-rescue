@@ -1,6 +1,6 @@
 // src/lib/email-templates.ts
-import { COMPANY_INFO, CONTACT_INFO } from "@/data";
-import { formatCourseDate } from "@/lib/formatDate";
+import { COMPANY_INFO, CONTACT_INFO } from '@/data';
+import { formatCourseDate } from '@/lib/formatDate';
 
 const getBaseTemplate = (content: string, icon: string, title: string) => `
   <!DOCTYPE html>
@@ -121,14 +121,14 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
         ${content}
         <div class="metadata">
           Submitted on ${new Date().toLocaleString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZoneName: 'short'
-})}
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZoneName: 'short',
+          })}
         </div>
       </div>
       <div class="footer">
@@ -149,7 +149,7 @@ const getBaseTemplate = (content: string, icon: string, title: string) => `
 `;
 
 export function getContactFormTemplate(data: any) {
-    const content = `
+  const content = `
     <div class="section">
       <div class="section-title">📋 Contact Information</div>
       <div class="field">
@@ -170,11 +170,11 @@ export function getContactFormTemplate(data: any) {
       <div style="white-space: pre-wrap;">${data.message}</div>
     </div>
   `;
-    return getBaseTemplate(content, '📬', 'New Contact Form Submission');
+  return getBaseTemplate(content, '📬', 'New Contact Form Submission');
 }
 
 export function getRegistrationTemplate(data: any, course: any) {
-    const content = `
+  const content = `
     <div class="section">
       <div class="section-title">📚 Registration Details</div>
       <div class="field">
@@ -227,11 +227,11 @@ export function getRegistrationTemplate(data: any, course: any) {
       </div>
     </div>
   `;
-    return getBaseTemplate(content, '📋', 'New Course Registration');
+  return getBaseTemplate(content, '📋', 'New Course Registration');
 }
 
 export function getUserRegistrationTemplate(data: any, course: any) {
-    const content = `
+  const content = `
     <div style="text-align: left;">
         <p>Dear ${data.firstName},</p>
         
@@ -271,12 +271,16 @@ export function getUserRegistrationTemplate(data: any, course: any) {
                 <span class="label">Phone:</span>
                 <span class="value">${data.phone}</span>
             </div>
-            ${data.company ? `
+            ${
+              data.company
+                ? `
             <div class="field">
                 <span class="label">Company:</span>
                 <span class="value">${data.company}</span>
             </div>
-            ` : ''}
+            `
+                : ''
+            }
         </div>
 
         <p><strong>What's Next?</strong></p>
@@ -291,12 +295,12 @@ export function getUserRegistrationTemplate(data: any, course: any) {
         <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
     </div>
     `;
-    return getBaseTemplate(content, '📋', 'Course Registration Received');
+  return getBaseTemplate(content, '📋', 'Course Registration Received');
 }
 
 // Nová šablona pro přijetí registrace
 export function getAcceptanceTemplate(data: any, course: any) {
-    const content = `
+  const content = `
     <div style="text-align: left;">
       <p>Dear ${data.firstName},</p>
       
@@ -329,12 +333,12 @@ export function getAcceptanceTemplate(data: any, course: any) {
       <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
     </div>
   `;
-    return getBaseTemplate(content, '✅', 'Course Registration Approved');
+  return getBaseTemplate(content, '✅', 'Course Registration Approved');
 }
 
 // Nová šablona pro zamítnutí registrace
 export function getRejectionTemplate(data: any, course: any) {
-    const content = `
+  const content = `
     <div style="text-align: left;">
       <p>Dear ${data.firstName},</p>
       
@@ -371,11 +375,11 @@ export function getRejectionTemplate(data: any, course: any) {
       <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
     </div>
   `;
-    return getBaseTemplate(content, '📋', 'Course Registration Status Update');
+  return getBaseTemplate(content, '📋', 'Course Registration Status Update');
 }
 
 export function getTrainingRequestTemplate(data: any) {
-    const content = `
+  const content = `
     <div class="section">
       <div class="section-title">👤 Requester Information</div>
       <div class="field">
@@ -408,12 +412,12 @@ export function getTrainingRequestTemplate(data: any) {
       </div>
     </div>
   `;
-    return getBaseTemplate(content, '📚', 'New Training Request');
+  return getBaseTemplate(content, '📚', 'New Training Request');
 }
 
 // Add these new functions for sender confirmation emails
 export function getContactConfirmationTemplate(data: any) {
-    const content = `
+  const content = `
     <div style="text-align: left;">
       <p>Dear ${data.firstName},</p>
       
@@ -437,11 +441,11 @@ export function getContactConfirmationTemplate(data: any) {
       <p>Best regards,<br>${COMPANY_INFO.name} Team</p>
     </div>
   `;
-    return getBaseTemplate(content, '📨', 'Thank You for Contacting Us');
+  return getBaseTemplate(content, '📨', 'Thank You for Contacting Us');
 }
 
 export function getTrainingRequestConfirmationTemplate(data: any) {
-    const content = `
+  const content = `
     <div style="text-align: left;">
       <p>Dear ${data.name},</p>
       
@@ -462,5 +466,5 @@ export function getTrainingRequestConfirmationTemplate(data: any) {
       <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
     </div>
   `;
-    return getBaseTemplate(content, '📋', 'Training Request Received');
+  return getBaseTemplate(content, '📋', 'Training Request Received');
 }

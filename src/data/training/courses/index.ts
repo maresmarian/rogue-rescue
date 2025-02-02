@@ -11,8 +11,8 @@ export * from './rope-rescue-advanced-technician';
 export * from './ppe-inspection';
 
 export const TRAINING_COURSES = [
-    NFPARopeRescueOperations,
-    NFPARopeRescueTechnician,
-    RopeRescueAdvancedTechnician,
-    PPEInspection
+  NFPARopeRescueOperations,
+  NFPARopeRescueTechnician,
+  RopeRescueAdvancedTechnician,
+  PPEInspection,
 ] as const;
