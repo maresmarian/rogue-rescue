@@ -17,8 +17,6 @@ export default function RequestTrainingModal({ isOpen, onClose }: RequestTrainin
             onClose();
         }
     };
-
-    if (!isOpen) return null;
     
     const [formData, setFormData] = useState({
         name: '',
