@@ -1,4 +1,4 @@
-// src/app/api/admin/users/route.ts
+// src/app/api/admin/settings/users/route.ts
 import { NextResponse } from 'next/server';
 import { MongoClient } from 'mongodb';
 
@@ -12,7 +12,7 @@ export async function GET() {
 
         const users = await collection
             .find({})
-            .project({ password: 0 }) // Exclude password field
+            .project({ password: 0 })
             .toArray();
 
         return NextResponse.json(users);

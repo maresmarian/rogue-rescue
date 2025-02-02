@@ -53,9 +53,16 @@ export const NFPARopeRescueOperations: TrainingCourse = {
     price: 950,
     level: 'Intermediate',
     dates: [
-        '2025-02-03T12:00:00Z',
-        '2025-10-19T12:00:00Z'
+        {
+            date: '2025-02-03T12:00:00Z',
+            spotsAvailable: 15
+        },
+        {
+            date: '2025-10-19T12:00:00Z',
+            spotsAvailable: 15
+        }
     ],
+    maxParticipants: 15,
     prerequisites: [
         'Physical fitness requirement',
         'Previous rope rescue experience recommended',
@@ -71,7 +78,6 @@ export const NFPARopeRescueOperations: TrainingCourse = {
         'Access to instructor expertise'
     ],
     image: '/images/services/high-angle-rescue.jpg',
-    maxParticipants: 15,
     location: 'Central Point, OR',
     type: 'technical',
     spotsAvailable: 15

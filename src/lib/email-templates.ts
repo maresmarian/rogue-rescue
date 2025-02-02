@@ -178,10 +178,6 @@ export function getRegistrationTemplate(data: any, course: any) {
     <div class="section">
       <div class="section-title">📚 Registration Details</div>
       <div class="field">
-        <span class="label">Reference Number:</span>
-        <span class="value">${data.referenceNumber}</span>
-      </div>
-      <div class="field">
         <span class="label">Course:</span>
         <span class="value">${course.title}</span>
       </div>
@@ -232,6 +228,150 @@ export function getRegistrationTemplate(data: any, course: any) {
     </div>
   `;
     return getBaseTemplate(content, '📋', 'New Course Registration');
+}
+
+export function getUserRegistrationTemplate(data: any, course: any) {
+    const content = `
+    <div style="text-align: left;">
+        <p>Dear ${data.firstName},</p>
+        
+        <p>Thank you for registering for the ${course.title} course. Your registration is currently pending approval.</p>
+        
+        <div class="section">
+            <div class="section-title">Registration Details</div>
+            <div class="field">
+                <span class="label">Reference Number:</span>
+                <span class="value">${data.referenceNumber}</span>
+            </div>
+            <div class="field">
+                <span class="label">Course:</span>
+                <span class="value">${course.title}</span>
+            </div>
+            <div class="field">
+                <span class="label">Date:</span>
+                <span class="value">${data.selectedDate ? formatCourseDate(data.selectedDate) : 'Not specified'}</span>
+            </div>
+            <div class="field">
+                <span class="label">Location:</span>
+                <span class="value">${course.location}</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Your Information</div>
+            <div class="field">
+                <span class="label">Name:</span>
+                <span class="value">${data.firstName} ${data.lastName}</span>
+            </div>
+            <div class="field">
+                <span class="label">Email:</span>
+                <span class="value">${data.email}</span>
+            </div>
+            <div class="field">
+                <span class="label">Phone:</span>
+                <span class="value">${data.phone}</span>
+            </div>
+            ${data.company ? `
+            <div class="field">
+                <span class="label">Company:</span>
+                <span class="value">${data.company}</span>
+            </div>
+            ` : ''}
+        </div>
+
+        <p><strong>What's Next?</strong></p>
+        <ul>
+            <li>Our team will review your registration within 1-2 business days</li>
+            <li>You'll receive an email with confirmation or further instructions</li>
+            <li>Please save your reference number for future correspondence</li>
+        </ul>
+
+        <p>If you have any questions, please contact us at ${CONTACT_INFO.email.training} and include your reference number.</p>
+        
+        <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
+    </div>
+    `;
+    return getBaseTemplate(content, '📋', 'Course Registration Received');
+}
+
+// Nová šablona pro přijetí registrace
+export function getAcceptanceTemplate(data: any, course: any) {
+    const content = `
+    <div style="text-align: left;">
+      <p>Dear ${data.firstName},</p>
+      
+      <p>We are pleased to inform you that your registration for the ${course.title} course has been approved!</p>
+      
+      <div class="section">
+        <div class="section-title">Registration Details</div>
+        <div class="field">
+          <span class="label">Reference Number:</span>
+          <span class="value">${data.referenceNumber}</span>
+        </div>
+        <div class="field">
+          <span class="label">Course:</span>
+          <span class="value">${course.title}</span>
+        </div>
+        <div class="field">
+          <span class="label">Date:</span>
+          <span class="value">${data.selectedDate ? formatCourseDate(data.selectedDate) : 'To be confirmed'}</span>
+        </div>
+        <div class="field">
+          <span class="label">Location:</span>
+          <span class="value">${course.location}</span>
+        </div>
+      </div>
+
+      <p>If you have any questions, please contact us at ${CONTACT_INFO.email.training} and include your reference number.</p>
+      
+      <p>Looking forward to seeing you at the course!</p>
+      
+      <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
+    </div>
+  `;
+    return getBaseTemplate(content, '✅', 'Course Registration Approved');
+}
+
+// Nová šablona pro zamítnutí registrace
+export function getRejectionTemplate(data: any, course: any) {
+    const content = `
+    <div style="text-align: left;">
+      <p>Dear ${data.firstName},</p>
+      
+      <p>Thank you for your interest in our ${course.title} course. After careful review, we regret to inform you that we are unable to proceed with your registration at this time.</p>
+      
+      <div class="section">
+        <div class="section-title">Registration Details</div>
+        <div class="field">
+          <span class="label">Course:</span>
+          <span class="value">${course.title}</span>
+        </div>
+        <div class="field">
+          <span class="label">Date:</span>
+          <span class="value">${data.selectedDate ? formatCourseDate(data.selectedDate) : 'Not specified'}</span>
+        </div>
+      </div>
+
+      <p>This may be due to one of the following reasons:</p>
+      <ul>
+        <li>The course is already at maximum capacity</li>
+        <li>Prerequisites not met</li>
+        <li>Course scheduling conflicts</li>
+      </ul>
+
+      <p>We encourage you to:</p>
+      <ul>
+        <li>Check our other available course dates</li>
+        <li>Contact us to discuss alternative options</li>
+        <li>Review the course prerequisites if applicable</li>
+      </ul>
+
+      <p>If you would like to discuss this further or explore other training opportunities, please contact us at ${CONTACT_INFO.email.training}.</p>
+      
+      <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
+    </div>
+  `;
+    return getBaseTemplate(content, '📋', 'Course Registration Status Update');
 }
 
 export function getTrainingRequestTemplate(data: any) {
@@ -300,43 +440,6 @@ export function getContactConfirmationTemplate(data: any) {
     return getBaseTemplate(content, '📨', 'Thank You for Contacting Us');
 }
 
-export function getRegistrationConfirmationTemplate(data: any, course: any) {
-    const content = `
-    <div style="text-align: left;">
-      <p>Dear ${data.firstName},</p>
-      
-      <p>Thank you for registering for our ${course.title} course. Your registration has been received and is being processed.</p>
-      
-      <div class="section">
-        <div class="section-title">Course Details</div>
-        <div class="field">
-        <span class="label">Reference Number:</span>
-        <span class="value">${data.referenceNumber}</span>
-        </div>
-        <div class="field">
-          <span class="label">Course:</span>
-          <span class="value">${course.title}</span>
-        </div>
-        <div class="field">
-          <span class="label">Date:</span>
-          <span class="value">${data.selectedDate ? formatCourseDate(data.selectedDate) : 'To be confirmed'}</span>
-        </div>
-        <div class="field">
-          <span class="label">Location:</span>
-          <span class="value">${course.location}</span>
-        </div>
-      </div>
-
-      <p>You will receive a separate email with additional course information and payment instructions within the next 24 hours.</p>
-      
-      <p>If you have any questions, please contact us at ${CONTACT_INFO.email.training}.</p>
-      
-      <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
-    </div>
-  `;
-    return getBaseTemplate(content, '📚', 'Course Registration Confirmation');
-}
-
 export function getTrainingRequestConfirmationTemplate(data: any) {
     const content = `
     <div style="text-align: left;">
@@ -360,35 +463,4 @@ export function getTrainingRequestConfirmationTemplate(data: any) {
     </div>
   `;
     return getBaseTemplate(content, '📋', 'Training Request Received');
-}
-
-export function getRejectionTemplate(data: any, course: any) {
-    const content = `
-    <div style="text-align: left;">
-      <p>Dear ${data.firstName},</p>
-      
-      <p>We regret to inform you that your registration for the ${course.title} course has not been approved at this time.</p>
-      
-      <div class="section">
-        <div class="section-title">Registration Details</div>
-        <div class="field">
-          <span class="label">Reference Number:</span>
-          <span class="value">${data.referenceNumber}</span>
-        </div>
-        <div class="field">
-          <span class="label">Course:</span>
-          <span class="value">${course.title}</span>
-        </div>
-        <div class="field">
-          <span class="label">Date:</span>
-          <span class="value">${data.selectedDate}</span>
-        </div>
-      </div>
-
-      <p>If you have any questions or would like to discuss alternative dates, please contact us at ${CONTACT_INFO.email.training}.</p>
-      
-      <p>Best regards,<br>${COMPANY_INFO.name} Training Team</p>
-    </div>
-  `;
-    return getBaseTemplate(content, '📋', 'Course Registration Status');
 }

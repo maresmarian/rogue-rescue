@@ -1,10 +1,10 @@
+// src/app/page.tsx
 import Navigation from '@/components/layout/Navigation';
 import Hero from '@/components/sections/Hero';
-import Training from '@/components/sections/Training';
+import TrainingWrapper from '@/components/sections/TrainingWrapper';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/layout/Footer';
 import MainChoices from "@/components/sections/MainChoices";
-import References from "@/components/sections/References";
 import Partners from "@/components/sections/Partners";
 import ScrollToTop from "@/components/common/ScrollToTop";
 import FDICSection from "@/components/sections/FDICSection";
@@ -18,8 +18,7 @@ export default function Home() {
             <Navigation />
             <Hero />
             <MainChoices />
-            {/*<References />*/}
-            <Training />
+            <TrainingWrapper />
             <Partners />
             <FDICSection />
             <Contact />

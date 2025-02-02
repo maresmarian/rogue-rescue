@@ -5,8 +5,8 @@ import bcrypt from 'bcryptjs';
 async function createAdmin() {
     // Default admin credentials
     const adminUser = {
-        username: 'admin',
-        password: 'admin123', // This will be hashed
+        username: 'rogue',
+        password: 'RRSAdmin', // This will be hashed
         email: 'info@roguerescueservices.com'
     };
 

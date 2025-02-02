@@ -12,6 +12,7 @@ interface CalendarModalProps {
     isOpen: boolean;
     onClose: () => void;
     events: TrainingEvent[];
+    onEventsUpdate?: () => void;
 }
 
 export default function CalendarModal({ isOpen, onClose, events }: CalendarModalProps) {

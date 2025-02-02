@@ -60,9 +60,16 @@ export const NFPARopeRescueTechnician: TrainingCourse = {
     price: 1100,
     level: 'Advanced',
     dates: [
-        '2025-04-04T12:00:00Z',
-        '2025-11-06T12:00:00Z'
+        {
+            date: '2025-04-04T12:00:00Z',
+            spotsAvailable: 15
+        },
+        {
+            date: '2025-11-06T12:00:00Z',
+            spotsAvailable: 15
+        }
     ],
+    maxParticipants: 15,
     prerequisites: [
         'NFPA Rope Rescue Operations certification',
         'Physical fitness requirement',
@@ -80,7 +87,6 @@ export const NFPARopeRescueTechnician: TrainingCourse = {
         'Post-course support and resources'
     ],
     image: '/images/services/high-angle-rescue-2.jpg',
-    maxParticipants: 15,
     location: 'Central Point, OR',
     type: 'technical',
     spotsAvailable: 15

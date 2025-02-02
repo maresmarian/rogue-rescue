@@ -4,9 +4,8 @@
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { getUpcomingEvents } from '@/data/training/courses'; // Update import path
-import { useEffect, useMemo, useState } from 'react';
-import type { TrainingEvent } from '@/types';
+import { useEffect, useState } from 'react';
+import type { TrainingEvent, TrainingCourse } from '@/types';
 import CalendarModal from './CalendarModal';
 import { formatDateForURL, formatDay, formatMonth } from '@/lib/formatDate';
 
@@ -17,14 +16,60 @@ interface CalendarProps {
 
 export default function TrainingCalendar({ className = '', limit }: CalendarProps) {
     const [events, setEvents] = useState<TrainingEvent[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [showCalendarModal, setShowCalendarModal] = useState(false);
 
     useEffect(() => {
-        const upcomingEvents = getUpcomingEvents();
-        setEvents(upcomingEvents);
+        fetchEvents();
     }, []);
 
+    const fetchEvents = async () => {
+        try {
+            const response = await fetch('/api/courses/availability');
+            if (!response.ok) throw new Error('Failed to fetch courses');
+
+            const courses: TrainingCourse[] = await response.json();
+
+            // Convert courses to events
+            const now = new Date();
+            const upcomingEvents = courses.flatMap(course =>
+                course.dates.map(({ date, spotsAvailable }) => ({
+                    id: `${course.id}-${date}`,
+                    courseId: course.id,
+                    title: course.title,
+                    date: new Date(date),
+                    type: course.type,
+                    category: course.category,
+                    spots: course.maxParticipants,
+                    spotsAvailable,
+                    duration: course.duration,
+                    price: course.price,
+                    location: course.location,
+                    slug: course.slug,
+                    level: course.level
+                }))
+            ).filter(event => new Date(event.date) >= now)
+                .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+            setEvents(upcomingEvents);
+        } catch (error) {
+            console.error('Error fetching events:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const displayEvents = limit ? events.slice(0, limit) : events;
+
+    if (isLoading) {
+        return (
+            <div className={`bg-white rounded-2xl p-6 md:p-8 ${className}`}>
+                <div className="flex items-center justify-center h-64">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500" />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -37,7 +82,7 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                     >
                         <motion.span
                             whileHover={{ x: 5 }}
-                            className="text-sm text-orange-500 cursor-pointer flex items-center gap-1"
+                            className="flex items-center gap-1"
                         >
                             View Calendar
                             <ArrowRight className="w-4 h-4"/>
@@ -80,7 +125,9 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                                                 {event.category}
                                             </span>
                                             <span className="text-sm text-gray-400 hidden sm:inline">•</span>
-                                            <span className="text-sm text-gray-600">{event.spotsAvailable} spots available</span>
+                                            <span className="text-sm text-gray-600">
+                                                {event.spotsAvailable} spots available
+                                            </span>
                                             <span className="text-sm text-gray-400 hidden sm:inline">•</span>
                                             <span className="text-sm text-gray-600">${event.price}</span>
                                         </div>
@@ -98,6 +145,7 @@ export default function TrainingCalendar({ className = '', limit }: CalendarProp
                 isOpen={showCalendarModal}
                 onClose={() => setShowCalendarModal(false)}
                 events={events}
+                onEventsUpdate={fetchEvents}
             />
         </>
     );

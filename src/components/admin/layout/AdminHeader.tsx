@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { Menu, Bell, Settings, User, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import MobileAdminNav from "@/components/admin/layout/MobileAdminNav";
 
 export default function AdminHeader() {
     const { data: session } = useSession();
@@ -19,6 +20,7 @@ export default function AdminHeader() {
             <div className="mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 justify-between">
                     <div className="flex flex-shrink-0 items-center">
+                        <MobileAdminNav />
                         <span className="text-2xl font-bold text-orange-500">Rogue Rescue</span>
                     </div>
 

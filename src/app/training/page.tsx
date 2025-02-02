@@ -253,7 +253,7 @@ export default function TrainingPage() {
                                 <div className="bg-gray-800 rounded-2xl p-6">
                                     <Users className="w-8 h-8 text-orange-500 mb-4"/>
                                     <h4 className="text-3xl font-bold text-white mb-2">
-                                        {TRAINING_STATS.totalStudents}+
+                                        {TRAINING_STATS.professionals}+
                                     </h4>
                                     <p className="text-gray-400">Trained Professionals</p>
                                 </div>

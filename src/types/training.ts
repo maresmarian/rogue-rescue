@@ -17,11 +17,11 @@ export interface TrainingCourse extends BaseContent {
     price: number;
     level: CourseLevel;
     category: CourseCategory;
-    dates: string[];
+    dates: CourseDate[];
+    maxParticipants: number;
     prerequisites: string[];
     includes: string[];
-    maxParticipants: number;
-    spotsAvailable: number; // Added this field
+    spotsAvailable: number;
     location: string;
     type: CourseType;
     schedule: ScheduleDay[];
@@ -41,13 +41,6 @@ export interface TrainingEvent {
     location: string;
     slug: string;
     level: CourseLevel;
-}
-
-export interface CourseStats {
-    totalCourses: number;
-    totalTrainingDays: number;
-    totalUpcomingDates: number;
-    totalTrainedProfessionals: number;
 }
 
 export interface CourseTemplateProps {
@@ -75,4 +68,9 @@ export interface Registration {
         relationship: string;
     };
     createdAt: Date;
+}
+
+export interface CourseDate {
+    date: string;
+    spotsAvailable: number;
 }

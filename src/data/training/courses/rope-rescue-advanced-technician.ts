@@ -41,9 +41,16 @@ export const RopeRescueAdvancedTechnician: TrainingCourse = {
     price: 950,
     level: 'Advanced',
     dates: [
-        '2025-05-04T12:00:00Z',
-        '2025-11-18T12:00:00Z'
+        {
+            date: '2025-05-04T12:00:00Z',
+            spotsAvailable: 12
+        },
+        {
+            date: '2025-11-18T12:00:00Z',
+            spotsAvailable: 12
+        }
     ],
+    maxParticipants: 12,
     prerequisites: [
         'NFPA Rope Rescue Technician certification',
         'Significant rope rescue experience',
@@ -59,7 +66,6 @@ export const RopeRescueAdvancedTechnician: TrainingCourse = {
         'Ongoing instructor support'
     ],
     image: '/images/services/industrial-rescue.jpg',
-    maxParticipants: 12,
     location: 'Central Point / Emigrant Lake / Pilot Rock',
     type: 'technical',
     spotsAvailable: 12

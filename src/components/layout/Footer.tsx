@@ -129,7 +129,7 @@ export default function Footer() {
                                 Emergency response refined by
                             </p>
 
-                            <a href="https://meui-creative.com"
+                            <a href="https://www.meui-creative.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group relative flex items-center"

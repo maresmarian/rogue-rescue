@@ -2,8 +2,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { MongoClient, ObjectId } from 'mongodb';
 import sgMail from '@sendgrid/mail';
-import { getRegistrationConfirmationTemplate, getRejectionTemplate } from '@/lib/email-templates';
+import {
+    getAcceptanceTemplate,
+    getRejectionTemplate
+} from '@/lib/email-templates';
 import { TRAINING_COURSES } from '@/data/training/courses';
+import { getCourseAvailability, updateCourseAvailability } from '@/lib/courseAvailability';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY || '');
 
@@ -34,15 +38,11 @@ export async function PUT(
             return NextResponse.json({ error: 'Course not found' }, { status: 404 });
         }
 
-        let updatedSpots = 0;
+        // Aktualizovat dostupnost podle změny statusu
         if (registration.status !== 'approved' && status === 'approved') {
-            updatedSpots = -1;
+            await updateCourseAvailability(registration.courseId, registration.selectedDate, -1);
         } else if (registration.status === 'approved' && status !== 'approved') {
-            updatedSpots = 1;
-        }
-
-        if (updatedSpots !== 0) {
-            course.spotsAvailable = Math.max(0, Math.min(course.maxParticipants, course.spotsAvailable + updatedSpots));
+            await updateCourseAvailability(registration.courseId, registration.selectedDate, 1);
         }
 
         await registrationsCollection.updateOne(
@@ -66,7 +66,7 @@ export async function PUT(
                         name: 'Rogue Rescue'
                     },
                     subject: 'Course Registration Approved',
-                    html: getRegistrationConfirmationTemplate(registration, course)
+                    html: getAcceptanceTemplate(registration, course)
                 });
             } else if (status === 'rejected') {
                 await sgMail.send({
@@ -83,9 +83,12 @@ export async function PUT(
             console.error('Email sending error:', emailError);
         }
 
+        // Získat aktuální dostupnost pro odpověď
+        const availability = await getCourseAvailability(registration.courseId, registration.selectedDate);
+
         return NextResponse.json({
             success: true,
-            spotsAvailable: course.spotsAvailable
+            spotsAvailable: availability
         });
     } catch (error) {
         console.error('Error:', error);
@@ -118,12 +121,9 @@ export async function DELETE(
             return NextResponse.json({ error: 'Registration not found' }, { status: 404 });
         }
 
-        // If registration was approved, increase available spots
+        // Pokud byla registrace schválená, vrátit místo
         if (registration.status === 'approved') {
-            const course = TRAINING_COURSES.find(c => c.id === registration.courseId);
-            if (course) {
-                course.spotsAvailable = Math.min(course.maxParticipants, course.spotsAvailable + 1);
-            }
+            await updateCourseAvailability(registration.courseId, registration.selectedDate, 1);
         }
 
         await registrationsCollection.deleteOne({ _id: new ObjectId(id) });

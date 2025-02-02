@@ -14,8 +14,9 @@ export const TRAINING_CATEGORIES = [
 
 export const TRAINING_STATS = {
     totalCourses: 15,
-    totalTrainingDays: 180,
-    totalStudents: 500,
+    totalTrainingDays: 60,
+    professionals: 30,
+    totalStudents: 100,
     averageRating: 4.9,
     successRate: 98,
     coursesCompleted: 250

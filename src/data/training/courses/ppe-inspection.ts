@@ -20,9 +20,16 @@ export const PPEInspection: TrainingCourse = {
     price: 150,
     level: 'Intermediate',
     dates: [
-        '2025-03-01T12:00:00Z',
-        '2025-04-19T12:00:00Z'
+        {
+            date: '2025-03-01T12:00:00Z',
+            spotsAvailable: 20
+        },
+        {
+            date: '2025-04-19T12:00:00Z',
+            spotsAvailable: 20
+        }
     ],
+    maxParticipants: 20,
     prerequisites: [
         'Basic knowledge of PPE equipment',
         'Experience in rope rescue operations',
@@ -36,7 +43,6 @@ export const PPEInspection: TrainingCourse = {
         'Refreshments'
     ],
     image: '/images/services/ppe-inspection.jpg',
-    maxParticipants: 20,
     location: 'Central Point, OR',
     type: 'technical',
     spotsAvailable: 20

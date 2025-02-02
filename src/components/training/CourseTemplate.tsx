@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { useState } from "react";
 import { CourseTemplateProps } from '@/types/training';
 import type { LucideIcon } from 'lucide-react';
+import { formatCourseDate } from "@/lib/formatDate";
 
 const ICON_MAP: Record<string, LucideIcon> = {
     BookOpen,
@@ -37,15 +38,6 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
     // Helper function to get icon component from string name
     const getIconComponent = (iconName: string): LucideIcon => {
         return ICON_MAP[iconName] || BookOpen;
-    };
-
-    // Format dates for display
-    const formatDate = (dateStr: string) => {
-        return new Date(dateStr).toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric'
-        });
     };
 
     return (
@@ -254,9 +246,12 @@ export default function CourseTemplate({ course, onRegister, selectedDate: initi
                                         className="flex-1 bg-white border border-gray-200 rounded-lg px-3 py-2"
                                     >
                                         <option value="">Select a date</option>
-                                        {course.dates.map(date => (
-                                            <option key={date} value={date}>
-                                                {formatDate(date)}
+                                        {course.dates.map(({ date, spotsAvailable }) => (
+                                            <option
+                                                key={date} // Použijeme date string jako klíč místo celého objektu
+                                                value={date}
+                                            >
+                                                {formatCourseDate(date)}
                                             </option>
                                         ))}
                                     </select>

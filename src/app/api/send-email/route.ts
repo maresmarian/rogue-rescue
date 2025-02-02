@@ -8,8 +8,8 @@ import {
     getRegistrationTemplate,
     getTrainingRequestTemplate,
     getContactConfirmationTemplate,
-    getRegistrationConfirmationTemplate,
-    getTrainingRequestConfirmationTemplate
+    getAcceptanceTemplate,
+    getTrainingRequestConfirmationTemplate, getUserRegistrationTemplate
 } from '@/lib/email-templates';
 import { generateReferenceNumber } from "@/lib/generateReferenceNumber";
 import { TRAINING_COURSES } from "@/data/training";
@@ -72,11 +72,44 @@ export async function POST(request: NextRequest) {
                     createdAt: new Date()
                 };
 
-                htmlContent = getRegistrationTemplate(registrationData, foundCourse);
-                subject = `Course Registration - Ref: ${referenceNumber}`;
-                collectionName = 'registrations';
-                dataToSave = registrationData;
-                break;
+                // Save to MongoDB
+                const mongoClient = await getMongoClient();
+                const db = mongoClient.db('rogueRescue');
+                const collection = db.collection('registrations');
+
+                await collection.insertOne(registrationData);
+
+                try {
+                    // Email pro admina
+                    await sgMail.send({
+                        to: process.env.ADMIN_EMAIL || '',
+                        from: {
+                            email: process.env.SENDER_EMAIL || '',
+                            name: 'Rogue Rescue INFO'
+                        },
+                        subject: `Course Registration - Ref: ${referenceNumber}`,
+                        html: getRegistrationTemplate(registrationData, foundCourse),
+                        text: `Course Registration - Ref: ${referenceNumber}`
+                    });
+
+                    // Email pro uživatele
+                    if (originalData.email) {
+                        await sgMail.send({
+                            to: originalData.email,
+                            from: {
+                                email: process.env.SENDER_EMAIL || '',
+                                name: COMPANY_INFO.name
+                            },
+                            subject: 'Course Registration Confirmation',
+                            html: getUserRegistrationTemplate(registrationData, foundCourse),
+                            text: 'Course Registration Confirmation'
+                        });
+                    }
+                } catch (emailError) {
+                    console.error('SendGrid error:', emailError);
+                }
+
+                return NextResponse.json({ success: true });
 
             case 'contact':
                 htmlContent = getContactFormTemplate(originalData);
@@ -91,24 +124,22 @@ export async function POST(request: NextRequest) {
                 break;
 
             default:
-                console.error('Invalid form type:', originalData.type);
                 return NextResponse.json(
                     { error: 'Invalid form type' },
                     { status: 400 }
                 );
         }
 
-        // Save to MongoDB
+        // Pro ostatní typy (contact a training-request)
         const mongoClient = await getMongoClient();
         const db = mongoClient.db('rogueRescue');
         const collection = db.collection(collectionName);
 
         await collection.insertOne(dataToSave);
-        
-        // Send emails
+
         try {
-            // Send notification to admin
-            const adminMsg = {
+            // Email pro admina
+            await sgMail.send({
                 to: process.env.ADMIN_EMAIL || '',
                 from: {
                     email: process.env.SENDER_EMAIL || '',
@@ -117,34 +148,22 @@ export async function POST(request: NextRequest) {
                 subject,
                 html: htmlContent,
                 text: subject
-            };
+            });
 
-            await sgMail.send(adminMsg);
-
-            // Send confirmation email to user if email is provided
+            // Email pro uživatele
             if (originalData.email) {
                 let confirmationHtml: string;
                 let confirmationSubject: string;
 
-                switch (originalData.type) {
-                    case 'contact':
-                        confirmationHtml = getContactConfirmationTemplate(originalData);
-                        confirmationSubject = 'Thank You for Contacting Rogue Rescue';
-                        break;
-                    case 'registration':
-                        if (!foundCourse) throw new Error('Course not found for confirmation email');
-                        confirmationHtml = getRegistrationConfirmationTemplate(dataToSave, foundCourse);
-                        confirmationSubject = 'Course Registration Confirmation';
-                        break;
-                    case 'training-request':
-                        confirmationHtml = getTrainingRequestConfirmationTemplate(originalData);
-                        confirmationSubject = 'Training Request Received';
-                        break;
-                    default:
-                        throw new Error('Invalid form type for confirmation');
+                if (originalData.type === 'contact') {
+                    confirmationHtml = getContactConfirmationTemplate(originalData);
+                    confirmationSubject = 'Thank You for Contacting Rogue Rescue';
+                } else {
+                    confirmationHtml = getTrainingRequestConfirmationTemplate(originalData);
+                    confirmationSubject = 'Training Request Received';
                 }
 
-                const userMsg = {
+                await sgMail.send({
                     to: originalData.email,
                     from: {
                         email: process.env.SENDER_EMAIL || '',
@@ -153,13 +172,10 @@ export async function POST(request: NextRequest) {
                     subject: confirmationSubject,
                     html: confirmationHtml,
                     text: confirmationSubject
-                };
-
-                await sgMail.send(userMsg);
+                });
             }
         } catch (emailError) {
             console.error('SendGrid error:', emailError);
-            // Continue execution even if email fails
         }
 
         return NextResponse.json({ success: true });
